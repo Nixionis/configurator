@@ -34,18 +34,36 @@ namespace Configurator {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::RadioButton^ radioButton1;
+	private: System::Windows::Forms::RadioButton^ radioOffice;
+	private: System::Windows::Forms::RadioButton^ radioHome;
+	private: System::Windows::Forms::RadioButton^ radioGame;
+	private: System::Windows::Forms::RadioButton^ radioPro;
+	private: System::Windows::Forms::Label^ labelFrom;
+	private: System::Windows::Forms::Label^ labelTo;
+	private: System::Windows::Forms::ListBox^ listBoxConfig;
+
 	protected:
-	private: System::Windows::Forms::RadioButton^ radioButton2;
-	private: System::Windows::Forms::RadioButton^ radioButton3;
-	private: System::Windows::Forms::RadioButton^ radioButton4;
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::TextBox^ textBox1;
-	private: System::Windows::Forms::TextBox^ textBox2;
-	private: System::Windows::Forms::ListBox^ listBox1;
-	private: System::Windows::Forms::GroupBox^ groupBox1;
-	private: System::Windows::Forms::ListBox^ listBox2;
+
+	protected:
+
+
+
+
+
+
+
+
+	private: System::Windows::Forms::GroupBox^ Radioblock;
+	private: System::Windows::Forms::ListBox^ listBoxSysParts;
+
+
+
+
+	private: System::Windows::Forms::NumericUpDown^ numericFrom;
+	private: System::Windows::Forms::NumericUpDown^ numericTo;
+	private: System::Windows::Forms::Label^ labelPrice;
+	private: System::Windows::Forms::Label^ labelConfig;
+	private: System::Windows::Forms::Label^ labelComponents;
 
 	private:
 		/// <summary>
@@ -60,144 +78,211 @@ namespace Configurator {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
-			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->listBox2 = (gcnew System::Windows::Forms::ListBox());
-			this->groupBox1->SuspendLayout();
+			this->radioOffice = (gcnew System::Windows::Forms::RadioButton());
+			this->radioHome = (gcnew System::Windows::Forms::RadioButton());
+			this->radioGame = (gcnew System::Windows::Forms::RadioButton());
+			this->radioPro = (gcnew System::Windows::Forms::RadioButton());
+			this->labelFrom = (gcnew System::Windows::Forms::Label());
+			this->labelTo = (gcnew System::Windows::Forms::Label());
+			this->listBoxConfig = (gcnew System::Windows::Forms::ListBox());
+			this->Radioblock = (gcnew System::Windows::Forms::GroupBox());
+			this->listBoxSysParts = (gcnew System::Windows::Forms::ListBox());
+			this->numericFrom = (gcnew System::Windows::Forms::NumericUpDown());
+			this->numericTo = (gcnew System::Windows::Forms::NumericUpDown());
+			this->labelPrice = (gcnew System::Windows::Forms::Label());
+			this->labelConfig = (gcnew System::Windows::Forms::Label());
+			this->labelComponents = (gcnew System::Windows::Forms::Label());
+			this->Radioblock->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// radioButton1
+			// radioOffice
 			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Location = System::Drawing::Point(29, 26);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(92, 21);
-			this->radioButton1->TabIndex = 1;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"Офисный";
-			this->radioButton1->UseVisualStyleBackColor = true;
-			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton1_CheckedChanged);
+			this->radioOffice->AutoSize = true;
+			this->radioOffice->Location = System::Drawing::Point(22, 15);
+			this->radioOffice->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->radioOffice->Name = L"radioOffice";
+			this->radioOffice->Size = System::Drawing::Size(96, 26);
+			this->radioOffice->TabIndex = 1;
+			this->radioOffice->TabStop = true;
+			this->radioOffice->Text = L"Офисный";
+			this->radioOffice->UseVisualStyleBackColor = true;
+			this->radioOffice->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton1_CheckedChanged);
 			// 
-			// radioButton2
+			// radioHome
 			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(29, 53);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(100, 21);
-			this->radioButton2->TabIndex = 2;
-			this->radioButton2->TabStop = true;
-			this->radioButton2->Text = L"Домашний";
-			this->radioButton2->UseVisualStyleBackColor = true;
+			this->radioHome->AutoSize = true;
+			this->radioHome->Location = System::Drawing::Point(22, 45);
+			this->radioHome->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->radioHome->Name = L"radioHome";
+			this->radioHome->Size = System::Drawing::Size(105, 26);
+			this->radioHome->TabIndex = 2;
+			this->radioHome->TabStop = true;
+			this->radioHome->Text = L"Домашний";
+			this->radioHome->UseVisualStyleBackColor = true;
 			// 
-			// radioButton3
+			// radioGame
 			// 
-			this->radioButton3->AutoSize = true;
-			this->radioButton3->Location = System::Drawing::Point(29, 80);
-			this->radioButton3->Name = L"radioButton3";
-			this->radioButton3->Size = System::Drawing::Size(83, 21);
-			this->radioButton3->TabIndex = 3;
-			this->radioButton3->TabStop = true;
-			this->radioButton3->Text = L"Игровой";
-			this->radioButton3->UseVisualStyleBackColor = true;
+			this->radioGame->AutoSize = true;
+			this->radioGame->Location = System::Drawing::Point(22, 75);
+			this->radioGame->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->radioGame->Name = L"radioGame";
+			this->radioGame->Size = System::Drawing::Size(90, 26);
+			this->radioGame->TabIndex = 3;
+			this->radioGame->TabStop = true;
+			this->radioGame->Text = L"Игровой";
+			this->radioGame->UseVisualStyleBackColor = true;
 			// 
-			// radioButton4
+			// radioPro
 			// 
-			this->radioButton4->AutoSize = true;
-			this->radioButton4->Location = System::Drawing::Point(29, 107);
-			this->radioButton4->Name = L"radioButton4";
-			this->radioButton4->Size = System::Drawing::Size(219, 21);
-			this->radioButton4->TabIndex = 4;
-			this->radioButton4->TabStop = true;
-			this->radioButton4->Text = L"Про (для серьёзной работы)";
-			this->radioButton4->UseVisualStyleBackColor = true;
+			this->radioPro->AutoSize = true;
+			this->radioPro->Location = System::Drawing::Point(22, 105);
+			this->radioPro->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->radioPro->Name = L"radioPro";
+			this->radioPro->Size = System::Drawing::Size(163, 26);
+			this->radioPro->TabIndex = 4;
+			this->radioPro->TabStop = true;
+			this->radioPro->Text = L"Профессинальный";
+			this->radioPro->UseVisualStyleBackColor = true;
 			// 
-			// label1
+			// labelFrom
 			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(35, 12);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(26, 17);
-			this->label1->TabIndex = 6;
-			this->label1->Text = L"От";
+			this->labelFrom->AutoSize = true;
+			this->labelFrom->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelFrom->Location = System::Drawing::Point(11, 179);
+			this->labelFrom->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->labelFrom->Name = L"labelFrom";
+			this->labelFrom->Size = System::Drawing::Size(28, 22);
+			this->labelFrom->TabIndex = 6;
+			this->labelFrom->Text = L"От";
 			// 
-			// label2
+			// labelTo
 			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(156, 12);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(27, 17);
-			this->label2->TabIndex = 7;
-			this->label2->Text = L"До";
+			this->labelTo->AutoSize = true;
+			this->labelTo->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelTo->Location = System::Drawing::Point(119, 179);
+			this->labelTo->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->labelTo->Name = L"labelTo";
+			this->labelTo->Size = System::Drawing::Size(30, 22);
+			this->labelTo->TabIndex = 7;
+			this->labelTo->Text = L"До";
 			// 
-			// textBox1
+			// listBoxConfig
 			// 
-			this->textBox1->Location = System::Drawing::Point(73, 12);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(77, 22);
-			this->textBox1->TabIndex = 8;
+			this->listBoxConfig->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->listBoxConfig->FormattingEnabled = true;
+			this->listBoxConfig->ItemHeight = 22;
+			this->listBoxConfig->Location = System::Drawing::Point(231, 45);
+			this->listBoxConfig->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->listBoxConfig->Name = L"listBoxConfig";
+			this->listBoxConfig->Size = System::Drawing::Size(125, 158);
+			this->listBoxConfig->TabIndex = 10;
 			// 
-			// textBox2
+			// Radioblock
 			// 
-			this->textBox2->Location = System::Drawing::Point(189, 12);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(81, 22);
-			this->textBox2->TabIndex = 9;
+			this->Radioblock->Controls->Add(this->radioPro);
+			this->Radioblock->Controls->Add(this->radioGame);
+			this->Radioblock->Controls->Add(this->radioHome);
+			this->Radioblock->Controls->Add(this->radioOffice);
+			this->Radioblock->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->Radioblock->Location = System::Drawing::Point(15, 9);
+			this->Radioblock->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->Radioblock->Name = L"Radioblock";
+			this->Radioblock->Padding = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->Radioblock->Size = System::Drawing::Size(191, 137);
+			this->Radioblock->TabIndex = 11;
+			this->Radioblock->TabStop = false;
 			// 
-			// listBox1
+			// listBoxSysParts
 			// 
-			this->listBox1->FormattingEnabled = true;
-			this->listBox1->ItemHeight = 16;
-			this->listBox1->Location = System::Drawing::Point(351, 11);
-			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(127, 180);
-			this->listBox1->TabIndex = 10;
+			this->listBoxSysParts->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->listBoxSysParts->FormattingEnabled = true;
+			this->listBoxSysParts->ItemHeight = 22;
+			this->listBoxSysParts->Location = System::Drawing::Point(386, 45);
+			this->listBoxSysParts->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->listBoxSysParts->Name = L"listBoxSysParts";
+			this->listBoxSysParts->Size = System::Drawing::Size(125, 158);
+			this->listBoxSysParts->TabIndex = 12;
 			// 
-			// groupBox1
+			// numericFrom
 			// 
-			this->groupBox1->Controls->Add(this->radioButton4);
-			this->groupBox1->Controls->Add(this->radioButton3);
-			this->groupBox1->Controls->Add(this->radioButton2);
-			this->groupBox1->Controls->Add(this->radioButton1);
-			this->groupBox1->Location = System::Drawing::Point(38, 54);
-			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(260, 137);
-			this->groupBox1->TabIndex = 11;
-			this->groupBox1->TabStop = false;
-			this->groupBox1->Text = L"groupBox1";
+			this->numericFrom->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->numericFrom->Location = System::Drawing::Point(37, 177);
+			this->numericFrom->Name = L"numericFrom";
+			this->numericFrom->Size = System::Drawing::Size(70, 26);
+			this->numericFrom->TabIndex = 13;
 			// 
-			// listBox2
+			// numericTo
 			// 
-			this->listBox2->FormattingEnabled = true;
-			this->listBox2->ItemHeight = 16;
-			this->listBox2->Location = System::Drawing::Point(529, 11);
-			this->listBox2->Name = L"listBox2";
-			this->listBox2->Size = System::Drawing::Size(120, 180);
-			this->listBox2->TabIndex = 12;
+			this->numericTo->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->numericTo->Location = System::Drawing::Point(146, 177);
+			this->numericTo->Name = L"numericTo";
+			this->numericTo->Size = System::Drawing::Size(68, 26);
+			this->numericTo->TabIndex = 14;
+			// 
+			// labelPrice
+			// 
+			this->labelPrice->AutoSize = true;
+			this->labelPrice->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelPrice->Location = System::Drawing::Point(48, 149);
+			this->labelPrice->Name = L"labelPrice";
+			this->labelPrice->Size = System::Drawing::Size(143, 22);
+			this->labelPrice->TabIndex = 15;
+			this->labelPrice->Text = L"Ценовой диапазон";
+			// 
+			// labelConfig
+			// 
+			this->labelConfig->AutoSize = true;
+			this->labelConfig->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelConfig->Location = System::Drawing::Point(227, 9);
+			this->labelConfig->Name = L"labelConfig";
+			this->labelConfig->Size = System::Drawing::Size(63, 22);
+			this->labelConfig->TabIndex = 16;
+			this->labelConfig->Text = L"Сборки";
+			// 
+			// labelComponents
+			// 
+			this->labelComponents->AutoSize = true;
+			this->labelComponents->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelComponents->Location = System::Drawing::Point(382, 9);
+			this->labelComponents->Name = L"labelComponents";
+			this->labelComponents->Size = System::Drawing::Size(100, 22);
+			this->labelComponents->TabIndex = 17;
+			this->labelComponents->Text = L"Компоненты";
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(713, 221);
-			this->Controls->Add(this->listBox2);
-			this->Controls->Add(this->groupBox1);
-			this->Controls->Add(this->listBox1);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->label1);
+			this->ClientSize = System::Drawing::Size(541, 287);
+			this->Controls->Add(this->labelComponents);
+			this->Controls->Add(this->labelConfig);
+			this->Controls->Add(this->labelPrice);
+			this->Controls->Add(this->numericTo);
+			this->Controls->Add(this->numericFrom);
+			this->Controls->Add(this->listBoxSysParts);
+			this->Controls->Add(this->Radioblock);
+			this->Controls->Add(this->listBoxConfig);
+			this->Controls->Add(this->labelTo);
+			this->Controls->Add(this->labelFrom);
+			this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
-			this->groupBox1->ResumeLayout(false);
-			this->groupBox1->PerformLayout();
+			this->Radioblock->ResumeLayout(false);
+			this->Radioblock->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
