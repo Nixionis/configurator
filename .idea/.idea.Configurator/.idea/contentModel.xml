@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\User\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\User\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_Configurator.-593872268.00" t="ExcludeRecursive" />
+    <e p="C:\Users\User\Documents\configurator" t="IncludeFlat">
+      <e p="configurator" t="IncludeRecursive">
+        <e p="Configurator.vcxproj" t="IncludeRecursive" />
+        <e p="MyForm.cpp" t="Include" />
+        <e p="MyForm.h" t="Include" />
+        <e p="x64\Debug" t="ExcludeRecursive" />
+      </e>
+      <e p="Configurator.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="x64\Debug" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
