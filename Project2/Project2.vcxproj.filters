@@ -24,6 +24,9 @@
     <ClCompile Include="Sborka.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Motherboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sborka.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Motherboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

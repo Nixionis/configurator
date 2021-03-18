@@ -122,12 +122,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsCard.cpp" />
+    <ClCompile Include="Motherboard.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Sborka.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Functions.h" />
     <ClInclude Include="GraphicsCard.h" />
+    <ClInclude Include="Motherboard.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

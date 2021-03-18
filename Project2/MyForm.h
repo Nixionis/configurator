@@ -1,11 +1,14 @@
 #pragma once
 
+#include <vector>
 #include "Functions.h"
 #include "GraphicsCard.h"
 #include "Sborka.h"
 
 GraphicsCard* _cards;
+Motherboard* _mothers;
 Sborka* _sborkas;
+std::vector<Sborka> _sborki;
 int _maxcost = 0, _mincost = 0;
 
 namespace Configurator {
@@ -329,11 +332,9 @@ namespace Configurator {
 			_sborkas = NULL;
 		}
 		
-		_sborkas = CreateConfigas(power, 1, _mincost, _maxcost, _sborkas, _cards);
+		_sborki = CreateConfigas(power, 1, _mincost, _maxcost, _sborkas, _cards, _mothers);
 
-		
-
-		if (_sborkas == NULL)
+		if (_sborki.empty() == true)
 		{
 			listBoxConfig->Items->Add("Not");
 			listBoxConfig->Items->Add("Enough");
@@ -342,8 +343,9 @@ namespace Configurator {
 			return;
 		}
 
-		int y = sizeof(*_sborkas) / sizeof(_sborkas);
-		for (int _i = 0; _i < y - 1; _i++)
+		int y = _sborki.size();
+
+		for (int _i = 0; _i < y; _i++)
 			listBoxConfig->Items->Add(String::Format("—борка {0}", _i + 1));
 
 		listBoxConfig->Enabled = true;
@@ -377,13 +379,16 @@ namespace Configurator {
 	/// </summary>
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	{
-		_cards = LoadFileData(_cards);
+		_cards = LoadGraphicsData(_cards);
+		_mothers = LoadMothersData(_mothers);
 	}
 	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
 		listBoxSysParts->Items->Clear();
 		int _selected = listBoxConfig->SelectedIndex;
-		System::String^ str = gcnew String(_sborkas[_selected].GetCard().GetName().c_str());
+		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
+		listBoxSysParts->Items->Add(str);
+		str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
 	}
 
