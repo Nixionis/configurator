@@ -2,8 +2,9 @@
 
 #include <fstream>
 #include "GraphicsCard.h"
+#include "Sborka.h"
 
-void LoadFileData(GraphicsCard *cards)
+GraphicsCard* LoadFileData(GraphicsCard *cards)
 {
 	
 	int _amount = 0;
@@ -30,9 +31,34 @@ void LoadFileData(GraphicsCard *cards)
 		 
 		cards[_i].SetData(_name, _point, _cost);
 	}
+	return cards;
 }
 
-void CreateConfigs(float multiplier, int configtype)
+Sborka* CreateConfigas(float multiplier, int configtype,int mincost, int maxcost,  Sborka* sborka, GraphicsCard *cards)
 {
+	float point = 10*multiplier*configtype;
 
+	int b = 0;
+	int e = sizeof(cards)-1;
+	
+
+	int size = e;
+	//int cur = c;
+
+	while (b<e)
+	{
+		int c = (b + e) / 2;
+		
+	    if (cards[c].GetPoints() < (int)point) b = c + 1;
+		else e = c;
+	}
+
+	if (cards[b].GetCost() >= mincost && cards[b].GetCost() <= maxcost)
+	{
+		sborka = new Sborka[1];
+		sborka[0].SetConfig(&cards[b]);
+	}
+	else return sborka;
+	
+	return sborka;
 }

@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="GraphicsCard.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="Sborka.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Functions.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Sborka.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">

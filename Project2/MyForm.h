@@ -2,8 +2,11 @@
 
 #include "Functions.h"
 #include "GraphicsCard.h"
+#include "Sborka.h"
 
 GraphicsCard* _cards;
+Sborka* _sborkas;
+int _maxcost = 0, _mincost = 0;
 
 namespace Configurator {
 
@@ -133,6 +136,7 @@ namespace Configurator {
 			this->radioHome->TabStop = true;
 			this->radioHome->Text = L"Домашний";
 			this->radioHome->UseVisualStyleBackColor = true;
+			this->radioHome->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioHome_CheckedChanged);
 			// 
 			// radioGame
 			// 
@@ -147,6 +151,7 @@ namespace Configurator {
 			this->radioGame->TabStop = true;
 			this->radioGame->Text = L"Игровой";
 			this->radioGame->UseVisualStyleBackColor = true;
+			this->radioGame->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioGame_CheckedChanged);
 			// 
 			// radioPro
 			// 
@@ -161,6 +166,7 @@ namespace Configurator {
 			this->radioPro->TabStop = true;
 			this->radioPro->Text = L"Профессинальный";
 			this->radioPro->UseVisualStyleBackColor = true;
+			this->radioPro->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioPro_CheckedChanged);
 			// 
 			// labelFrom
 			// 
@@ -197,6 +203,7 @@ namespace Configurator {
 			this->listBoxConfig->Name = L"listBoxConfig";
 			this->listBoxConfig->Size = System::Drawing::Size(125, 144);
 			this->listBoxConfig->TabIndex = 10;
+			this->listBoxConfig->DoubleClick += gcnew System::EventHandler(this, &MyForm::listBoxConfig_DoubleClick);
 			// 
 			// Radioblock
 			// 
@@ -231,6 +238,7 @@ namespace Configurator {
 			this->numericFrom->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->numericFrom->Location = System::Drawing::Point(37, 177);
+			this->numericFrom->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericFrom->Name = L"numericFrom";
 			this->numericFrom->Size = System::Drawing::Size(70, 26);
 			this->numericFrom->TabIndex = 13;
@@ -240,6 +248,7 @@ namespace Configurator {
 			this->numericTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->numericTo->Location = System::Drawing::Point(146, 177);
+			this->numericTo->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericTo->Name = L"numericTo";
 			this->numericTo->Size = System::Drawing::Size(68, 26);
 			this->numericTo->TabIndex = 14;
@@ -305,11 +314,78 @@ namespace Configurator {
 
 		}
 #pragma endregion
-	private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	/// <summary>
+	/// Radio Buttons
+	/// </summary>
+	
+	void AddSborks(int power)
+	{
+		_mincost = (int)numericFrom->Value;
+		_maxcost = (int)numericTo->Value;
+		listBoxConfig->Items->Clear();
+		if (_sborkas != NULL)
+		{
+			delete[] _sborkas;
+			_sborkas = NULL;
+		}
+		
+		_sborkas = CreateConfigas(power, 1, _mincost, _maxcost, _sborkas, _cards);
+
+		
+
+		if (_sborkas == NULL)
+		{
+			listBoxConfig->Items->Add("Not");
+			listBoxConfig->Items->Add("Enough");
+			listBoxConfig->Items->Add("Minerals");
+			listBoxConfig->Enabled = false;
+			return;
+		}
+
+		int y = sizeof(*_sborkas) / sizeof(_sborkas);
+		for (int _i = 0; _i < y - 1; _i++)
+			listBoxConfig->Items->Add(String::Format("Сборка {0}", _i + 1));
+
+		listBoxConfig->Enabled = true;
 	}
+
+	private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+		/*System::String^ message = "Not enough minerals";
+		System::String^ caption = "Dai deneg";
+		MessageBoxButtons buttons = MessageBoxButtons::OK;
+		System::Windows::Forms::DialogResult result;
+
+		result = MessageBox::Show(this, message, caption, buttons);*/
+
+		AddSborks(1);
+	}
+	private: System::Void radioHome_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		AddSborks(2);
+	}
+	private: System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		AddSborks(3);
+	}
+	private: System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		AddSborks(4);
+	}
+	/// <summary>
+	/// Load
+	/// </summary>
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	{
-		LoadFileData(_cards);
+		_cards = LoadFileData(_cards);
 	}
+	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
+	{
+		listBoxSysParts->Items->Clear();
+		int _selected = listBoxConfig->SelectedIndex;
+		System::String^ str = gcnew String(_sborkas[_selected].GetCard().GetName().c_str());
+		listBoxSysParts->Items->Add(str);
+	}
+
 };
 }

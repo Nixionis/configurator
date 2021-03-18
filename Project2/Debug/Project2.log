@@ -1,4 +1,5 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Project2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  GraphicsCard.cpp
+  MyForm.cpp
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(332,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   GraphicsCard.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
-  Project2.vcxproj -> C:\Users\Nix\source\repos\Project2\Debug\Configurator.exe
+  Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Debug\Configurator.exe
