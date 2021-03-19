@@ -220,7 +220,7 @@ namespace Configurator {
 			this->Radioblock->Margin = System::Windows::Forms::Padding(2);
 			this->Radioblock->Name = L"Radioblock";
 			this->Radioblock->Padding = System::Windows::Forms::Padding(2);
-			this->Radioblock->Size = System::Drawing::Size(191, 137);
+			this->Radioblock->Size = System::Drawing::Size(199, 137);
 			this->Radioblock->TabIndex = 11;
 			this->Radioblock->TabStop = false;
 			// 
@@ -233,7 +233,7 @@ namespace Configurator {
 			this->listBoxSysParts->Location = System::Drawing::Point(386, 45);
 			this->listBoxSysParts->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxSysParts->Name = L"listBoxSysParts";
-			this->listBoxSysParts->Size = System::Drawing::Size(125, 144);
+			this->listBoxSysParts->Size = System::Drawing::Size(192, 144);
 			this->listBoxSysParts->TabIndex = 12;
 			// 
 			// numericFrom
@@ -293,7 +293,7 @@ namespace Configurator {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(541, 287);
+			this->ClientSize = System::Drawing::Size(602, 331);
 			this->Controls->Add(this->labelComponents);
 			this->Controls->Add(this->labelConfig);
 			this->Controls->Add(this->labelPrice);
