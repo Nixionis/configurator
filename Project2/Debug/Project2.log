@@ -2,7 +2,5 @@
   MyForm.cpp
 C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(126,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(333,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Sborka.cpp
-  Generating Code...
   GraphicsCard.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Debug\Configurator.exe

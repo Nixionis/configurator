@@ -118,7 +118,7 @@ namespace Configurator {
 			this->radioOffice->AutoSize = true;
 			this->radioOffice->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioOffice->Location = System::Drawing::Point(22, 15);
+			this->radioOffice->Location = System::Drawing::Point(15, 15);
 			this->radioOffice->Margin = System::Windows::Forms::Padding(2);
 			this->radioOffice->Name = L"radioOffice";
 			this->radioOffice->Size = System::Drawing::Size(100, 24);
@@ -133,7 +133,7 @@ namespace Configurator {
 			this->radioHome->AutoSize = true;
 			this->radioHome->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioHome->Location = System::Drawing::Point(22, 45);
+			this->radioHome->Location = System::Drawing::Point(15, 45);
 			this->radioHome->Margin = System::Windows::Forms::Padding(2);
 			this->radioHome->Name = L"radioHome";
 			this->radioHome->Size = System::Drawing::Size(108, 24);
@@ -148,7 +148,7 @@ namespace Configurator {
 			this->radioGame->AutoSize = true;
 			this->radioGame->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioGame->Location = System::Drawing::Point(22, 75);
+			this->radioGame->Location = System::Drawing::Point(15, 75);
 			this->radioGame->Margin = System::Windows::Forms::Padding(2);
 			this->radioGame->Name = L"radioGame";
 			this->radioGame->Size = System::Drawing::Size(90, 24);
@@ -163,7 +163,7 @@ namespace Configurator {
 			this->radioPro->AutoSize = true;
 			this->radioPro->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioPro->Location = System::Drawing::Point(22, 105);
+			this->radioPro->Location = System::Drawing::Point(15, 105);
 			this->radioPro->Margin = System::Windows::Forms::Padding(2);
 			this->radioPro->Name = L"radioPro";
 			this->radioPro->Size = System::Drawing::Size(172, 24);
@@ -178,7 +178,7 @@ namespace Configurator {
 			this->labelFrom->AutoSize = true;
 			this->labelFrom->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelFrom->Location = System::Drawing::Point(11, 179);
+			this->labelFrom->Location = System::Drawing::Point(5, 179);
 			this->labelFrom->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->labelFrom->Name = L"labelFrom";
 			this->labelFrom->Size = System::Drawing::Size(30, 20);
@@ -190,7 +190,7 @@ namespace Configurator {
 			this->labelTo->AutoSize = true;
 			this->labelTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelTo->Location = System::Drawing::Point(119, 179);
+			this->labelTo->Location = System::Drawing::Point(114, 179);
 			this->labelTo->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->labelTo->Name = L"labelTo";
 			this->labelTo->Size = System::Drawing::Size(30, 20);
@@ -235,7 +235,7 @@ namespace Configurator {
 			this->listBoxSysParts->Location = System::Drawing::Point(386, 45);
 			this->listBoxSysParts->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxSysParts->Name = L"listBoxSysParts";
-			this->listBoxSysParts->Size = System::Drawing::Size(125, 144);
+			this->listBoxSysParts->Size = System::Drawing::Size(144, 144);
 			this->listBoxSysParts->TabIndex = 12;
 			// 
 			// numericFrom
@@ -273,7 +273,7 @@ namespace Configurator {
 			// 
 			this->labelConfig->AutoSize = true;
 			this->labelConfig->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-			static_cast<System::Byte>(204)));
+				static_cast<System::Byte>(204)));
 			this->labelConfig->Location = System::Drawing::Point(227, 9);
 			this->labelConfig->Name = L"labelConfig";
 			this->labelConfig->Size = System::Drawing::Size(64, 20);
