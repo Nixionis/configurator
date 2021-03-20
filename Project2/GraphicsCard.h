@@ -9,7 +9,12 @@ private:
 	int _points, _cost;
 
 public:
+
+	//GraphicsCard();
+
 	void SetData(std::string name, int points, int cost);
+
+	//~GraphicsCard();
 
 	std::string GetName();
 

@@ -3,12 +3,14 @@
 #include <vector>
 #include "Functions.h"
 #include "GraphicsCard.h"
+#include "Processor.h"
 #include "Sborka.h"
 
-GraphicsCard* _cards;
-Motherboard* _mothers;
-Sborka* _sborkas;
+std::vector<GraphicsCard> _cards;
+std::vector<Motherboard> _mothers;
+std::vector<Processor> _processors;
 std::vector<Sborka> _sborki;
+
 int _maxcost = 0, _mincost = 0;
 
 namespace Configurator {
@@ -271,7 +273,7 @@ namespace Configurator {
 			// 
 			this->labelConfig->AutoSize = true;
 			this->labelConfig->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
+			static_cast<System::Byte>(204)));
 			this->labelConfig->Location = System::Drawing::Point(227, 9);
 			this->labelConfig->Name = L"labelConfig";
 			this->labelConfig->Size = System::Drawing::Size(64, 20);
@@ -326,13 +328,9 @@ namespace Configurator {
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
 		listBoxConfig->Items->Clear();
-		if (_sborkas != NULL)
-		{
-			delete[] _sborkas;
-			_sborkas = NULL;
-		}
 		
-		_sborki = CreateConfigas(power, 1, _mincost, _maxcost, _sborkas, _cards, _mothers);
+		_sborki.clear();
+		_sborki = CreateConfigas(power, 1, _mincost, _maxcost, _cards, _mothers, _processors);
 
 		if (_sborki.empty() == true)
 		{
@@ -379,8 +377,9 @@ namespace Configurator {
 	/// </summary>
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	{
-		_cards = LoadGraphicsData(_cards);
-		_mothers = LoadMothersData(_mothers);
+		_cards = LoadGraphicsData();
+		_mothers = LoadMothersData();
+		_processors = LoadProcData();
 	}
 	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
@@ -389,6 +388,8 @@ namespace Configurator {
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
 		str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
+		listBoxSysParts->Items->Add(str);
+		str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
 	}
 
