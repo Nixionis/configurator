@@ -3,3 +3,9 @@
 .vs/Configurator/v16/.suo
 .vs/Configurator/v16/Browse.VC.db
 .vs/Configurator/v16/.suo
+*.db
+*.ipch
+*.tlog
+*.obj
+*.pdb
+.vs/Configurator/v16/Browse.VC.db
