@@ -334,9 +334,8 @@ namespace Configurator {
 
 		if (_sborki.empty() == true)
 		{
-			listBoxConfig->Items->Add("Not");
-			listBoxConfig->Items->Add("Enough");
-			listBoxConfig->Items->Add("Minerals");
+			listBoxConfig->Items->Add("Недостаточно");
+			listBoxConfig->Items->Add("Бюджета");
 			listBoxConfig->Enabled = false;
 			return;
 		}

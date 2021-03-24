@@ -1,6 +1,5 @@
 #pragma once
 
-#include <fstream>
 #include <ctime>
 #include <vector>
 #include "GraphicsCard.h"
@@ -14,31 +13,18 @@ std::vector<GraphicsCard> LoadGraphicsData()
 
 	GraphicsCard card;
 
-	int _amount = 0;
+	card.SetData("Gtx 650 ti", 10, 3000);
+	cards.push_back(card);
 
-	std::ifstream _datafile;
+	card.SetData("Gtx 750 ti", 20, 3900);
+	cards.push_back(card);
 
-	_datafile.open("Graphics.txt");
+	card.SetData("Gtx 1050 ti", 30, 11000);
+	cards.push_back(card);
 
-	////To do: Set Error on file open here
+	card.SetData("Gtx 1070 ti", 40, 23000);
+	cards.push_back(card);
 
-	_datafile >> _amount;
-
-	for (int _i = 0; _i < _amount; _i++)
-	{
-		std::string _name;
-		int _point;
-		int _cost;
-
-		_datafile >> _name;
-		_datafile >> _point;
-		_datafile >> _cost;
-		 
-		card.SetData(_name, _point, _cost);
-		cards.push_back(card);
-	}
-
-	_datafile.close();
 	return cards;
 }
 
@@ -47,41 +33,15 @@ std::vector<Motherboard> LoadMothersData()
 	std::vector<Motherboard> mothers;
 	Motherboard mother;
 
-	int _amount = 0;
+	mother.SetData("Gigabyte B365M", 10, 40, 3500, 1, 1151);
+	mothers.push_back(mother);
 
-	std::ifstream _datafile;
+	mother.SetData("Huananzhi B85", 10, 40, 4000, 2, 1150);
+	mothers.push_back(mother);
 
-	_datafile.open("Mothers.txt");
+	mother.SetData("Huananzhi B87", 10, 40, 3800, 1, 1155);
+	mothers.push_back(mother);
 
-	//To do: Set Error on file open here
-
-	_datafile >> _amount;
-
-	//mothers = new Motherboard[_amount];
-
-	for (int _i = 0; _i < _amount; _i++)
-	{
-		std::string _name;
-		int _minpoint;
-		int _maxpoint;
-		int _cost;
-		int _size;
-		int _socket;
-
-		_datafile >> _name;
-		_datafile >> _minpoint;
-		_datafile >> _maxpoint;
-		_datafile >> _cost;
-		_datafile >> _size;
-		_datafile >> _socket;
-
-		mother.SetData(_name, _minpoint, _maxpoint, _cost, _size, _socket);
-		mothers.push_back(mother);
-
-		//mothers[_i].SetData(_name, _minpoint, _maxpoint, _cost, _size, _socket);
-	}
-
-	_datafile.close();
 	return mothers;
 }
 
@@ -91,33 +51,18 @@ std::vector<Processor> LoadProcData()
 
 	Processor proc;
 
-	int _amount = 0;
+	proc.SetData("Celeron Skylake", 10, 4400, 1151);
+	procs.push_back(proc);
 
-	std::ifstream _datafile;
+	proc.SetData("Core i5-4570", 20, 5100, 1150);
+	procs.push_back(proc);
 
-	_datafile.open("Procc.txt");
+	proc.SetData("Core i7-3770", 30, 7400, 1155);
+	procs.push_back(proc);
 
-	////To do: Set Error on file open here
+	proc.SetData("Core i7-3770K", 40, 9800, 1155);
+	procs.push_back(proc);
 
-	_datafile >> _amount;
-
-	for (int _i = 0; _i < _amount; _i++)
-	{
-		std::string _name;
-		int _point;
-		int _cost;
-		int _socket;
-
-		_datafile >> _name;
-		_datafile >> _point;
-		_datafile >> _cost;
-		_datafile >> _socket;
-
-		proc.SetData(_name, _point, _cost, _socket);
-		procs.push_back(proc);
-	}
-
-	_datafile.close();
 	return procs;
 }
 
