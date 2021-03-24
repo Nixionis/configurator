@@ -7,7 +7,7 @@
 //	_cost = NULL;
 //}
 
-void GraphicsCard::SetData(std::string name, int points, int cost)
+void GraphicsCard::SetData(std::string name, int points, int cost, int tdp)
 {
 	//_cardname = new std::string;
 	_cardname = name;
@@ -17,6 +17,8 @@ void GraphicsCard::SetData(std::string name, int points, int cost)
 
 	//_cost = new int;
 	_cost = cost;
+
+	_tdp = tdp;
 };
 
 //GraphicsCard::~GraphicsCard()
@@ -39,4 +41,9 @@ int GraphicsCard::GetPoints()
 int GraphicsCard::GetCost()
 {
 	return _cost;
-};
+}
+int GraphicsCard::GetTdp()
+{
+	return _tdp;
+}
+;

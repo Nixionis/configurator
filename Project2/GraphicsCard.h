@@ -6,13 +6,13 @@ class GraphicsCard
 {
 private:
 	std::string _cardname;
-	int _points, _cost;
+	int _points, _cost, _tdp;
 
 public:
 
 	//GraphicsCard();
 
-	void SetData(std::string name, int points, int cost);
+	void SetData(std::string name, int points, int cost, int tdp);
 
 	//~GraphicsCard();
 
@@ -21,5 +21,7 @@ public:
 	int GetPoints();
 
 	int GetCost();
+
+	int GetTdp();
 };
 

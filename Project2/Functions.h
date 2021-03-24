@@ -13,13 +13,31 @@ std::vector<GraphicsCard> LoadGraphicsData()
 
 	GraphicsCard card;
 
-	card.SetData("Gtx 650 ti", 10, 3000);
+	card.SetData("Gtx 650", 5, 2500, 65);
 	cards.push_back(card);
 
-	card.SetData("Gtx 750 ti", 20, 3900);
+	card.SetData("Gtx 650 ti", 10, 3500, 110);
 	cards.push_back(card);
 
-	card.SetData("Gtx 1050 ti", 30, 11000);
+	card.SetData("Gtx 750 ti", 15, 5000, 75);
+	cards.push_back(card);
+
+	card.SetData("Gtx 950", 20, 9000, 90);
+	cards.push_back(card);
+
+	card.SetData("Gtx 1050 ti", 25, 11000, 70);
+	cards.push_back(card);
+
+	card.SetData("Gtx 1060 3gb", 30, 13000, 120);
+	cards.push_back(card);
+
+	card.SetData("Gtx 1660", 35, 25000, 120);
+	cards.push_back(card);
+
+	card.SetData("Gtx 1070 ti", 40, 35000, 180);
+	cards.push_back(card);
+
+	card.SetData("Gtx 1070 ti", 40, 23000);
 	cards.push_back(card);
 
 	card.SetData("Gtx 1070 ti", 40, 23000);
