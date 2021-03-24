@@ -5,11 +5,11 @@
 class Processor
 {
 	std::string _procname;
-	int _points, _cost, _socket;
+	int _points, _cost, _socket, _tdp;
 
 public:
 
-	void SetData(std::string name, int points, int cost, int socket);
+	void SetData(std::string name, int points, int cost, int socket, int tdp);
 
 	std::string GetName();
 
@@ -18,5 +18,7 @@ public:
 	int GetCost();
 
 	int GetSocket();
+
+	int GetTdp();
 };
 

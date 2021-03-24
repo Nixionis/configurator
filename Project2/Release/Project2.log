@@ -1,5 +1,6 @@
 ﻿  MyForm.cpp
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(71,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(333,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(104,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(121,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(350,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   GraphicsCard.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Release\Configurator.exe

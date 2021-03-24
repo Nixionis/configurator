@@ -338,14 +338,14 @@ namespace Configurator {
 	/// Radio Buttons
 	/// </summary>
 	
-	void AddSborks(int power)
+	void AddSborks(int power, int configtype)
 	{
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
 		listBoxConfig->Items->Clear();
 		
 		_sborki.clear();
-		_sborki = CreateConfigas(power, 1, _mincost, _maxcost, _cards, _mothers, _processors);
+		_sborki = CreateConfigas(power, configtype, _mincost, _maxcost, _cards, _mothers, _processors);
 
 		if (_sborki.empty() == true)
 		{
@@ -372,19 +372,19 @@ namespace Configurator {
 
 		result = MessageBox::Show(this, message, caption, buttons);*/
 
-		AddSborks(1);
+		AddSborks(1, 1);
 	}
 	private: System::Void radioHome_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(2);
+		AddSborks(2, 2);
 	}
 	private: System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(3);
+		AddSborks(3, 3);
 	}
 	private: System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(4);
+		AddSborks(4, 4);
 	}
 	/// <summary>
 	/// Load
@@ -405,6 +405,7 @@ namespace Configurator {
 		listBoxSysParts->Items->Add(str);
 		str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
+		listBoxSysParts->Items->Add(_sborki[_selected].GetCost());
 	}
 
 };
