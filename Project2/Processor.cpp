@@ -1,11 +1,12 @@
 #include "Processor.h"
 
-void Processor::SetData(std::string name, int points, int cost, int socket)
+void Processor::SetData(std::string name, int points, int cost, int socket, int tdp)
 {
 	_procname = name;
 	_points = points;
 	_cost = cost;
 	_socket = socket;
+	_tdp = tdp;
 }
 
 std::string Processor::GetName()
@@ -26,4 +27,9 @@ int Processor::GetCost()
 int Processor::GetSocket()
 {
 	return _socket;
+}
+
+int Processor::GetTdp()
+{
+	return _tdp;
 }
