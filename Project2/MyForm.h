@@ -75,6 +75,8 @@ namespace Configurator {
 	private: System::Windows::Forms::Label^ labelPrice;
 	private: System::Windows::Forms::Label^ labelConfig;
 	private: System::Windows::Forms::Label^ labelComponents;
+	private: System::Windows::Forms::ListBox^ Memo;
+
 
 
 
@@ -106,6 +108,7 @@ namespace Configurator {
 			this->labelPrice = (gcnew System::Windows::Forms::Label());
 			this->labelConfig = (gcnew System::Windows::Forms::Label());
 			this->labelComponents = (gcnew System::Windows::Forms::Label());
+			this->Memo = (gcnew System::Windows::Forms::ListBox());
 			this->Radioblock->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->BeginInit();
@@ -176,7 +179,7 @@ namespace Configurator {
 			this->labelFrom->AutoSize = true;
 			this->labelFrom->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelFrom->Location = System::Drawing::Point(11, 179);
+			this->labelFrom->Location = System::Drawing::Point(9, 183);
 			this->labelFrom->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->labelFrom->Name = L"labelFrom";
 			this->labelFrom->Size = System::Drawing::Size(30, 20);
@@ -188,7 +191,7 @@ namespace Configurator {
 			this->labelTo->AutoSize = true;
 			this->labelTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelTo->Location = System::Drawing::Point(119, 179);
+			this->labelTo->Location = System::Drawing::Point(117, 183);
 			this->labelTo->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->labelTo->Name = L"labelTo";
 			this->labelTo->Size = System::Drawing::Size(30, 20);
@@ -204,7 +207,7 @@ namespace Configurator {
 			this->listBoxConfig->Location = System::Drawing::Point(231, 45);
 			this->listBoxConfig->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxConfig->Name = L"listBoxConfig";
-			this->listBoxConfig->Size = System::Drawing::Size(125, 144);
+			this->listBoxConfig->Size = System::Drawing::Size(125, 164);
 			this->listBoxConfig->TabIndex = 10;
 			this->listBoxConfig->DoubleClick += gcnew System::EventHandler(this, &MyForm::listBoxConfig_DoubleClick);
 			// 
@@ -233,14 +236,14 @@ namespace Configurator {
 			this->listBoxSysParts->Location = System::Drawing::Point(386, 45);
 			this->listBoxSysParts->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxSysParts->Name = L"listBoxSysParts";
-			this->listBoxSysParts->Size = System::Drawing::Size(192, 144);
+			this->listBoxSysParts->Size = System::Drawing::Size(192, 164);
 			this->listBoxSysParts->TabIndex = 12;
 			// 
 			// numericFrom
 			// 
 			this->numericFrom->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->numericFrom->Location = System::Drawing::Point(37, 177);
+			this->numericFrom->Location = System::Drawing::Point(37, 183);
 			this->numericFrom->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericFrom->Name = L"numericFrom";
 			this->numericFrom->Size = System::Drawing::Size(70, 26);
@@ -250,7 +253,7 @@ namespace Configurator {
 			// 
 			this->numericTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->numericTo->Location = System::Drawing::Point(146, 177);
+			this->numericTo->Location = System::Drawing::Point(146, 183);
 			this->numericTo->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericTo->Name = L"numericTo";
 			this->numericTo->Size = System::Drawing::Size(68, 26);
@@ -289,11 +292,23 @@ namespace Configurator {
 			this->labelComponents->TabIndex = 17;
 			this->labelComponents->Text = L"Компоненты";
 			// 
+			// Memo
+			// 
+			this->Memo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->Memo->FormattingEnabled = true;
+			this->Memo->ItemHeight = 20;
+			this->Memo->Location = System::Drawing::Point(15, 232);
+			this->Memo->Name = L"Memo";
+			this->Memo->Size = System::Drawing::Size(563, 144);
+			this->Memo->TabIndex = 18;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(602, 331);
+			this->ClientSize = System::Drawing::Size(602, 392);
+			this->Controls->Add(this->Memo);
 			this->Controls->Add(this->labelComponents);
 			this->Controls->Add(this->labelConfig);
 			this->Controls->Add(this->labelPrice);
