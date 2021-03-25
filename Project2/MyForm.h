@@ -4,11 +4,13 @@
 #include "Functions.h"
 #include "GraphicsCard.h"
 #include "Processor.h"
+#include "RAM.h"
 #include "Sborka.h"
 
 std::vector<GraphicsCard> _cards;
 std::vector<Motherboard> _mothers;
 std::vector<Processor> _processors;
+std::vector<RAM> _rams;
 std::vector<Sborka> _sborki;
 
 int _maxcost = 0, _mincost = 0;
@@ -47,41 +49,22 @@ namespace Configurator {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::RadioButton^ radioOffice;
-	private: System::Windows::Forms::RadioButton^ radioHome;
-	private: System::Windows::Forms::RadioButton^ radioGame;
-	private: System::Windows::Forms::RadioButton^ radioPro;
-	private: System::Windows::Forms::Label^ labelFrom;
-	private: System::Windows::Forms::Label^ labelTo;
-	private: System::Windows::Forms::ListBox^ listBoxConfig;
-
-	protected:
-
-	protected:
-
-
-
-
-
-
-
-
-	private: System::Windows::Forms::GroupBox^ Radioblock;
-	private: System::Windows::Forms::ListBox^ listBoxSysParts;
-
-
-
-
-	private: System::Windows::Forms::NumericUpDown^ numericFrom;
-	private: System::Windows::Forms::NumericUpDown^ numericTo;
-	private: System::Windows::Forms::Label^ labelPrice;
-	private: System::Windows::Forms::Label^ labelConfig;
-	private: System::Windows::Forms::Label^ labelComponents;
-	private: System::Windows::Forms::ListBox^ Memo;
-
-
-
-
+	private: 
+	System::Windows::Forms::RadioButton^ radioOffice;
+	System::Windows::Forms::RadioButton^ radioHome;
+	System::Windows::Forms::RadioButton^ radioGame;
+	System::Windows::Forms::RadioButton^ radioPro;
+	System::Windows::Forms::Label^ labelFrom;
+	System::Windows::Forms::Label^ labelTo;
+	System::Windows::Forms::ListBox^ listBoxConfig;
+	System::Windows::Forms::GroupBox^ Radioblock;
+	System::Windows::Forms::ListBox^ listBoxSysParts;
+	System::Windows::Forms::NumericUpDown^ numericFrom;
+	System::Windows::Forms::NumericUpDown^ numericTo;
+	System::Windows::Forms::Label^ labelPrice;
+	System::Windows::Forms::Label^ labelConfig;
+	System::Windows::Forms::Label^ labelComponents;
+	System::Windows::Forms::ListBox^ Memo;
 
 	private:
 		/// <summary>
@@ -342,10 +325,17 @@ namespace Configurator {
 	{
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
+		if (_mincost > _maxcost)
+		{
+			int ic = _mincost;
+			_mincost = _maxcost;
+			_maxcost = ic;
+		}
+		listBoxSysParts->Items->Clear();
 		listBoxConfig->Items->Clear();
 		
 		_sborki.clear();
-		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors);
+		_sborki = CreateConfigas(power, configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams);
 
 		if (_sborki.empty() == true)
 		{
@@ -387,6 +377,7 @@ namespace Configurator {
 		_cards = LoadGraphicsData();
 		_mothers = LoadMothersData();
 		_processors = LoadProcData();
+		_rams = LoadRAMData();
 	}
 	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
@@ -397,6 +388,8 @@ namespace Configurator {
 		str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
 		str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
+		listBoxSysParts->Items->Add(str);
+		str = gcnew String(_sborki[_selected].GetRam().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
 		listBoxSysParts->Items->Add(_sborki[_selected].GetCost());
 	}

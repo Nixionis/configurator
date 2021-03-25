@@ -127,6 +127,7 @@
     <ClCompile Include="Motherboard.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Processor.cpp" />
+    <ClCompile Include="RAM.cpp" />
     <ClCompile Include="Sborka.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +138,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Processor.h" />
+    <ClInclude Include="RAM.h" />
     <ClInclude Include="Sborka.h" />
   </ItemGroup>
   <ItemGroup>

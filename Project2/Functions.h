@@ -5,6 +5,7 @@
 #include "GraphicsCard.h"
 #include "Motherboard.h"
 #include "Processor.h"
+#include "RAM.h"
 #include "Sborka.h"
 
 std::vector<GraphicsCard> LoadGraphicsData()
@@ -99,7 +100,47 @@ std::vector<Processor> LoadProcData()
 	return procs;
 }
 
-std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, std::vector<Motherboard> mothers, std::vector<Processor> process)
+std::vector<RAM> LoadRAMData()
+{
+	std::vector<RAM> RAMS;
+
+	RAM ramka;
+
+	ramka.SetData("RAM 4 GB", 10, 1800);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 4 GB", 20, 1800);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 8 GB", 30, 3500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 8 GB", 40, 3500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 8 GB", 50, 3500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 16 GB", 60, 8500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 16 GB", 70, 8500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 16 GB", 80, 8500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 32 GB", 90, 16500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 32 GB", 100, 16500);
+	RAMS.push_back(ramka);
+
+	return RAMS;
+}
+
+std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, 
+std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RAM> rams)
 {
 	srand(time(NULL));
 
@@ -113,6 +154,7 @@ std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std:
 	GraphicsCard card;
 	Processor proces;
 	Motherboard mother;
+	RAM ram;
 
 	std::vector<Sborka> Sborochki;
 
@@ -160,11 +202,27 @@ std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std:
 
 		mother = mothers[b];
 
+		//RAM
+
+		//mother = &mothers[rand() % sizeof(mothers)-1];
+		
+		b = 0;
+		e = rams.size();
+
+		while (b < e)
+		{
+			int c = (b + e) / 2;
+
+			if (rams[c].GetPoints() < (int)pp) b = c + 1;
+			else e = c;
+		}
+
+		ram = rams[b];
 
 		Sborka sb;
 
 		//mother = &mothers[rand() % sizeof(mothers)-1];
-		sb.SetConfig(card, mother, proces);
+		sb.SetConfig(card, mother, proces, ram);
 
 		//sborka = new Sborka[1];
 
@@ -174,7 +232,6 @@ std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std:
 		//sborka[0].SetConfig(card, mother);
 		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost) Sborochki.push_back(sb);
 	}
-	
 
 	return Sborochki;
 }
