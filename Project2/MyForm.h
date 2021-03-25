@@ -4,11 +4,13 @@
 #include "Functions.h"
 #include "GraphicsCard.h"
 #include "Processor.h"
+#include "RAM.h"
 #include "Sborka.h"
 
 std::vector<GraphicsCard> _cards;
 std::vector<Motherboard> _mothers;
 std::vector<Processor> _processors;
+std::vector<RAM> _rams;
 std::vector<Sborka> _sborki;
 
 int _maxcost = 0, _mincost = 0;
@@ -342,10 +344,17 @@ namespace Configurator {
 	{
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
+		if (_mincost > _maxcost)
+		{
+			int ic = _mincost;
+			_mincost = _maxcost;
+			_maxcost = ic;
+		}
+		listBoxSysParts->Items->Clear();
 		listBoxConfig->Items->Clear();
 		
 		_sborki.clear();
-		_sborki = CreateConfigas(power, configtype, _mincost, _maxcost, _cards, _mothers, _processors);
+		_sborki = CreateConfigas(power, configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams);
 
 		if (_sborki.empty() == true)
 		{
@@ -394,6 +403,7 @@ namespace Configurator {
 		_cards = LoadGraphicsData();
 		_mothers = LoadMothersData();
 		_processors = LoadProcData();
+		_rams = LoadRAMData();
 	}
 	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
@@ -404,6 +414,8 @@ namespace Configurator {
 		str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
 		str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
+		listBoxSysParts->Items->Add(str);
+		str = gcnew String(_sborki[_selected].GetRam().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
 		listBoxSysParts->Items->Add(_sborki[_selected].GetCost());
 	}

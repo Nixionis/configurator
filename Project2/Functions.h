@@ -106,10 +106,40 @@ std::vector<RAM> LoadRAMData()
 
 	RAM ramka;
 
-	ramka.
+	ramka.SetData("RAM 4 GB", 10, 1800);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 4 GB", 20, 1800);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 8 GB", 30, 3500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 8 GB", 40, 3500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 8 GB", 50, 3500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 16 GB", 60, 8500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 16 GB", 70, 8500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 16 GB", 80, 8500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 32 GB", 90, 16500);
+	RAMS.push_back(ramka);
+
+	ramka.SetData("RAM 32 GB", 100, 16500);
+	RAMS.push_back(ramka);
+
+	return RAMS;
 }
 
-std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, std::vector<Motherboard> mothers, std::vector<Processor> process)
+std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RAM> rams)
 {
 	srand(time(NULL));
 
@@ -123,6 +153,7 @@ std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost,
 	GraphicsCard card;
 	Processor proces;
 	Motherboard mother;
+	RAM ram;
 
 	std::vector<Sborka> Sborochki;
 
@@ -170,11 +201,25 @@ std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost,
 
 		mother = mothers[b];
 
+		//RAM
+
+		b = 0;
+		e = rams.size();
+
+		while (b < e)
+		{
+			int c = (b + e) / 2;
+
+			if (rams[c].GetPoints() < (int)pp) b = c + 1;
+			else e = c;
+		}
+
+		ram = rams[b];
 
 		Sborka sb;
 
 		//mother = &mothers[rand() % sizeof(mothers)-1];
-		sb.SetConfig(card, mother, proces);
+		sb.SetConfig(card, mother, proces, ram);
 
 		//sborka = new Sborka[1];
 
@@ -184,158 +229,6 @@ std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost,
 		//sborka[0].SetConfig(card, mother);
 		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost) Sborochki.push_back(sb);
 	}
-	//if (Sborochki[0].GetCost() >= mincost && Sborochki[0].GetCost() <= maxcost) return Sborochki;
-	//else
-	//{
-	//	//delete[] sborka;
-	//	//sborka = NULL;
-	//	Sborochki.clear();
-	//	return Sborochki;
-	//}
-
-	//point = 10 * multiplier * configtype - 10;
-	//if (point >= 10)
-	//{
-		//GraphicsCard card;
-		//Processor proces;
-		//Motherboard mother;
-
-	//	b = 0;
-	//	e = cards.size();
-
-	//	size = e;
-
-		//Graphics
-
-	//	while (b < e)
-	//	{
-	//		int c = (b + e) / 2;
-
-	//		if (cards[c].GetPoints() < (int)point) b = c + 1;
-	//		else e = c;
-	//	}
-	//	card = cards[b];
-
-		//Processors
-
-	//	b = 0;
-	//	e = process.size();
-
-	//	while (b < e)
-	//	{
-	//		int c = (b + e) / 2;
-
-	//		if (process[c].GetPoints() < (int)point) b = c + 1;
-	//		else e = c;
-	//	}
-	//	ip = b;
-	//	proces = process[b];
-
-		//Materinka
-
-	//	b = 0;
-	//	e = mothers.size();
-
-	//	for (; mothers[b].GetSocket() != process[ip].GetSocket(); b++);
-
-	//	mother = mothers[b];
-
-
-		//std::vector<Sborka> Sborochki;
-		//Sborka sb;
-
-		//mother = &mothers[rand() % sizeof(mothers)-1];
-	//	sb.SetConfig(card, mother, proces);
-
-		//sborka = new Sborka[1];
-
-		//sborka[0].SetConfig(&cards[b]);
-
-
-		//sborka[0].SetConfig(card, mother);
-
-	//	if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost) Sborochki.push_back(sb);
-		//if (Sborochki[0].GetCost() >= mincost && Sborochki[0].GetCost() <= maxcost) return Sborochki;
-		//else
-		//{
-		//	//delete[] sborka;
-		//	//sborka = NULL;
-		//	Sborochki.clear();
-		//	return Sborochki;
-		//}
-	//}
-
-	//point = 10 * multiplier * configtype+10;
-
-	//GraphicsCard card;
-	//Processor proces;
-	//Motherboard mother;
-//	if (point <= 40)
-//	{
-	//	b = 0;
-	//	e = cards.size();
-
-	//	size = e;
-
-		//Graphics
-
-	//	while (b < e)
-	//	{
-	//		int c = (b + e) / 2;
-
-	//		if (cards[c].GetPoints() < (int)point) b = c + 1;
-	//		else e = c;
-	//	}
-	//	card = cards[b];
-
-		//Processors
-
-	//	b = 0;
-	//	e = process.size();
-
-	//	while (b < e)
-	//	{
-	//		int c = (b + e) / 2;
-
-	//		if (process[c].GetPoints() < (int)point) b = c + 1;
-	//		else e = c;
-	//	}
-	//	ip = b;
-	//	proces = process[b];
-
-		//Materinka
-
-	//	b = 0;
-	//	e = mothers.size();
-
-	//	for (; mothers[b].GetSocket() != process[ip].GetSocket(); b++);
-
-	//	mother = mothers[b];
-
-
-		//std::vector<Sborka> Sborochki;
-		//Sborka sb;
-
-		//mother = &mothers[rand() % sizeof(mothers)-1];
-	//	sb.SetConfig(card, mother, proces);
-
-		//sborka = new Sborka[1];
-
-		//sborka[0].SetConfig(&cards[b]);
-
-
-		//sborka[0].SetConfig(card, mother);
-
-	//	if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost) Sborochki.push_back(sb);
-	//}
-	//if (Sborochki[0].GetCost() >= mincost && Sborochki[0].GetCost() <= maxcost) return Sborochki;
-	//else
-	//{
-	//	//delete[] sborka;
-	//	//sborka = NULL;
-	//	Sborochki.clear();
-	//	return Sborochki;
-	//}
 
 	return Sborochki;
 }
