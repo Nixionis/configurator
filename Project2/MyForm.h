@@ -121,7 +121,7 @@ namespace Configurator {
 			this->radioOffice->AutoSize = true;
 			this->radioOffice->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioOffice->Location = System::Drawing::Point(15, 15);
+			this->radioOffice->Location = System::Drawing::Point(15, 47);
 			this->radioOffice->Margin = System::Windows::Forms::Padding(2);
 			this->radioOffice->Name = L"radioOffice";
 			this->radioOffice->Size = System::Drawing::Size(100, 24);
@@ -136,7 +136,7 @@ namespace Configurator {
 			this->radioHome->AutoSize = true;
 			this->radioHome->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioHome->Location = System::Drawing::Point(15, 45);
+			this->radioHome->Location = System::Drawing::Point(15, 19);
 			this->radioHome->Margin = System::Windows::Forms::Padding(2);
 			this->radioHome->Name = L"radioHome";
 			this->radioHome->Size = System::Drawing::Size(108, 24);
@@ -181,7 +181,6 @@ namespace Configurator {
 			this->labelFrom->AutoSize = true;
 			this->labelFrom->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-
 			this->labelFrom->Location = System::Drawing::Point(9, 183);
 			this->labelFrom->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->labelFrom->Name = L"labelFrom";
@@ -194,7 +193,6 @@ namespace Configurator {
 			this->labelTo->AutoSize = true;
 			this->labelTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-
 			this->labelTo->Location = System::Drawing::Point(117, 183);
 			this->labelTo->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->labelTo->Name = L"labelTo";

@@ -14,34 +14,34 @@ std::vector<GraphicsCard> LoadGraphicsData()
 
 	GraphicsCard card;
 
-	card.SetData("Gtx 650", 5, 2500, 65);
+	card.SetData("Gtx 650", 10, 2500, 65);
 	cards.push_back(card);
 
-	card.SetData("Gtx 650 ti", 10, 3500, 110);
+	card.SetData("Gtx 650 ti", 20, 3500, 110);
 	cards.push_back(card);
 
-	card.SetData("Gtx 750 ti", 15, 5000, 75);
+	card.SetData("Gtx 750 ti", 30, 5000, 75);
 	cards.push_back(card);
 
-	card.SetData("Gtx 950", 20, 9000, 90);
+	card.SetData("Gtx 950", 40, 9000, 90);
 	cards.push_back(card);
 
-	card.SetData("Gtx 1050 ti", 25, 11000, 70);
+	card.SetData("Gtx 1050 ti", 50, 11000, 70);
 	cards.push_back(card);
 
-	card.SetData("Gtx 1060 3gb", 30, 13000, 120);
+	card.SetData("Gtx 1060 3gb", 60, 13000, 120);
 	cards.push_back(card);
 
-	card.SetData("Gtx 1660", 35, 25000, 120);
+	card.SetData("Gtx 1660", 70, 25000, 120);
 	cards.push_back(card);
 
-	card.SetData("Gtx 1070 ti", 40, 35000, 180);
+	card.SetData("Gtx 1070 ti", 80, 35000, 180);
 	cards.push_back(card);
 
-	card.SetData("RTX 3060", 45, 65000, 170);
+	card.SetData("RTX 3060", 90, 65000, 170);
 	cards.push_back(card);
 
-	card.SetData("RTX 3060 ti", 50, 80000, 200);
+	card.SetData("RTX 3060 ti", 100, 80000, 200);
 	cards.push_back(card);
 
 	return cards;
@@ -73,28 +73,28 @@ std::vector<Processor> LoadProcData()
 	proc.SetData("Core i3-4340", 10, 7000, 1150, 54);
 	procs.push_back(proc);
 
-	proc.SetData("Core i3-6100", 15, 8500, 1151, 51);
+	proc.SetData("Core i3-6100", 20, 8500, 1151, 51);
 	procs.push_back(proc);
 
-	proc.SetData("Core i5-4570", 20, 13000, 1150, 84);
+	proc.SetData("Core i5-4570", 30, 13000, 1150, 84);
 	procs.push_back(proc);
 
-	proc.SetData("Core i5-6600", 25, 16000, 1151, 65);
+	proc.SetData("Core i5-6600", 40, 16000, 1151, 65);
 	procs.push_back(proc);
 
-	proc.SetData("Core i7-3770K", 30, 20000, 1155, 77);
+	proc.SetData("Core i7-3770K", 50, 20000, 1155, 77);
 	procs.push_back(proc);
 
-	proc.SetData("Core i7-6700", 35, 25000, 1151, 65);
+	proc.SetData("Core i7-6700", 60, 25000, 1151, 65);
 	procs.push_back(proc);
 
-	proc.SetData("Core i7-8700", 40, 28000, 1151, 65);
+	proc.SetData("Core i7-8700", 80, 28000, 1151, 65);
 	procs.push_back(proc);
 
-	proc.SetData("Core i9-9900", 45, 33000, 1151, 65);
+	proc.SetData("Core i9-9900", 90, 33000, 1151, 65);
 	procs.push_back(proc);
 
-	proc.SetData("Core i9-10850K", 50, 39000, 1151, 125);
+	proc.SetData("Core i9-10850K", 100, 39000, 1151, 125);
 	procs.push_back(proc);
 
 	return procs;
@@ -115,10 +115,10 @@ std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost,
 
 	float point;
 
-	if (configtype == 1) point = 25;
-	else if (configtype == 2) point = 35;
-	else if (configtype == 3) point = 45;
-	else point = 50;
+	if (configtype == 1) point = 50;
+	else if (configtype == 2) point = 70;
+	else if (configtype == 3) point = 90;
+	else point = 100;
 
 	GraphicsCard card;
 	Processor proces;
@@ -128,7 +128,7 @@ std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost,
 
 	for (int i = 0; i < 5; i++)
 	{
-		int pp = point - i * 5;
+		int pp = point - i * 10;
 
 		int b = 0;
 		int e = cards.size();
