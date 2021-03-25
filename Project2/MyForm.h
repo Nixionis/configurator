@@ -129,7 +129,7 @@ namespace Configurator {
 			this->radioOffice->TabStop = true;
 			this->radioOffice->Text = L"ќфисный";
 			this->radioOffice->UseVisualStyleBackColor = true;
-			this->radioOffice->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton1_CheckedChanged);
+			this->radioOffice->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioOffice_CheckedChanged);
 			// 
 			// radioHome
 			// 
@@ -338,14 +338,14 @@ namespace Configurator {
 	/// Radio Buttons
 	/// </summary>
 	
-	void AddSborks(int power, int configtype)
+	void AddSborks(int configtype)
 	{
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
 		listBoxConfig->Items->Clear();
 		
 		_sborki.clear();
-		_sborki = CreateConfigas(power, configtype, _mincost, _maxcost, _cards, _mothers, _processors);
+		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors);
 
 		if (_sborki.empty() == true)
 		{
@@ -363,28 +363,21 @@ namespace Configurator {
 		listBoxConfig->Enabled = true;
 	}
 
-	private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+	private: System::Void radioOffice_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
-		/*System::String^ message = "Not enough minerals";
-		System::String^ caption = "Dai deneg";
-		MessageBoxButtons buttons = MessageBoxButtons::OK;
-		System::Windows::Forms::DialogResult result;
-
-		result = MessageBox::Show(this, message, caption, buttons);*/
-
-		AddSborks(1, 1);
+		AddSborks(2);
 	}
 	private: System::Void radioHome_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(2, 2);
+		AddSborks(1);
 	}
 	private: System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(3, 3);
+		AddSborks(3);
 	}
 	private: System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(4, 4);
+		AddSborks(4);
 	}
 	/// <summary>
 	/// Load

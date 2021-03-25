@@ -9,3 +9,6 @@
 *.obj
 *.pdb
 .vs/Configurator/v16/Browse.VC.db
+Release/Configurator.exe.metagen
+Release/Configurator.exe.metagen
+Project2/Release/Configurator.exe.recipe
