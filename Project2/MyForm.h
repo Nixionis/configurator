@@ -152,10 +152,10 @@ namespace Configurator {
 			this->radioPro->Location = System::Drawing::Point(15, 105);
 			this->radioPro->Margin = System::Windows::Forms::Padding(2);
 			this->radioPro->Name = L"radioPro";
-			this->radioPro->Size = System::Drawing::Size(172, 24);
+			this->radioPro->Size = System::Drawing::Size(181, 24);
 			this->radioPro->TabIndex = 4;
 			this->radioPro->TabStop = true;
-			this->radioPro->Text = L"Профессинальный";
+			this->radioPro->Text = L"Профессиональный";
 			this->radioPro->UseVisualStyleBackColor = true;
 			this->radioPro->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioPro_CheckedChanged);
 			// 
@@ -176,7 +176,7 @@ namespace Configurator {
 			this->labelTo->AutoSize = true;
 			this->labelTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelTo->Location = System::Drawing::Point(117, 183);
+			this->labelTo->Location = System::Drawing::Point(122, 183);
 			this->labelTo->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->labelTo->Name = L"labelTo";
 			this->labelTo->Size = System::Drawing::Size(30, 20);
@@ -189,10 +189,10 @@ namespace Configurator {
 				static_cast<System::Byte>(204)));
 			this->listBoxConfig->FormattingEnabled = true;
 			this->listBoxConfig->ItemHeight = 20;
-			this->listBoxConfig->Location = System::Drawing::Point(231, 45);
+			this->listBoxConfig->Location = System::Drawing::Point(250, 45);
 			this->listBoxConfig->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxConfig->Name = L"listBoxConfig";
-			this->listBoxConfig->Size = System::Drawing::Size(125, 164);
+			this->listBoxConfig->Size = System::Drawing::Size(106, 164);
 			this->listBoxConfig->TabIndex = 10;
 			this->listBoxConfig->DoubleClick += gcnew System::EventHandler(this, &MyForm::listBoxConfig_DoubleClick);
 			// 
@@ -231,18 +231,22 @@ namespace Configurator {
 			this->numericFrom->Location = System::Drawing::Point(37, 183);
 			this->numericFrom->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericFrom->Name = L"numericFrom";
-			this->numericFrom->Size = System::Drawing::Size(70, 26);
+			this->numericFrom->Size = System::Drawing::Size(83, 26);
 			this->numericFrom->TabIndex = 13;
+			this->numericFrom->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericFrom_ValueChanged);
+			this->numericFrom->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericFrom_KeyDown);
 			// 
 			// numericTo
 			// 
 			this->numericTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->numericTo->Location = System::Drawing::Point(146, 183);
+			this->numericTo->Location = System::Drawing::Point(157, 183);
 			this->numericTo->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericTo->Name = L"numericTo";
-			this->numericTo->Size = System::Drawing::Size(68, 26);
+			this->numericTo->Size = System::Drawing::Size(83, 26);
 			this->numericTo->TabIndex = 14;
+			this->numericTo->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericTo_ValueChanged);
+			this->numericTo->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericTo_KeyDown);
 			// 
 			// labelPrice
 			// 
@@ -260,7 +264,7 @@ namespace Configurator {
 			this->labelConfig->AutoSize = true;
 			this->labelConfig->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelConfig->Location = System::Drawing::Point(227, 9);
+			this->labelConfig->Location = System::Drawing::Point(246, 9);
 			this->labelConfig->Name = L"labelConfig";
 			this->labelConfig->Size = System::Drawing::Size(64, 20);
 			this->labelConfig->TabIndex = 16;
@@ -335,7 +339,7 @@ namespace Configurator {
 		listBoxConfig->Items->Clear();
 		
 		_sborki.clear();
-		_sborki = CreateConfigas(power, configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams);
+		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams);
 
 		if (_sborki.empty() == true)
 		{
@@ -381,18 +385,99 @@ namespace Configurator {
 	}
 	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
+		Memo->Items->Clear();
 		listBoxSysParts->Items->Clear();
 		int _selected = listBoxConfig->SelectedIndex;
+
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
+
 		str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
+
 		str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
+
 		str = gcnew String(_sborki[_selected].GetRam().GetName().c_str());
 		listBoxSysParts->Items->Add(str);
+
 		listBoxSysParts->Items->Add(_sborki[_selected].GetCost());
+
+		if (_selected == 0) {
+			Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
+		}
+
+		if (_sborki[_selected].GetRam().GetPoints() <= 20) {
+			String^ ozu = "4 Гб";
+			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
+			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
+			String^ price = fullprice.ToString();
+			if (fullprice <= _maxcost) {
+				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
+				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за "+ramprice);
+				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
+			}
+				
+		}
+		else if (30 <= _sborki[_selected].GetRam().GetPoints() <= 50) {
+			String^ ozu = "8 Гб";
+			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
+			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
+			String^ price = fullprice.ToString();
+			if (fullprice <= _maxcost) {
+				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
+				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
+				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
+			}
+		}
+		else if (60 <= _sborki[_selected].GetRam().GetPoints() <= 80) {
+			String^ ozu = "16 Гб";
+			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
+			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
+			String^ price = fullprice.ToString();
+			if (fullprice <= _maxcost) {
+				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
+				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
+				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
+			}
+		}
+		else if (90 <= _sborki[_selected].GetRam().GetPoints() <= 100) {
+			String^ ozu = "32 Гб";
+			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
+			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
+			String^ price = fullprice.ToString();
+			if (fullprice <= _maxcost) {
+				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
+				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
+				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
+			}
+		}
+
 	}
 
+private: System::Void numericTo_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (radioHome->Checked == true) AddSborks(1);
+	if (radioOffice->Checked == true) AddSborks(2);
+	if (radioGame->Checked == true) AddSborks(3);
+	if (radioPro->Checked == true) AddSborks(4);
+}
+private: System::Void numericFrom_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (radioHome->Checked == true) AddSborks(1);
+	if (radioOffice->Checked == true) AddSborks(2);
+	if (radioGame->Checked == true) AddSborks(3);
+	if (radioPro->Checked == true) AddSborks(4);
+}
+private: System::Void numericTo_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	if (radioHome->Checked == true) AddSborks(1);
+	if (radioOffice->Checked == true) AddSborks(2);
+	if (radioGame->Checked == true) AddSborks(3);
+	if (radioPro->Checked == true) AddSborks(4);
+}
+private: System::Void numericFrom_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	if (radioHome->Checked == true) AddSborks(1);
+	if (radioOffice->Checked == true) AddSborks(2);
+	if (radioGame->Checked == true) AddSborks(3);
+	if (radioPro->Checked == true) AddSborks(4);
+}
 };
 }
