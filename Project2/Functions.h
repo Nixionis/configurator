@@ -5,6 +5,7 @@
 #include "GraphicsCard.h"
 #include "Motherboard.h"
 #include "Processor.h"
+#include "RAM.h"
 #include "Sborka.h"
 
 std::vector<GraphicsCard> LoadGraphicsData()
@@ -97,6 +98,15 @@ std::vector<Processor> LoadProcData()
 	procs.push_back(proc);
 
 	return procs;
+}
+
+std::vector<RAM> LoadRAMData()
+{
+	std::vector<RAM> RAMS;
+
+	RAM ramka;
+
+	ramka.
 }
 
 std::vector<Sborka> CreateConfigas(float multiplier, int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, std::vector<Motherboard> mothers, std::vector<Processor> process)
