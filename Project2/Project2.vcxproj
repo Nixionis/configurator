@@ -128,8 +128,10 @@
     <ClCompile Include="GraphicsCard.cpp" />
     <ClCompile Include="Motherboard.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="PowerBlock.cpp" />
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="RAM.cpp" />
+    <ClCompile Include="SATA.cpp" />
     <ClCompile Include="Sborka.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,8 +141,10 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="PowerBlock.h" />
     <ClInclude Include="Processor.h" />
     <ClInclude Include="RAM.h" />
+    <ClInclude Include="SATA.h" />
     <ClInclude Include="Sborka.h" />
   </ItemGroup>
   <ItemGroup>

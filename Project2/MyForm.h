@@ -5,12 +5,15 @@
 #include "GraphicsCard.h"
 #include "Processor.h"
 #include "RAM.h"
+#include "PowerBlock.h"
 #include "Sborka.h"
 
 std::vector<GraphicsCard> _cards;
 std::vector<Motherboard> _mothers;
 std::vector<Processor> _processors;
 std::vector<RAM> _rams;
+std::vector<SATA> _sats;
+std::vector<PowerBlock> _powers;
 std::vector<Sborka> _sborki;
 
 int _maxcost = 0, _mincost = 0;
@@ -204,11 +207,11 @@ namespace Configurator {
 			this->Radioblock->Controls->Add(this->radioOffice);
 			this->Radioblock->Font = (gcnew System::Drawing::Font(L"Trebuchet MS", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->Radioblock->Location = System::Drawing::Point(15, 9);
+			this->Radioblock->Location = System::Drawing::Point(11, 9);
 			this->Radioblock->Margin = System::Windows::Forms::Padding(2);
 			this->Radioblock->Name = L"Radioblock";
 			this->Radioblock->Padding = System::Windows::Forms::Padding(2);
-			this->Radioblock->Size = System::Drawing::Size(199, 137);
+			this->Radioblock->Size = System::Drawing::Size(203, 137);
 			this->Radioblock->TabIndex = 11;
 			this->Radioblock->TabStop = false;
 			// 
@@ -221,7 +224,7 @@ namespace Configurator {
 			this->listBoxSysParts->Location = System::Drawing::Point(420, 45);
 			this->listBoxSysParts->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxSysParts->Name = L"listBoxSysParts";
-			this->listBoxSysParts->Size = System::Drawing::Size(192, 164);
+			this->listBoxSysParts->Size = System::Drawing::Size(254, 164);
 			this->listBoxSysParts->TabIndex = 12;
 			// 
 			// numericFrom
@@ -235,8 +238,6 @@ namespace Configurator {
 			this->numericFrom->Size = System::Drawing::Size(83, 26);
 			this->numericFrom->TabIndex = 13;
 			this->numericFrom->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericFrom_ValueChanged);
-			this->numericFrom->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericFrom_KeyDown);
-			this->numericFrom->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::numericFrom_KeyPress);
 			this->numericFrom->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericFrom_KeyUp);
 			// 
 			// numericTo
@@ -250,8 +251,6 @@ namespace Configurator {
 			this->numericTo->Size = System::Drawing::Size(83, 26);
 			this->numericTo->TabIndex = 14;
 			this->numericTo->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericTo_ValueChanged);
-			this->numericTo->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericTo_KeyDown);
-			this->numericTo->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::numericTo_KeyPress);
 			this->numericTo->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericTo_KeyUp);
 			// 
 			// labelPrice
@@ -293,16 +292,16 @@ namespace Configurator {
 				static_cast<System::Byte>(204)));
 			this->Memo->FormattingEnabled = true;
 			this->Memo->ItemHeight = 20;
-			this->Memo->Location = System::Drawing::Point(15, 232);
+			this->Memo->Location = System::Drawing::Point(12, 232);
 			this->Memo->Name = L"Memo";
-			this->Memo->Size = System::Drawing::Size(597, 184);
+			this->Memo->Size = System::Drawing::Size(662, 184);
 			this->Memo->TabIndex = 18;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(626, 430);
+			this->ClientSize = System::Drawing::Size(685, 430);
 			this->Controls->Add(this->Memo);
 			this->Controls->Add(this->labelComponents);
 			this->Controls->Add(this->labelConfig);
@@ -316,7 +315,7 @@ namespace Configurator {
 			this->Controls->Add(this->labelFrom);
 			this->Margin = System::Windows::Forms::Padding(2);
 			this->Name = L"MyForm";
-			this->Text = L"MyForm";
+			this->Text = L"Рекомендация конфигурации ПК";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->Radioblock->ResumeLayout(false);
 			this->Radioblock->PerformLayout();
@@ -331,18 +330,21 @@ namespace Configurator {
 	/// Radio Buttons
 	/// </summary>
 	
+
+	// Генерация сборки
 	void AddSborks(int configtype)
 	{
+		// Выставление минимального и максимального бюджета
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
-		
+		// Чистка лист боксов
 		listBoxSysParts->Items->Clear();
 		listBoxConfig->Items->Clear();
 		Memo->Items->Clear();
-		
+		//Очистка вектора сборок и старт генерации сборок по типу, цене.
 		_sborki.clear();
-		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams);
-
+		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams, _sats, _powers);
+		//Если нету, то выводим сообщение об отсутсвии сборок
 		if (_sborki.empty())
 		{
 			listBoxConfig->Items->Add("Нет доступных");
@@ -385,6 +387,8 @@ namespace Configurator {
 		_mothers = LoadMothersData();
 		_processors = LoadProcData();
 		_rams = LoadRAMData();
+		_sats = LoadSATAData();
+		_powers = LoadPowerData();
 	}
 	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
@@ -408,7 +412,15 @@ namespace Configurator {
 		str = str + " (" + _sborki[_selected].GetRam().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		listBoxSysParts->Items->Add(_sborki[_selected].GetCost());
+		str = gcnew String(_sborki[_selected].GetSata().GetName().c_str());
+		str = str + " (" + _sborki[_selected].GetSata().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		str = gcnew String(_sborki[_selected].GetPower().GetName().c_str());
+		str = str + " (" + _sborki[_selected].GetPower().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		
 
 		int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
 		String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
@@ -453,18 +465,6 @@ private: System::Void numericFrom_ValueChanged(System::Object^ sender, System::E
 	if (radioOffice->Checked == true) AddSborks(2);
 	if (radioGame->Checked == true) AddSborks(3);
 	if (radioPro->Checked == true) AddSborks(4);
-}
-private: System::Void numericTo_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-	
-}
-private: System::Void numericFrom_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-
-}
-private: System::Void numericTo_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
-	
-}
-private: System::Void numericFrom_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
-	
 }
 private: System::Void numericTo_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 	if (radioHome->Checked == true) AddSborks(1);

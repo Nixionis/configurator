@@ -10,11 +10,7 @@ private:
 
 public:
 
-	//GraphicsCard();
-
 	void SetData(std::string name, int points, int cost, int tdp);
-
-	//~GraphicsCard();
 
 	std::string GetName();
 

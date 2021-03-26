@@ -33,6 +33,12 @@
     <ClCompile Include="RAM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SATA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -54,6 +60,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RAM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SATA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

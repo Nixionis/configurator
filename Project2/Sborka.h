@@ -4,6 +4,8 @@
 #include "Motherboard.h"
 #include "Processor.h"
 #include "RAM.h"
+#include "SATA.h"
+#include "PowerBlock.h"
 
 class Sborka
 {
@@ -11,12 +13,14 @@ class Sborka
 	Motherboard _mother;
 	Processor _prots;
 	RAM _ram;
+	SATA _sata;
+	PowerBlock _power;
 
 	int _cost = 0;
 
 public:
 
-	void SetConfig(GraphicsCard card, Motherboard mother, Processor prots, RAM ram);
+	void SetConfig(GraphicsCard card, Motherboard mother, Processor prots, RAM ram, SATA sata, PowerBlock power);
 
 	GraphicsCard GetCard();
 
@@ -25,6 +29,10 @@ public:
 	Processor GetProts();
 
 	RAM GetRam();
+
+	SATA GetSata();
+
+	PowerBlock GetPower();
 
 	int GetCost();
 };

@@ -6,10 +6,13 @@
 #include "Motherboard.h"
 #include "Processor.h"
 #include "RAM.h"
+#include "SATA.h"
+#include "PowerBlock.h"
 #include "Sborka.h"
 
 std::vector<GraphicsCard> LoadGraphicsData()
 {
+	//Загрузка в базу данных графических карт
 	std::vector<GraphicsCard> cards;
 
 	GraphicsCard card;
@@ -49,6 +52,7 @@ std::vector<GraphicsCard> LoadGraphicsData()
 
 std::vector<Motherboard> LoadMothersData()
 {
+	//Загрузка в базу данных материнских карт
 	std::vector<Motherboard> mothers;
 	Motherboard mother;
 
@@ -66,6 +70,7 @@ std::vector<Motherboard> LoadMothersData()
 
 std::vector<Processor> LoadProcData()
 {
+	//Загрузка в базу данных процессоров
 	std::vector<Processor> procs;
 
 	Processor proc;
@@ -102,6 +107,7 @@ std::vector<Processor> LoadProcData()
 
 std::vector<RAM> LoadRAMData()
 {
+	//Загрузка в базу данных оперативной памяти
 	std::vector<RAM> RAMS;
 
 	RAM ramka;
@@ -139,46 +145,115 @@ std::vector<RAM> LoadRAMData()
 	return RAMS;
 }
 
-std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, 
-std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RAM> rams)
+std::vector<SATA> LoadSATAData()
 {
+	//Загрузка в базу данных жестких дисков
+	std::vector<SATA> SATS;
+
+	SATA sata;
+
+	sata.SetData("HDD 256 GB", 10, 1200);
+	SATS.push_back(sata);
+
+	sata.SetData("HDD 512 GB", 20, 1800);
+	SATS.push_back(sata);
+
+	sata.SetData("HDD 512 GB", 30, 1800);
+	SATS.push_back(sata);
+
+	sata.SetData("HDD 1024 GB", 40, 2800);
+	SATS.push_back(sata);
+
+	sata.SetData("HDD 1024 GB + SSD 128 GB", 50, 3800);
+	SATS.push_back(sata);
+
+	sata.SetData("SSD 256 GB", 60, 3200);
+	SATS.push_back(sata);
+
+	sata.SetData("SSD 512 GB", 70, 4800);
+	SATS.push_back(sata);
+
+	sata.SetData("SSD 512 GB", 80, 4800);
+	SATS.push_back(sata);
+
+	sata.SetData("SSD 1024 GB", 90, 8900);
+	SATS.push_back(sata);
+
+	sata.SetData("SSD 1024 GB", 100, 8900);
+	SATS.push_back(sata);
+
+	return SATS;
+}
+
+std::vector<PowerBlock> LoadPowerData()
+{
+	//Загрузка в базу данных жестких дисков
+	std::vector<PowerBlock> Powers;
+
+	PowerBlock power;
+
+	power.SetData("Aerocool VX PLUS 350W", 350, 1500);
+	Powers.push_back(power);
+
+	power.SetData("Aerocool ECO 500W", 500, 2000);
+	Powers.push_back(power);
+
+	power.SetData("Aerocool VX PLUS 600W", 600, 2550);
+	Powers.push_back(power);
+
+	power.SetData("Xilence XN054 700W", 700, 3000);
+	Powers.push_back(power);
+
+	return Powers;
+}
+
+std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, 
+std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RAM> rams, std::vector<SATA> sats, std::vector<PowerBlock> powers)
+{
+	//Генерация сборок
+	//Сид рандома
 	srand(time(NULL));
 
 	float point;
-
+	//Очки мощности от типа
 	if (configtype == 1) point = 50;
 	else if (configtype == 2) point = 70;
 	else if (configtype == 3) point = 90;
 	else point = 100;
-
+	//Для хранения временных выборов
 	GraphicsCard card;
 	Processor proces;
 	Motherboard mother;
 	RAM ram;
+	SATA sata;
+	PowerBlock power;
 
+	int tdp = 0;
+	//Вектора сборок
 	std::vector<Sborka> Sborochki;
-
+	//Генерация 5 (i) сборок
 	for (int i = 0; i < 5; i++)
 	{
+		tdp = 0;
+		//Очки мощности от максимальной мощности до низкой в данной категории
 		int pp = point - i * 10;
-
+		//Дихтомический поиск графической карты
 		int b = 0;
 		int e = cards.size();
 
 		int size = e;
 
-		//Graphics
-
 		while (b < e)
 		{
 			int c = (b + e) / 2;
-
+			//Поиск сопоставимой по мощности
 			if (cards[c].GetPoints() < (int)pp) b = c + 1;
 			else e = c;
 		}
 		card = cards[b];
+		tdp += card.GetTdp();
 
-		//Processors
+		//Поиск процессора по мощности
 
 		b = 0;
 		e = process.size();
@@ -192,8 +267,9 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		}
 		int ip = b;
 		proces = process[b];
+		tdp += proces.GetTdp() + 200;
 
-		//Materinka
+		//Поиск материнской карты по сокету процессора
 
 		b = 0;
 		e = mothers.size();
@@ -202,9 +278,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 		mother = mothers[b];
 
-		//RAM
-
-		//mother = &mothers[rand() % sizeof(mothers)-1];
+		//Поиск оперативной памяти по мощности
 		
 		b = 0;
 		e = rams.size();
@@ -218,18 +292,44 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		}
 
 		ram = rams[b];
+		
+		//Поиск жесткого диска по мощности
+
+		b = 0;
+		e = sats.size();
+
+		while (b < e)
+		{
+			int c = (b + e) / 2;
+
+			if (sats[c].GetPoints() < (int)pp) b = c + 1;
+			else e = c;
+		}
+
+		sata = sats[b];
+
+		//Поиск блока питания по мощности
+
+		b = 0;
+		e = powers.size();
+
+		while (b < e)
+		{
+			int c = (b + e) / 2;
+
+			if (powers[c].GetPoints() < (int)tdp) b = c + 1;
+			else e = c;
+		}
+
+		power = powers[b];
+
+		//Сбор всех найденных компонентов в сборку
 
 		Sborka sb;
+		sb.SetConfig(card, mother, proces, ram, sata, power);
 
-		//mother = &mothers[rand() % sizeof(mothers)-1];
-		sb.SetConfig(card, mother, proces, ram);
+		//Сравнение цены сборки с рамками бюджета
 
-		//sborka = new Sborka[1];
-
-		//sborka[0].SetConfig(&cards[b]);
-
-
-		//sborka[0].SetConfig(card, mother);
 		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost) Sborochki.push_back(sb);
 	}
 
