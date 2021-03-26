@@ -1,2 +1,20 @@
-﻿  GraphicsCard.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+﻿  GraphicsCard.cpp
+  Motherboard.cpp
+  MyForm.cpp
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(145,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(163,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(166,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(184,21): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(199,21): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(210,18): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(354,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(428,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(431,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(434,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+  Processor.cpp
+  RAM.cpp
+  Sborka.cpp
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  Generating Code...
+  GraphicsCard.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\x64\Debug\Configurator.exe
