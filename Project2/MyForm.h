@@ -228,6 +228,7 @@ namespace Configurator {
 			// 
 			this->numericFrom->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->numericFrom->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 500, 0, 0, 0 });
 			this->numericFrom->Location = System::Drawing::Point(37, 183);
 			this->numericFrom->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericFrom->Name = L"numericFrom";
@@ -235,11 +236,14 @@ namespace Configurator {
 			this->numericFrom->TabIndex = 13;
 			this->numericFrom->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericFrom_ValueChanged);
 			this->numericFrom->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericFrom_KeyDown);
+			this->numericFrom->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::numericFrom_KeyPress);
+			this->numericFrom->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericFrom_KeyUp);
 			// 
 			// numericTo
 			// 
 			this->numericTo->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->numericTo->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 500, 0, 0, 0 });
 			this->numericTo->Location = System::Drawing::Point(157, 183);
 			this->numericTo->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
 			this->numericTo->Name = L"numericTo";
@@ -247,6 +251,8 @@ namespace Configurator {
 			this->numericTo->TabIndex = 14;
 			this->numericTo->ValueChanged += gcnew System::EventHandler(this, &MyForm::numericTo_ValueChanged);
 			this->numericTo->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericTo_KeyDown);
+			this->numericTo->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MyForm::numericTo_KeyPress);
+			this->numericTo->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::numericTo_KeyUp);
 			// 
 			// labelPrice
 			// 
@@ -329,19 +335,15 @@ namespace Configurator {
 	{
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
-		if (_mincost > _maxcost)
-		{
-			int ic = _mincost;
-			_mincost = _maxcost;
-			_maxcost = ic;
-		}
+		
 		listBoxSysParts->Items->Clear();
 		listBoxConfig->Items->Clear();
+		Memo->Items->Clear();
 		
 		_sborki.clear();
 		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams);
 
-		if (_sborki.empty() == true)
+		if (_sborki.empty())
 		{
 			listBoxConfig->Items->Add("Недостаточно");
 			listBoxConfig->Items->Add("Бюджета");
@@ -351,8 +353,9 @@ namespace Configurator {
 
 		int y = _sborki.size();
 
-		for (int _i = 0; _i < y; _i++)
+		for (int _i = 0; _i < y; _i++) 
 			listBoxConfig->Items->Add(String::Format("Сборка {0}", _i + 1));
+			
 
 		listBoxConfig->Enabled = true;
 	}
@@ -390,67 +393,51 @@ namespace Configurator {
 		int _selected = listBoxConfig->SelectedIndex;
 
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
+		str = str + " (" + _sborki[_selected].GetCard().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
 		str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
+		str = str + " (" + _sborki[_selected].GetMother().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
 		str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
+		str = str + " (" + _sborki[_selected].GetProts().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
 		str = gcnew String(_sborki[_selected].GetRam().GetName().c_str());
+		str = str + " (" + _sborki[_selected].GetRam().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
 		listBoxSysParts->Items->Add(_sborki[_selected].GetCost());
+
+		int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
+		String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
+		String^ price = fullprice.ToString();
+
+		Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
 
 		if (_selected == 0) {
 			Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
 		}
 
+		String^ ozu;
+
 		if (_sborki[_selected].GetRam().GetPoints() <= 20) {
-			String^ ozu = "4 Гб";
-			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
-			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
-			String^ price = fullprice.ToString();
-			if (fullprice <= _maxcost) {
-				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
-				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за "+ramprice);
-				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
-			}
-				
+			ozu = "4 Гб";
 		}
 		else if (30 <= _sborki[_selected].GetRam().GetPoints() <= 50) {
-			String^ ozu = "8 Гб";
-			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
-			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
-			String^ price = fullprice.ToString();
-			if (fullprice <= _maxcost) {
-				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
-				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
-				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
-			}
+			ozu = "8 Гб";
 		}
 		else if (60 <= _sborki[_selected].GetRam().GetPoints() <= 80) {
-			String^ ozu = "16 Гб";
-			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
-			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
-			String^ price = fullprice.ToString();
-			if (fullprice <= _maxcost) {
-				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
-				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
-				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
-			}
+			ozu = "16 Гб";
 		}
 		else if (90 <= _sborki[_selected].GetRam().GetPoints() <= 100) {
-			String^ ozu = "32 Гб";
-			int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
-			String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
-			String^ price = fullprice.ToString();
-			if (fullprice <= _maxcost) {
-				Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
-				Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
-				Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
-			}
+			ozu = "32 Гб";
+		}
+
+		if (fullprice <= _maxcost) {
+			Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
+			Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
 		}
 
 	}
@@ -468,12 +455,24 @@ private: System::Void numericFrom_ValueChanged(System::Object^ sender, System::E
 	if (radioPro->Checked == true) AddSborks(4);
 }
 private: System::Void numericTo_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	
+}
+private: System::Void numericFrom_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+
+}
+private: System::Void numericTo_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
+	
+}
+private: System::Void numericFrom_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
+	
+}
+private: System::Void numericTo_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 	if (radioHome->Checked == true) AddSborks(1);
 	if (radioOffice->Checked == true) AddSborks(2);
 	if (radioGame->Checked == true) AddSborks(3);
 	if (radioPro->Checked == true) AddSborks(4);
 }
-private: System::Void numericFrom_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+private: System::Void numericFrom_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 	if (radioHome->Checked == true) AddSborks(1);
 	if (radioOffice->Checked == true) AddSborks(2);
 	if (radioGame->Checked == true) AddSborks(3);

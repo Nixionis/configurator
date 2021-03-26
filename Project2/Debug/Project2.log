@@ -2,8 +2,8 @@
   MyForm.cpp
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(145,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(163,10): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(422,15): warning C4804: <=: небезопасное использование типа "bool" в операции
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(433,15): warning C4804: <=: небезопасное использование типа "bool" в операции
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(444,15): warning C4804: <=: небезопасное использование типа "bool" в операции
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(428,15): warning C4804: <=: небезопасное использование типа "bool" в операции
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(431,15): warning C4804: <=: небезопасное использование типа "bool" в операции
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(434,15): warning C4804: <=: небезопасное использование типа "bool" в операции
   GraphicsCard.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
   Project2.vcxproj -> C:\Users\Вадим\Documents\GitHub\configurator\Debug\Configurator.exe
