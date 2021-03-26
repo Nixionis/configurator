@@ -395,7 +395,7 @@ namespace Configurator {
 		Memo->Items->Clear();
 		listBoxSysParts->Items->Clear();
 		int _selected = listBoxConfig->SelectedIndex;
-
+		if (_selected == -1) return;
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
 		str = str + " (" + _sborki[_selected].GetCard().GetCost().ToString() + "ğ.)";
 		listBoxSysParts->Items->Add(str);
