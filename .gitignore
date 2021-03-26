@@ -1,19 +1,12 @@
 
 .vs/Configurator/v16/Browse.VC.db
 .vs/Configurator/v16/.suo
-.vs/Configurator/v16/Browse.VC.db
-.vs/Configurator/v16/.suo
 *.db
 *.ipch
 *.tlog
 *.obj
 *.pdb
-.vs/Configurator/v16/Browse.VC.db
-Release/Configurator.exe.metagen
 Release/Configurator.exe.metagen
 Project2/Release/Configurator.exe.recipe
-.vs/Configurator/v16/.suo
-.vs/Configurator/v16/Browse.VC.db
 .vs/Configurator/v16/ipch/AutoPCH/8dbfbdc3dffd6c05/MYFORM.ipch
-.vs/Configurator/v16/.suo
 Project2/Debug/Project2.vcxprojAssemblyReference.cache
