@@ -192,7 +192,7 @@ namespace Configurator {
 			this->listBoxConfig->Location = System::Drawing::Point(250, 45);
 			this->listBoxConfig->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxConfig->Name = L"listBoxConfig";
-			this->listBoxConfig->Size = System::Drawing::Size(106, 164);
+			this->listBoxConfig->Size = System::Drawing::Size(136, 164);
 			this->listBoxConfig->TabIndex = 10;
 			this->listBoxConfig->DoubleClick += gcnew System::EventHandler(this, &MyForm::listBoxConfig_DoubleClick);
 			// 
@@ -218,7 +218,7 @@ namespace Configurator {
 				static_cast<System::Byte>(204)));
 			this->listBoxSysParts->FormattingEnabled = true;
 			this->listBoxSysParts->ItemHeight = 20;
-			this->listBoxSysParts->Location = System::Drawing::Point(386, 45);
+			this->listBoxSysParts->Location = System::Drawing::Point(420, 45);
 			this->listBoxSysParts->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxSysParts->Name = L"listBoxSysParts";
 			this->listBoxSysParts->Size = System::Drawing::Size(192, 164);
@@ -281,7 +281,7 @@ namespace Configurator {
 			this->labelComponents->AutoSize = true;
 			this->labelComponents->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelComponents->Location = System::Drawing::Point(382, 9);
+			this->labelComponents->Location = System::Drawing::Point(416, 9);
 			this->labelComponents->Name = L"labelComponents";
 			this->labelComponents->Size = System::Drawing::Size(104, 20);
 			this->labelComponents->TabIndex = 17;
@@ -295,14 +295,14 @@ namespace Configurator {
 			this->Memo->ItemHeight = 20;
 			this->Memo->Location = System::Drawing::Point(15, 232);
 			this->Memo->Name = L"Memo";
-			this->Memo->Size = System::Drawing::Size(563, 144);
+			this->Memo->Size = System::Drawing::Size(597, 184);
 			this->Memo->TabIndex = 18;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(602, 392);
+			this->ClientSize = System::Drawing::Size(626, 430);
 			this->Controls->Add(this->Memo);
 			this->Controls->Add(this->labelComponents);
 			this->Controls->Add(this->labelConfig);
@@ -345,8 +345,8 @@ namespace Configurator {
 
 		if (_sborki.empty())
 		{
-			listBoxConfig->Items->Add("Недостаточно");
-			listBoxConfig->Items->Add("Бюджета");
+			listBoxConfig->Items->Add("Нет доступных");
+			listBoxConfig->Items->Add("сборок");
 			listBoxConfig->Enabled = false;
 			return;
 		}
