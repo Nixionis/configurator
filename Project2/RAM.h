@@ -5,20 +5,16 @@
 class RAM
 {
 	std::string _ramname;
-	int _points, _cost;// , _socket, _tdp;
+	int _GB, _cost;
 
 public:
 
-	void SetData(std::string name, int points, int cost);//, int socket, int tdp);
+	void SetData(std::string name, int gb, int cost);
 
 	std::string GetName();
 
-	int GetPoints();
+	int GetGB();
 
 	int GetCost();
-
-	//int GetSocket();
-
-	//int GetTdp(); 
 };
 

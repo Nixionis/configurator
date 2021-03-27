@@ -2,6 +2,7 @@
 
 #include <ctime>
 #include <vector>
+#include <fstream>
 #include "GraphicsCard.h"
 #include "Motherboard.h"
 #include "Processor.h"
@@ -14,38 +15,30 @@ std::vector<GraphicsCard> LoadGraphicsData()
 {
 	//Загрузка в базу данных графических карт
 	std::vector<GraphicsCard> cards;
-
 	GraphicsCard card;
 
-	card.SetData("Gtx 650", 10, 2500, 65);
-	cards.push_back(card);
+	std::fstream GraphicFile("Graphics.txt");
 
-	card.SetData("Gtx 650 ti", 20, 3500, 110);
-	cards.push_back(card);
+	//TODO: Open ERROR
 
-	card.SetData("Gtx 750 ti", 30, 5000, 75);
-	cards.push_back(card);
+	int amount;
 
-	card.SetData("Gtx 950", 40, 9000, 90);
-	cards.push_back(card);
+	std::string name;
+	int power;
+	int cost;
+	int tdp;
 
-	card.SetData("Gtx 1050 ti", 50, 11000, 70);
-	cards.push_back(card);
+	GraphicFile >> amount;
 
-	card.SetData("Gtx 1060 3gb", 60, 13000, 120);
-	cards.push_back(card);
-
-	card.SetData("Gtx 1660", 70, 25000, 120);
-	cards.push_back(card);
-
-	card.SetData("Gtx 1070 ti", 80, 35000, 180);
-	cards.push_back(card);
-
-	card.SetData("RTX 3060", 90, 65000, 170);
-	cards.push_back(card);
-
-	card.SetData("RTX 3060 ti", 100, 80000, 200);
-	cards.push_back(card);
+	for (int i = 0; i < amount; i++)
+	{
+		GraphicFile >> name;
+		GraphicFile >> power;
+		GraphicFile >> cost;
+		GraphicFile >> tdp;
+		card.SetData(name, power, cost, tdp);
+		cards.push_back(card);
+	}
 
 	return cards;
 }
@@ -56,14 +49,32 @@ std::vector<Motherboard> LoadMothersData()
 	std::vector<Motherboard> mothers;
 	Motherboard mother;
 
-	mother.SetData("Gigabyte B365M", 10, 40, 3500, 1, 1151);
-	mothers.push_back(mother);
+	std::fstream MBoardFile("Mboards.txt");
 
-	mother.SetData("Huananzhi B85", 10, 40, 4000, 2, 1150);
-	mothers.push_back(mother);
+	//TODO: Open ERROR
 
-	mother.SetData("Huananzhi B87", 10, 40, 3800, 1, 1155);
-	mothers.push_back(mother);
+	int amount;
+
+	std::string name;
+	int powermin;
+	int powermax;
+	int cost;
+	int size;
+	int socket;
+
+	MBoardFile >> amount;
+
+	for (int i = 0; i < amount; i++)
+	{
+		MBoardFile >> name;
+		MBoardFile >> powermin;
+		MBoardFile >> powermax;
+		MBoardFile >> cost;
+		MBoardFile >> size;
+		MBoardFile >> socket;
+		mother.SetData(name, powermin, powermax, cost, size, socket);
+		mothers.push_back(mother);
+	}
 
 	return mothers;
 }
@@ -72,35 +83,32 @@ std::vector<Processor> LoadProcData()
 {
 	//Загрузка в базу данных процессоров
 	std::vector<Processor> procs;
-
 	Processor proc;
 
-	proc.SetData("Core i3-4340", 10, 7000, 1150, 54);
-	procs.push_back(proc);
+	std::fstream ProccsFile("Proccs.txt");
 
-	proc.SetData("Core i3-6100", 20, 8500, 1151, 51);
-	procs.push_back(proc);
+	//TODO: Open ERROR
 
-	proc.SetData("Core i5-4570", 30, 13000, 1150, 84);
-	procs.push_back(proc);
+	int amount;
 
-	proc.SetData("Core i5-6600", 40, 16000, 1151, 65);
-	procs.push_back(proc);
+	std::string name;
+	int power;
+	int cost;
+	int socket;
+	int tdp;
 
-	proc.SetData("Core i7-3770K", 50, 20000, 1155, 77);
-	procs.push_back(proc);
+	ProccsFile >> amount;
 
-	proc.SetData("Core i7-6700", 60, 25000, 1151, 65);
-	procs.push_back(proc);
-
-	proc.SetData("Core i7-8700", 80, 28000, 1151, 65);
-	procs.push_back(proc);
-
-	proc.SetData("Core i9-9900", 90, 33000, 1151, 65);
-	procs.push_back(proc);
-
-	proc.SetData("Core i9-10850K", 100, 39000, 1151, 125);
-	procs.push_back(proc);
+	for (int i = 0; i < amount; i++)
+	{
+		ProccsFile >> name;
+		ProccsFile >> power;
+		ProccsFile >> cost;
+		ProccsFile >> socket;
+		ProccsFile >> tdp;
+		proc.SetData(name, power, cost, socket, tdp);
+		procs.push_back(proc);
+	}
 
 	return procs;
 }
@@ -109,38 +117,28 @@ std::vector<RAM> LoadRAMData()
 {
 	//Загрузка в базу данных оперативной памяти
 	std::vector<RAM> RAMS;
+	RAM ram;
 
-	RAM ramka;
+	std::fstream RAMFile("RAM.txt");
 
-	ramka.SetData("RAM 4 GB", 10, 1800);
-	RAMS.push_back(ramka);
+	//TODO: Open ERROR
 
-	ramka.SetData("RAM 4 GB", 20, 1800);
-	RAMS.push_back(ramka);
+	int amount;
 
-	ramka.SetData("RAM 8 GB", 30, 3500);
-	RAMS.push_back(ramka);
+	std::string name;
+	int GBs;
+	int cost;
 
-	ramka.SetData("RAM 8 GB", 40, 3500);
-	RAMS.push_back(ramka);
+	RAMFile >> amount;
 
-	ramka.SetData("RAM 8 GB", 50, 3500);
-	RAMS.push_back(ramka);
-
-	ramka.SetData("RAM 16 GB", 60, 8500);
-	RAMS.push_back(ramka);
-
-	ramka.SetData("RAM 16 GB", 70, 8500);
-	RAMS.push_back(ramka);
-
-	ramka.SetData("RAM 16 GB", 80, 8500);
-	RAMS.push_back(ramka);
-
-	ramka.SetData("RAM 32 GB", 90, 16500);
-	RAMS.push_back(ramka);
-
-	ramka.SetData("RAM 32 GB", 100, 16500);
-	RAMS.push_back(ramka);
+	for (int i = 0; i < amount; i++)
+	{
+		RAMFile >> name;
+		RAMFile >> GBs;
+		RAMFile >> cost;
+		ram.SetData(name, GBs, cost);
+		RAMS.push_back(ram);
+	}
 
 	return RAMS;
 }
@@ -149,38 +147,30 @@ std::vector<SATA> LoadSATAData()
 {
 	//Загрузка в базу данных жестких дисков
 	std::vector<SATA> SATS;
-
 	SATA sata;
 
-	sata.SetData("HDD 256 GB", 10, 1200);
-	SATS.push_back(sata);
+	std::fstream SATAFile("SATA.txt");
 
-	sata.SetData("HDD 512 GB", 20, 1800);
-	SATS.push_back(sata);
+	//TODO: Open ERROR
 
-	sata.SetData("HDD 512 GB", 30, 1800);
-	SATS.push_back(sata);
+	int amount;
 
-	sata.SetData("HDD 1024 GB", 40, 2800);
-	SATS.push_back(sata);
+	std::string name;
+	int GBs;
+	int type;
+	int cost;
 
-	sata.SetData("HDD 1024 GB + SSD 128 GB", 50, 3800);
-	SATS.push_back(sata);
+	SATAFile >> amount;
 
-	sata.SetData("SSD 256 GB", 60, 3200);
-	SATS.push_back(sata);
-
-	sata.SetData("SSD 512 GB", 70, 4800);
-	SATS.push_back(sata);
-
-	sata.SetData("SSD 512 GB", 80, 4800);
-	SATS.push_back(sata);
-
-	sata.SetData("SSD 1024 GB", 90, 8900);
-	SATS.push_back(sata);
-
-	sata.SetData("SSD 1024 GB", 100, 8900);
-	SATS.push_back(sata);
+	for (int i = 0; i < amount; i++)
+	{
+		SATAFile >> name;
+		SATAFile >> GBs;
+		SATAFile >> type;
+		SATAFile >> cost;
+		sata.SetData(name, GBs, type, cost);
+		SATS.push_back(sata);
+	}
 
 	return SATS;
 }
@@ -189,20 +179,28 @@ std::vector<PowerBlock> LoadPowerData()
 {
 	//Загрузка в базу данных жестких дисков
 	std::vector<PowerBlock> Powers;
-
 	PowerBlock power;
 
-	power.SetData("Aerocool VX PLUS 350W", 350, 1500);
-	Powers.push_back(power);
+	std::fstream PowerFile("PowerBlocks.txt");
 
-	power.SetData("Aerocool ECO 500W", 500, 2000);
-	Powers.push_back(power);
+	//TODO: Open ERROR
 
-	power.SetData("Aerocool VX PLUS 600W", 600, 2550);
-	Powers.push_back(power);
+	int amount;
 
-	power.SetData("Xilence XN054 700W", 700, 3000);
-	Powers.push_back(power);
+	std::string name;
+	int Watt;
+	int cost;
+
+	PowerFile >> amount;
+
+	for (int i = 0; i < amount; i++)
+	{
+		PowerFile >> name;
+		PowerFile >> Watt;
+		PowerFile >> cost;
+		power.SetData(name, Watt, cost);
+		Powers.push_back(power);
+	}
 
 	return Powers;
 }
@@ -214,12 +212,70 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 	//Сид рандома
 	srand(time(NULL));
 
-	float point;
+	float OverallPoints = 50;
+	float GrahpicPoints = 40;
+	float ProccessorPoints = 40;
+	float RamPoints = 8;
+	float SataPoints = 512;
+	int SataType = 1;
 	//Очки мощности от типа
-	if (configtype == 1) point = 50;
-	else if (configtype == 2) point = 70;
-	else if (configtype == 3) point = 90;
-	else point = 100;
+	if (configtype == 2)
+	{
+		OverallPoints = 70;
+		GrahpicPoints = 40;
+		ProccessorPoints = 60;
+		RamPoints = 8;
+		SataPoints = 512;
+		SataType = 1;
+	}
+	else if (configtype == 3)
+	{
+		OverallPoints = 90;
+		GrahpicPoints = 80;
+		ProccessorPoints = 70;
+		RamPoints = 16;
+		SataPoints = 256;
+		SataType = 2;
+	}
+	else  if (configtype == 4)
+	{
+		OverallPoints = 100;
+		GrahpicPoints = 100;
+		ProccessorPoints = 100;
+		RamPoints = 32;
+		SataPoints = 1024;
+		SataType = 2;
+	}
+
+	//Границы до куда подбирать сборки
+
+	int gptb = 0;
+	int pptb = 0;
+	int rptb = 4;
+	int sptb = 256;
+	int sttb = 1;
+
+	if (configtype == 2)
+	{
+		gptb = 10;
+		pptb = 20;
+	}
+	else if (configtype == 3)
+	{
+		gptb = 30;
+		pptb = 30;
+		rptb = 8;
+		sptb = 512;
+	}
+	else if (configtype == 4)
+	{
+		gptb = 40;
+		pptb = 50;
+		rptb = 8;
+		sptb = 512;
+		//	sttb = 2;
+	}
+
 	//Для хранения временных выборов
 	GraphicsCard card;
 	Processor proces;
@@ -230,13 +286,24 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 	int tdp = 0;
 	//Вектора сборок
-	std::vector<Sborka> Sborochki;
+	std::vector<Sborka> Sborki;
+	int op = OverallPoints;
+	int gp = GrahpicPoints;
+	int pp = ProccessorPoints;
+	int rp = RamPoints;
+	int sp = SataPoints;
+	int st = SataType;
+
+	int opt = op;
+	int gpt = gp;
+	int ppt = pp;
+	int rpt = rp;
+	int spt = sp;
+	int stt = st;
 	//Генерация 5 (i) сборок
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		tdp = 0;
-		//Очки мощности от максимальной мощности до низкой в данной категории
-		int pp = point - i * 10;
 		//Дихтомический поиск графической карты
 		int b = 0;
 		int e = cards.size();
@@ -247,7 +314,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		{
 			int c = (b + e) / 2;
 			//Поиск сопоставимой по мощности
-			if (cards[c].GetPoints() < (int)pp) b = c + 1;
+			if (cards[c].GetPoints() < (int)gpt) b = c + 1;
 			else e = c;
 		}
 		card = cards[b];
@@ -262,7 +329,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		{
 			int c = (b + e) / 2;
 
-			if (process[c].GetPoints() < (int)pp) b = c + 1;
+			if (process[c].GetPoints() < (int)ppt) b = c + 1;
 			else e = c;
 		}
 		int ip = b;
@@ -287,7 +354,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		{
 			int c = (b + e) / 2;
 
-			if (rams[c].GetPoints() < (int)pp) b = c + 1;
+			if (rams[c].GetGB() < (int)rpt) b = c + 1;
 			else e = c;
 		}
 
@@ -302,7 +369,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		{
 			int c = (b + e) / 2;
 
-			if (sats[c].GetPoints() < (int)pp) b = c + 1;
+			if (sats[c].GetGB() < (int)spt && sats[c].GetType() == stt) b = c + 1;
 			else e = c;
 		}
 
@@ -317,7 +384,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		{
 			int c = (b + e) / 2;
 
-			if (powers[c].GetPoints() < (int)tdp) b = c + 1;
+			if (powers[c].GetWatt() < (int)tdp) b = c + 1;
 			else e = c;
 		}
 
@@ -330,8 +397,139 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 		//Сравнение цены сборки с рамками бюджета
 
-		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost) Sborochki.push_back(sb);
+		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost )
+		{
+			if (gpt >= gptb && ppt >= pptb && rpt >= rptb)
+				Sborki.push_back(sb);
+			else return Sborki;
+			//Сбоираем следующую сборку пониже
+			if (op > 0) op -= 10;
+			if (gp > 0) gp -= 10;
+			if (pp > 0) pp -= 10;
+			//
+			if (rp > 4)
+			{
+				if ((configtype == 1 || configtype == 2) && op < 40) rp /= 2;
+				else if (configtype == 3 && op < 70 && rp > 8) rp /= 2;
+				else if (configtype == 4 && op < 80 && rp > 8) rp /= 2;
+			}
+			//
+			if (st == 2 && sp == 256) st -= 1;
+			else if (st == 1 && sp > 256) sp /= 2;
+			else if (st == 2 && sp > 256) sp /= 2;
+			//
+			
+
+			opt = op;
+		    gpt = gp;
+			ppt = pp;
+			rpt = rp;
+			spt = sp;
+			stt = st;
+
+			//return Sborki;
+		}
+		else
+		{
+			
+
+			if (!(gpt <= gptb && ppt <= pptb && rpt <= rptb && stt <= sttb && spt == sptb))
+			{
+				srand(time(NULL));
+				//Удешевляем какой-нибудь компонент
+				int r = rand() % 4;;
+				bool exit = false;
+
+				while (!exit)
+				{
+
+					if (r == 0)
+					{
+						if (gpt > gptb)
+						{
+							gpt -= 10;
+							exit = true;
+						}
+						else r += 1;
+					}
+
+					if (r == 1)
+					{
+						if (ppt > pptb)
+						{
+							ppt -= 10;
+							exit = true;
+						}
+						else r += 1;
+					}
+
+					if (r == 2)
+					{
+						if (rpt > rptb)
+						{
+							if ((configtype == 1 || configtype == 2) && opt < 40)
+							{
+								rpt /= 2;
+								exit = true;
+							}
+							else if (configtype == 3 && opt < 70)
+							{
+								rpt /= 2;
+								exit = true;
+							}
+							else if (configtype == 4 && opt < 80)
+							{
+								rpt /= 2;
+								exit = true;
+							}
+							else
+							{
+								r += 1;
+								opt -= 10;
+							}
+						}
+						else r += 1;
+					}
+
+					if (r == 3)
+					{
+						if (stt == 2 && spt == sptb)
+						{
+							stt -= 1;
+							exit = true;
+						}
+						else if (stt == 2 && spt > 256)
+						{
+							spt /= 2;
+							exit = true;
+						}
+						else if (stt == sttb && spt > sptb)
+						{
+							spt /= 2;
+							exit = true;
+						}
+						else if (stt == 2 && spt == 256)
+						{
+							stt = 1;
+							spt = 1024;
+							exit = true;
+						}
+						else r = 0;
+						
+					}
+					else
+					{
+						//if (r )
+						r = 0;
+						//opt -= 10;
+					}
+				}
+				i--;
+			}
+			else return Sborki;
+
+		}
 	}
 
-	return Sborochki;
+	return Sborki;
 }
