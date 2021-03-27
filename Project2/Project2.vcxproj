@@ -125,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EditForm.cpp" />
     <ClCompile Include="GraphicsCard.cpp" />
     <ClCompile Include="Motherboard.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -135,6 +136,9 @@
     <ClCompile Include="Sborka.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EditForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Functions.h" />
     <ClInclude Include="GraphicsCard.h" />
     <ClInclude Include="Motherboard.h" />
@@ -148,6 +152,9 @@
     <ClInclude Include="Sborka.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EditForm.resx">
+      <DependentUpon>EditForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>

@@ -7,6 +7,7 @@
 #include "RAM.h"
 #include "PowerBlock.h"
 #include "Sborka.h"
+#include "EditForm.h"
 
 std::vector<GraphicsCard> _cards;
 std::vector<Motherboard> _mothers;
@@ -68,6 +69,9 @@ namespace Configurator {
 	System::Windows::Forms::Label^ labelConfig;
 	System::Windows::Forms::Label^ labelComponents;
 	System::Windows::Forms::ListBox^ Memo;
+	private: System::Windows::Forms::Button^ buttonCreate;
+	private: System::Windows::Forms::Button^ buttonSetup;
+
 
 	private:
 		/// <summary>
@@ -97,6 +101,8 @@ namespace Configurator {
 			this->labelConfig = (gcnew System::Windows::Forms::Label());
 			this->labelComponents = (gcnew System::Windows::Forms::Label());
 			this->Memo = (gcnew System::Windows::Forms::ListBox());
+			this->buttonCreate = (gcnew System::Windows::Forms::Button());
+			this->buttonSetup = (gcnew System::Windows::Forms::Button());
 			this->Radioblock->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->BeginInit();
@@ -188,14 +194,14 @@ namespace Configurator {
 			// 
 			// listBoxConfig
 			// 
-			this->listBoxConfig->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->listBoxConfig->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->listBoxConfig->FormattingEnabled = true;
-			this->listBoxConfig->ItemHeight = 20;
-			this->listBoxConfig->Location = System::Drawing::Point(250, 45);
+			this->listBoxConfig->ItemHeight = 18;
+			this->listBoxConfig->Location = System::Drawing::Point(249, 45);
 			this->listBoxConfig->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxConfig->Name = L"listBoxConfig";
-			this->listBoxConfig->Size = System::Drawing::Size(136, 164);
+			this->listBoxConfig->Size = System::Drawing::Size(164, 202);
 			this->listBoxConfig->TabIndex = 10;
 			this->listBoxConfig->DoubleClick += gcnew System::EventHandler(this, &MyForm::listBoxConfig_DoubleClick);
 			// 
@@ -217,14 +223,14 @@ namespace Configurator {
 			// 
 			// listBoxSysParts
 			// 
-			this->listBoxSysParts->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->listBoxSysParts->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->listBoxSysParts->FormattingEnabled = true;
-			this->listBoxSysParts->ItemHeight = 20;
+			this->listBoxSysParts->ItemHeight = 18;
 			this->listBoxSysParts->Location = System::Drawing::Point(420, 45);
 			this->listBoxSysParts->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxSysParts->Name = L"listBoxSysParts";
-			this->listBoxSysParts->Size = System::Drawing::Size(254, 164);
+			this->listBoxSysParts->Size = System::Drawing::Size(254, 166);
 			this->listBoxSysParts->TabIndex = 12;
 			// 
 			// numericFrom
@@ -269,7 +275,7 @@ namespace Configurator {
 			this->labelConfig->AutoSize = true;
 			this->labelConfig->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelConfig->Location = System::Drawing::Point(246, 9);
+			this->labelConfig->Location = System::Drawing::Point(245, 16);
 			this->labelConfig->Name = L"labelConfig";
 			this->labelConfig->Size = System::Drawing::Size(64, 20);
 			this->labelConfig->TabIndex = 16;
@@ -280,7 +286,7 @@ namespace Configurator {
 			this->labelComponents->AutoSize = true;
 			this->labelComponents->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelComponents->Location = System::Drawing::Point(416, 9);
+			this->labelComponents->Location = System::Drawing::Point(416, 16);
 			this->labelComponents->Name = L"labelComponents";
 			this->labelComponents->Size = System::Drawing::Size(104, 20);
 			this->labelComponents->TabIndex = 17;
@@ -292,16 +298,41 @@ namespace Configurator {
 				static_cast<System::Byte>(204)));
 			this->Memo->FormattingEnabled = true;
 			this->Memo->ItemHeight = 20;
-			this->Memo->Location = System::Drawing::Point(12, 232);
+			this->Memo->Location = System::Drawing::Point(12, 252);
 			this->Memo->Name = L"Memo";
-			this->Memo->Size = System::Drawing::Size(662, 184);
+			this->Memo->Size = System::Drawing::Size(662, 164);
 			this->Memo->TabIndex = 18;
+			// 
+			// buttonCreate
+			// 
+			this->buttonCreate->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->buttonCreate->Location = System::Drawing::Point(13, 215);
+			this->buttonCreate->Name = L"buttonCreate";
+			this->buttonCreate->Size = System::Drawing::Size(227, 32);
+			this->buttonCreate->TabIndex = 19;
+			this->buttonCreate->Text = L"Подобрать конфигурации";
+			this->buttonCreate->UseVisualStyleBackColor = true;
+			// 
+			// buttonSetup
+			// 
+			this->buttonSetup->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->buttonSetup->Location = System::Drawing::Point(419, 216);
+			this->buttonSetup->Name = L"buttonSetup";
+			this->buttonSetup->Size = System::Drawing::Size(254, 32);
+			this->buttonSetup->TabIndex = 20;
+			this->buttonSetup->Text = L"Заменить комплектующие";
+			this->buttonSetup->UseVisualStyleBackColor = true;
+			this->buttonSetup->Click += gcnew System::EventHandler(this, &MyForm::buttonSetup_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(685, 430);
+			this->Controls->Add(this->buttonSetup);
+			this->Controls->Add(this->buttonCreate);
 			this->Controls->Add(this->Memo);
 			this->Controls->Add(this->labelComponents);
 			this->Controls->Add(this->labelConfig);
@@ -395,6 +426,9 @@ namespace Configurator {
 		Memo->Items->Clear();
 		listBoxSysParts->Items->Clear();
 		int _selected = listBoxConfig->SelectedIndex;
+
+		// Выбор критерия
+
 		if (_selected == -1) return;
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
 		str = str + " (" + _sborki[_selected].GetCard().GetCost().ToString() + "р.)";
@@ -477,6 +511,15 @@ private: System::Void numericFrom_KeyUp(System::Object^ sender, System::Windows:
 	if (radioOffice->Checked == true) AddSborks(2);
 	if (radioGame->Checked == true) AddSborks(3);
 	if (radioPro->Checked == true) AddSborks(4);
+}
+
+private: System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
+
+
+	Project2::EditForm^ Setup = gcnew Project2::EditForm();
+	this->Enabled = false;
+	Setup->Show();
+
 }
 };
 }
