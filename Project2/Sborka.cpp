@@ -52,3 +52,18 @@ int Sborka::GetCost()
 {
 	return _cost;
 }
+
+bool Sborka::operator==(Sborka DifSborka)
+{
+	if (_card.GetPoints() == DifSborka.GetCard().GetPoints() && _mother.GetSocket() == DifSborka.GetMother().GetSocket()
+		&& _prots.GetPoints() == DifSborka.GetProts().GetPoints() && _ram.GetGB() == DifSborka.GetRam().GetGB()
+		&& _sata.GetGB() == DifSborka.GetSata().GetGB() && _sata.GetType() == DifSborka.GetSata().GetType()
+		&& _power.GetWatt() == DifSborka.GetPower().GetWatt()) return true;
+
+	return false;
+}
+
+bool Sborka::operator<(Sborka DifSborka)
+{
+	return (_cost < DifSborka.GetCost());
+}

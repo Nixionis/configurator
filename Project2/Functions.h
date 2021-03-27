@@ -210,6 +210,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 {
 	//Генерация сборок
 	//Сид рандома
+
 	srand(time(NULL));
 
 	float OverallPoints = 50;
@@ -218,6 +219,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 	float RamPoints = 8;
 	float SataPoints = 512;
 	int SataType = 1;
+
 	//Очки мощности от типа
 	if (configtype == 2)
 	{
@@ -247,33 +249,33 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		SataType = 2;
 	}
 
-	//Границы до куда подбирать сборки
+	//Минимальные границы до куда подбирать сборки
 
-	int gptb = 0;
-	int pptb = 0;
-	int rptb = 4;
-	int sptb = 256;
-	int sttb = 1;
+	int gpb = 0;
+	int ppb = 0;
+	int rpb = 4;
+	int spb = 256;
+	int stb = 1;
 
 	if (configtype == 2)
 	{
-		gptb = 10;
-		pptb = 20;
+		gpb = 10;
+		ppb = 20;
 	}
 	else if (configtype == 3)
 	{
-		gptb = 30;
-		pptb = 30;
-		rptb = 8;
-		sptb = 512;
+		gpb = 30;
+		ppb = 30;
+		rpb = 8;
+		spb = 512;
 	}
 	else if (configtype == 4)
 	{
-		gptb = 40;
-		pptb = 50;
-		rptb = 8;
-		sptb = 512;
-		//	sttb = 2;
+		gpb = 40;
+		ppb = 50;
+		rpb = 8;
+		spb = 512;
+		stb = 2;
 	}
 
 	//Для хранения временных выборов
@@ -287,24 +289,27 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 	int tdp = 0;
 	//Вектора сборок
 	std::vector<Sborka> Sborki;
+
+	//Текущие данные для циклов     общие
 	int op = OverallPoints;
 	int gp = GrahpicPoints;
 	int pp = ProccessorPoints;
 	int rp = RamPoints;
 	int sp = SataPoints;
 	int st = SataType;
-
+	// текущие
 	int opt = op;
 	int gpt = gp;
 	int ppt = pp;
 	int rpt = rp;
 	int spt = sp;
 	int stt = st;
+
 	//Генерация 5 (i) сборок
 	for (int i = 0; i < 10; i++)
 	{
 		tdp = 0;
-		//Дихтомический поиск графической карты
+		//Дихотомический поиск графической карты
 		int b = 0;
 		int e = cards.size();
 
@@ -334,7 +339,7 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		}
 		int ip = b;
 		proces = process[b];
-		tdp += proces.GetTdp() + 200;
+		tdp += proces.GetTdp() + 175;
 
 		//Поиск материнской карты по сокету процессора
 
@@ -364,13 +369,15 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 		b = 0;
 		e = sats.size();
-
-		while (b < e)
+		for (int j = 0; j < e; j++)
 		{
-			int c = (b + e) / 2;
-
-			if (sats[c].GetGB() < (int)spt && sats[c].GetType() == stt) b = c + 1;
-			else e = c;
+			int ss = sats[j].GetGB();
+			int sss = sats[j].GetType();
+			if (ss == spt && sss == stt)
+			{
+				b = j;
+				break;
+			}
 		}
 
 		sata = sats[b];
@@ -399,134 +406,117 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost )
 		{
-			if (gpt >= gptb && ppt >= pptb && rpt >= rptb)
-				Sborki.push_back(sb);
-			else return Sborki;
+			//Подошло по цене
+
+			//Компоненты подходят по минимальным требованиям
+			if (gpt >= gpb && ppt >= ppb && rpt >= rpb) Sborki.push_back(sb);
+			else if (gp <= gpb && pp <= ppb && rpt >= rpb) return Sborki;
+
 			//Сбоираем следующую сборку пониже
 			if (op > 0) op -= 10;
-			if (gp > 0) gp -= 10;
-			if (pp > 0) pp -= 10;
+			if (gp > gpb) gp -= 10;
+			if (pp > ppb) pp -= 10;
 			//
-			if (rp > 4)
+			if (rp > rpb)
 			{
 				if ((configtype == 1 || configtype == 2) && op < 40) rp /= 2;
-				else if (configtype == 3 && op < 70 && rp > 8) rp /= 2;
-				else if (configtype == 4 && op < 80 && rp > 8) rp /= 2;
+				else if (configtype == 3 && op < 70 && rp > rpb) rp /= 2;
+				else if (configtype == 4 && op < 80 && rp > rpb) rp /= 2;
 			}
 			//
 			if (st == 2 && sp == 256) st -= 1;
 			else if (st == 1 && sp > 256) sp /= 2;
 			else if (st == 2 && sp > 256) sp /= 2;
 			//
-			
-
+			//делаем значения текущими
 			opt = op;
 		    gpt = gp;
 			ppt = pp;
 			rpt = rp;
 			spt = sp;
 			stt = st;
-
-			//return Sborki;
 		}
-		else
+		else //Занижаем временные критерии случайного компонента для попытки сбора более дешевой сборки
 		{
-			
 
-			if (!(gpt <= gptb && ppt <= pptb && rpt <= rptb && stt <= sttb && spt == sptb))
+			if (gpt > gpb && ppt > ppb && rpt > rpb )
 			{
 				srand(time(NULL));
 				//Удешевляем какой-нибудь компонент
-				int r = rand() % 4;;
-				bool exit = false;
+				int r = rand() % 4;
 
-				while (!exit)
+				while (true)
 				{
-
-					if (r == 0)
+					if (r == 0 && gpt > gpb)
 					{
-						if (gpt > gptb)
-						{
-							gpt -= 10;
-							exit = true;
-						}
-						else r += 1;
+						gpt -= 10;
+						break;
 					}
-
-					if (r == 1)
+					else r += 1;
+					//
+					if (r == 1 && ppt > ppb)
 					{
-						if (ppt > pptb)
-						{
-							ppt -= 10;
-							exit = true;
-						}
-						else r += 1;
-					}
 
-					if (r == 2)
+						ppt -= 10;
+						break;
+					}
+					else r += 1;
+					//
+					if (r == 2 && rpt > rpb)
 					{
-						if (rpt > rptb)
-						{
-							if ((configtype == 1 || configtype == 2) && opt < 40)
-							{
-								rpt /= 2;
-								exit = true;
-							}
-							else if (configtype == 3 && opt < 70)
-							{
-								rpt /= 2;
-								exit = true;
-							}
-							else if (configtype == 4 && opt < 80)
-							{
-								rpt /= 2;
-								exit = true;
-							}
-							else
-							{
-								r += 1;
-								opt -= 10;
-							}
-						}
-						else r += 1;
+						rpt /= 2;
+						break;
 					}
-
+					else r += 1;
+					//
 					if (r == 3)
 					{
-						if (stt == 2 && spt == sptb)
+						if (stt == stb && spt == spb)
 						{
-							stt -= 1;
-							exit = true;
+							r = 0;
 						}
-						else if (stt == 2 && spt > 256)
+						else if (stt == stb && spt > spb)
 						{
 							spt /= 2;
-							exit = true;
+							break;
 						}
-						else if (stt == sttb && spt > sptb)
+						else if (stt > stb && spt == 256)
 						{
-							spt /= 2;
-							exit = true;
-						}
-						else if (stt == 2 && spt == 256)
-						{
-							stt = 1;
-							spt = 1024;
-							exit = true;
+							stt--;
+							break;
 						}
 						else r = 0;
-						
 					}
-					else
-					{
-						//if (r )
-						r = 0;
-						//opt -= 10;
-					}
+					else r = 0;
 				}
 				i--;
 			}
-			else return Sborki;
+			else
+			{
+				//Сбоираем следующую сборку пониже
+				if (op > 0) op -= 10;
+				if (gp > 0) gp -= 10;
+				if (pp > 0) pp -= 10;
+				//
+				if (rp > 4)
+				{
+					if ((configtype == 1 || configtype == 2) && op < 40) rp /= 2;
+					else if (configtype == 3 && op < 70 && rp > rpb) rp /= 2;
+					else if (configtype == 4 && op < 80 && rp > rpb) rp /= 2;
+				}
+				//
+				if (st == 2 && sp == 256) st -= 1;
+				else if (st == 1 && sp > 256) sp /= 2;
+				else if (st == 2 && sp > 256) sp /= 2;
+				//
+				//делаем значения текущими
+				opt = op;
+				gpt = gp;
+				ppt = pp;
+				rpt = rp;
+				spt = sp;
+				stt = st;
+			}
 
 		}
 	}

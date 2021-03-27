@@ -1,5 +1,9 @@
 #pragma once
+
 #include "MyForm.h"
+#include "Sborka.h"
+
+Sborka _sborka;
 
 namespace Project2 {
 
@@ -17,9 +21,11 @@ namespace Project2 {
 	{
 	public:
 
-		EditForm(void)
+		EditForm(Sborka sb)
 		{
 			InitializeComponent();
+
+			_sborka = sb;
 			//
 			//TODO: добавьте код конструктора
 			//
@@ -159,16 +165,54 @@ namespace Project2 {
 			this->Controls->Add(this->labelComponents);
 			this->Controls->Add(this->listAvailable);
 			this->Controls->Add(this->listComponents);
-			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+			this->MaximizeBox = false;
+			this->MinimizeBox = false;
 			this->Name = L"EditForm";
-			this->Text = L"EditForm";
+			this->RightToLeft = System::Windows::Forms::RightToLeft::No;
+			this->Text = L"Изменение конфигурации";
+			this->Load += gcnew System::EventHandler(this, &EditForm::EditForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		
 		this->Close();
+		
 	}
+private: System::Void EditForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	listComponents->Items->Clear();
+	//listBoxSysParts->Items->Clear();
+	//int _selected = listBoxConfig->SelectedIndex;
+
+	// Выбор критерия
+
+	//if (_selected == -1) return;
+	System::String^ str = gcnew String(_sborka.GetCard().GetName().c_str());
+	str = str + " (" + _sborka.GetCard().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetMother().GetName().c_str());
+	str = str + " (" + _sborka.GetMother().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetProts().GetName().c_str());
+	str = str + " (" + _sborka.GetProts().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetRam().GetName().c_str());
+	str = str + " (" + _sborka.GetRam().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetSata().GetName().c_str());
+	str = str + " (" + _sborka.GetSata().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetPower().GetName().c_str());
+	str = str + " (" + _sborka.GetPower().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+}
 };
 }

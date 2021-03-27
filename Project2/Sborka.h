@@ -35,5 +35,9 @@ public:
 	PowerBlock GetPower();
 
 	int GetCost();
+
+	bool operator==(Sborka DifSborka);
+
+	bool operator<(Sborka DifSborka);
 };
 

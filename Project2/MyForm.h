@@ -17,6 +17,7 @@ std::vector<SATA> _sats;
 std::vector<PowerBlock> _powers;
 std::vector<Sborka> _sborki;
 
+int _selected = -1;
 int _maxcost = 0, _mincost = 0;
 
 namespace Configurator {
@@ -69,9 +70,8 @@ namespace Configurator {
 	System::Windows::Forms::Label^ labelConfig;
 	System::Windows::Forms::Label^ labelComponents;
 	System::Windows::Forms::ListBox^ Memo;
-	private: System::Windows::Forms::Button^ buttonCreate;
-	private: System::Windows::Forms::Button^ buttonSetup;
 
+	private: System::Windows::Forms::Button^ buttonSetup;
 
 	private:
 		/// <summary>
@@ -101,7 +101,6 @@ namespace Configurator {
 			this->labelConfig = (gcnew System::Windows::Forms::Label());
 			this->labelComponents = (gcnew System::Windows::Forms::Label());
 			this->Memo = (gcnew System::Windows::Forms::ListBox());
-			this->buttonCreate = (gcnew System::Windows::Forms::Button());
 			this->buttonSetup = (gcnew System::Windows::Forms::Button());
 			this->Radioblock->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
@@ -303,19 +302,9 @@ namespace Configurator {
 			this->Memo->Size = System::Drawing::Size(662, 164);
 			this->Memo->TabIndex = 18;
 			// 
-			// buttonCreate
-			// 
-			this->buttonCreate->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->buttonCreate->Location = System::Drawing::Point(13, 215);
-			this->buttonCreate->Name = L"buttonCreate";
-			this->buttonCreate->Size = System::Drawing::Size(227, 32);
-			this->buttonCreate->TabIndex = 19;
-			this->buttonCreate->Text = L"Подобрать конфигурации";
-			this->buttonCreate->UseVisualStyleBackColor = true;
-			// 
 			// buttonSetup
 			// 
+			this->buttonSetup->Enabled = false;
 			this->buttonSetup->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->buttonSetup->Location = System::Drawing::Point(419, 216);
@@ -332,7 +321,6 @@ namespace Configurator {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(685, 430);
 			this->Controls->Add(this->buttonSetup);
-			this->Controls->Add(this->buttonCreate);
 			this->Controls->Add(this->Memo);
 			this->Controls->Add(this->labelComponents);
 			this->Controls->Add(this->labelConfig);
@@ -344,7 +332,9 @@ namespace Configurator {
 			this->Controls->Add(this->listBoxConfig);
 			this->Controls->Add(this->labelTo);
 			this->Controls->Add(this->labelFrom);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Margin = System::Windows::Forms::Padding(2);
+			this->MaximizeBox = false;
 			this->Name = L"MyForm";
 			this->Text = L"Рекомендация конфигурации ПК";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -365,6 +355,7 @@ namespace Configurator {
 	// Генерация сборки
 	void AddSborks(int configtype)
 	{
+		buttonSetup->Enabled = false;
 		// Выставление минимального и максимального бюджета
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
@@ -386,6 +377,23 @@ namespace Configurator {
 
 		int y = _sborki.size();
 
+		Sborka z;
+		for (int i = 1; i < y; i++)
+			for (int j = i - 1; j >= 0 && _sborki[j] < _sborki[j + 1]; j--)
+			{
+				z = _sborki[j]; _sborki[j] = _sborki[j + 1]; _sborki[j + 1] = z;
+			}
+
+		z = _sborki[0];
+		for (int i = 1; i < _sborki.size(); i++)
+			if (z == _sborki[i])
+			{
+				_sborki.erase(_sborki.begin() + i);
+				i--;
+			}
+			else z = _sborki[i];
+
+		y = _sborki.size();
 		for (int _i = 0; _i < y; _i++) 
 			listBoxConfig->Items->Add(String::Format("Сборка {0}", _i + 1));
 			
@@ -425,7 +433,9 @@ namespace Configurator {
 	{
 		Memo->Items->Clear();
 		listBoxSysParts->Items->Clear();
-		int _selected = listBoxConfig->SelectedIndex;
+		_selected = listBoxConfig->SelectedIndex;
+
+		buttonSetup->Enabled = true;
 
 		// Выбор критерия
 
@@ -515,11 +525,20 @@ private: System::Void numericFrom_KeyUp(System::Object^ sender, System::Windows:
 
 private: System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
 
-
-	Project2::EditForm^ Setup = gcnew Project2::EditForm();
+	Project2::EditForm^ Setup = gcnew Project2::EditForm(_sborki[_selected]);
+	Setup->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MyForm::Closessss);
 	this->Enabled = false;
 	Setup->Show();
 
 }
+
+private: System::Void Closessss(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
+{
+	this->Enabled = true;
+//	this->Memo->Items->Add("VOOOOOOOOOT");
+	sender = nullptr;
+	delete sender;
+}
+
 };
 }

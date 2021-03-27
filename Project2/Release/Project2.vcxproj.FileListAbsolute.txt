@@ -5,3 +5,4 @@ C:\Users\Вадим\Documents\GitHub\configurator\Project2\Release\Project2.vcxp
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Release\Project2.MyForm.resources
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Release\Project2.vcxproj.GenerateResource.cache
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Release\Project2.EditForm.resources
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Release\Project2.EditForm.resources
