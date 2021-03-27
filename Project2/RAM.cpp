@@ -1,9 +1,12 @@
 #include "RAM.h"
 
-void RAM::SetData(std::string name, int points, int cost)
+void RAM::SetData(std::string name, int gb, int cost)
 {
 	_ramname = name;
-	_points = points;
+	for (int i = 0; i < _ramname.size(); i++)
+		if (_ramname[i] == 95)	_ramname[i] = ' ';
+
+	_GB = gb;
 	_cost = cost;
 }
 
@@ -12,9 +15,9 @@ std::string RAM::GetName()
 	return _ramname;
 }
 
-int RAM::GetPoints()
+int RAM::GetGB()
 {
-	return _points;
+	return _GB;
 }
 
 int RAM::GetCost()

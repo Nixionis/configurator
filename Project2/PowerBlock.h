@@ -14,7 +14,7 @@ public:
 
 	std::string GetName();
 
-	int GetPoints();
+	int GetWatt();
 
 	int GetCost();
 

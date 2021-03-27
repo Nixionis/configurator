@@ -3,6 +3,9 @@
 void Motherboard::SetData(std::string name, int minpoints, int maxpoints, int cost, int size, int socket)
 {
 	_mothername = name;
+	for (int i = 0; i < _mothername.size(); i++)
+		if (_mothername[i] == 95)	_mothername[i] = ' ';
+
 	_minpoints = minpoints;
 	_maxpoints = maxpoints;
 	_cost = cost;

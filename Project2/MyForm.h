@@ -468,7 +468,7 @@ namespace Configurator {
 
 		String^ ozu;
 
-		if (_sborki[_selected].GetRam().GetPoints() <= 20) {
+		/*if (_sborki[_selected].GetRam().GetPoints() <= 20) {
 			ozu = "4 Гб";
 		}
 		else if (30 <= _sborki[_selected].GetRam().GetPoints() <= 50) {
@@ -479,7 +479,7 @@ namespace Configurator {
 		}
 		else if (90 <= _sborki[_selected].GetRam().GetPoints() <= 100) {
 			ozu = "32 Гб";
-		}
+		}*/
 
 		if (fullprice <= _maxcost) {
 			Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);

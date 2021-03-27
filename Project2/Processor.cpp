@@ -3,6 +3,9 @@
 void Processor::SetData(std::string name, int points, int cost, int socket, int tdp)
 {
 	_procname = name;
+	for (int i = 0; i < _procname.size(); i++)
+		if (_procname[i] == 95)	_procname[i] = ' ';
+
 	_points = points;
 	_cost = cost;
 	_socket = socket;
