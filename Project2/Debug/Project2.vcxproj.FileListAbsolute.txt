@@ -8,3 +8,4 @@ C:\Users\Вадим\Documents\GitHub\configurator\Project2\Debug\Project2.vcxpro
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Debug\Project2.MyForm.resources
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Debug\Project2.vcxproj.GenerateResource.cache
 C:\Users\Nix\Documents\GitHub\configurator\Project2\Debug\Project2.EditForm.resources
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Debug\Project2.EditForm.resources
