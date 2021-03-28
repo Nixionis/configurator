@@ -306,7 +306,7 @@ namespace Configurator {
 			this->Memo->ItemHeight = 20;
 			this->Memo->Location = System::Drawing::Point(12, 252);
 			this->Memo->Name = L"Memo";
-			this->Memo->Size = System::Drawing::Size(662, 164);
+			this->Memo->Size = System::Drawing::Size(832, 164);
 			this->Memo->TabIndex = 18;
 			// 
 			// buttonSetup
