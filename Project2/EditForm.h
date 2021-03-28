@@ -4,6 +4,7 @@
 #include "Sborka.h"
 
 Sborka _sborka;
+//Configurator::MyForm^ _MainForm;
 
 namespace Project2 {
 
@@ -14,18 +15,24 @@ namespace Project2 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+
 	/// <summary>
 	/// Сводка для EditForm
 	/// </summary>
 	public ref class EditForm : public System::Windows::Forms::Form
 	{
+
+	private: Configurator::MyForm^ _MainForm;
+
 	public:
 
-		EditForm(Sborka sb)
+		EditForm(Sborka sb, Configurator::MyForm^ MainForm)
 		{
 			InitializeComponent();
 
+			_MainForm = MainForm;
 			_sborka = sb;
+
 			//
 			//TODO: добавьте код конструктора
 			//
@@ -179,6 +186,7 @@ namespace Project2 {
 #pragma endregion
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		
+		_MainForm->
 		this->Close();
 		
 	}
