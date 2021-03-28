@@ -72,6 +72,8 @@ namespace Configurator {
 	System::Windows::Forms::ListBox^ Memo;
 
 	private: System::Windows::Forms::Button^ buttonSetup;
+	private: System::Windows::Forms::ListBox^ listSaved;
+	private: System::Windows::Forms::Label^ labelSaved;
 
 	private:
 		/// <summary>
@@ -102,6 +104,8 @@ namespace Configurator {
 			this->labelComponents = (gcnew System::Windows::Forms::Label());
 			this->Memo = (gcnew System::Windows::Forms::ListBox());
 			this->buttonSetup = (gcnew System::Windows::Forms::Button());
+			this->listSaved = (gcnew System::Windows::Forms::ListBox());
+			this->labelSaved = (gcnew System::Windows::Forms::Label());
 			this->Radioblock->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->BeginInit();
@@ -315,11 +319,36 @@ namespace Configurator {
 			this->buttonSetup->UseVisualStyleBackColor = true;
 			this->buttonSetup->Click += gcnew System::EventHandler(this, &MyForm::buttonSetup_Click);
 			// 
+			// listSaved
+			// 
+			this->listSaved->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->listSaved->FormattingEnabled = true;
+			this->listSaved->ItemHeight = 18;
+			this->listSaved->Location = System::Drawing::Point(680, 45);
+			this->listSaved->Margin = System::Windows::Forms::Padding(2);
+			this->listSaved->Name = L"listSaved";
+			this->listSaved->Size = System::Drawing::Size(164, 202);
+			this->listSaved->TabIndex = 21;
+			// 
+			// labelSaved
+			// 
+			this->labelSaved->AutoSize = true;
+			this->labelSaved->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelSaved->Location = System::Drawing::Point(676, 16);
+			this->labelSaved->Name = L"labelSaved";
+			this->labelSaved->Size = System::Drawing::Size(96, 20);
+			this->labelSaved->TabIndex = 22;
+			this->labelSaved->Text = L"Мои сборки";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(685, 430);
+			this->ClientSize = System::Drawing::Size(855, 430);
+			this->Controls->Add(this->labelSaved);
+			this->Controls->Add(this->listSaved);
 			this->Controls->Add(this->buttonSetup);
 			this->Controls->Add(this->Memo);
 			this->Controls->Add(this->labelComponents);
