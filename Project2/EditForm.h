@@ -1,9 +1,9 @@
 #pragma once
 
+#include <vector>
 #include "MyForm.h"
 #include "Sborka.h"
 
-Sborka _sborka;
 //Configurator::MyForm^ _MainForm;
 
 namespace Project2 {
@@ -15,23 +15,31 @@ namespace Project2 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+	std::vector<GraphicsCard> _cardss;
+	std::vector<Motherboard> _motherss;
+	std::vector<Processor> _processorss;
+	std::vector<RAM> _ramss;
+	std::vector<SATA> _satss;
+	std::vector<PowerBlock> _powerss;
+	Sborka _sborka;
 
 	/// <summary>
 	/// Сводка для EditForm
 	/// </summary>
 	public ref class EditForm : public System::Windows::Forms::Form
-	{
+	{			
 
-	private: Configurator::MyForm^ _MainForm;
-
+		int comsel = -1;
 	public:
 
-		EditForm(Sborka sb, Configurator::MyForm^ MainForm)
+		EditForm(Void)//(Sborka sb)//, Configurator::MyForm^ MainForm)
 		{
 			InitializeComponent();
 
-			_MainForm = MainForm;
-			_sborka = sb;
+			//_MainForm = MainForm;
+			//_sborka = sb;
+			//_MainForm->SetMemoTest("fjlvkfdjlfkdj");
+			//_MainForm->Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
 
 			//
 			//TODO: добавьте код конструктора
@@ -92,6 +100,7 @@ namespace Project2 {
 			this->listComponents->Name = L"listComponents";
 			this->listComponents->Size = System::Drawing::Size(256, 244);
 			this->listComponents->TabIndex = 0;
+			this->listComponents->DoubleClick += gcnew System::EventHandler(this, &EditForm::listComponents_DoubleClick);
 			// 
 			// listAvailable
 			// 
@@ -103,6 +112,7 @@ namespace Project2 {
 			this->listAvailable->Name = L"listAvailable";
 			this->listAvailable->Size = System::Drawing::Size(256, 244);
 			this->listAvailable->TabIndex = 1;
+			this->listAvailable->DoubleClick += gcnew System::EventHandler(this, &EditForm::listAvailable_DoubleClick);
 			// 
 			// labelComponents
 			// 
@@ -136,6 +146,7 @@ namespace Project2 {
 			this->buttonClose->TabIndex = 4;
 			this->buttonClose->Text = L"Сохранить";
 			this->buttonClose->UseVisualStyleBackColor = true;
+			this->buttonClose->Click += gcnew System::EventHandler(this, &EditForm::buttonClose_Click);
 			// 
 			// listNote
 			// 
@@ -184,20 +195,72 @@ namespace Project2 {
 
 		}
 #pragma endregion
+
+public: delegate void EventDelegate1(System::Object^ sender, System::EventArgs^ e, Sborka mysb);
+public: event EventDelegate1^ myEvent1;
+
+	  public: delegate void EventDelegate2(System::Object^ sender, System::EventArgs^ e);
+public: event EventDelegate2^ myEvent2;
+
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		
-		_MainForm->
-		this->Close();
-		
+		//_sborka.clear();
+		myEvent2(this, e);
+		this->Hide();	
 	}
 private: System::Void EditForm_Load(System::Object^ sender, System::EventArgs^ e) {
-	listComponents->Items->Clear();
+
 	//listBoxSysParts->Items->Clear();
 	//int _selected = listBoxConfig->SelectedIndex;
 
 	// Выбор критерия
 
 	//if (_selected == -1) return;
+	/*System::String^ str = gcnew String(_sborka.GetCard().GetName().c_str());
+	str = str + " (" + _sborka.GetCard().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetMother().GetName().c_str());
+	str = str + " (" + _sborka.GetMother().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetProts().GetName().c_str());
+	str = str + " (" + _sborka.GetProts().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetRam().GetName().c_str());
+	str = str + " (" + _sborka.GetRam().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetSata().GetName().c_str());
+	str = str + " (" + _sborka.GetSata().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);
+
+	str = gcnew String(_sborka.GetPower().GetName().c_str());
+	str = str + " (" + _sborka.GetPower().GetCost().ToString() + "р.)";
+	listComponents->Items->Add(str);*/
+}
+private: System::Void buttonClose_Click(System::Object^ sender, System::EventArgs^ e) {
+	//_MainForm->listsaved->
+	myEvent1(this, e, _sborka);
+	this->Hide();
+}
+public: void SetDatas(std::vector<GraphicsCard> cards,
+	std::vector<Motherboard> mboards, std::vector<Processor> procs,
+	std::vector<RAM> rams, std::vector<SATA> sats, std::vector<PowerBlock> powers)
+{
+	_cardss = cards;
+	_motherss = mboards;
+	_processorss = procs;
+	_ramss = rams;
+	_satss = sats;
+	_powerss = powers;
+}
+public: void SetSborka(Sborka sbor)
+{
+	_sborka = sbor;
+	
+	listComponents->Items->Clear();
+
 	System::String^ str = gcnew String(_sborka.GetCard().GetName().c_str());
 	str = str + " (" + _sborka.GetCard().GetCost().ToString() + "р.)";
 	listComponents->Items->Add(str);
@@ -221,6 +284,119 @@ private: System::Void EditForm_Load(System::Object^ sender, System::EventArgs^ e
 	str = gcnew String(_sborka.GetPower().GetName().c_str());
 	str = str + " (" + _sborka.GetPower().GetCost().ToString() + "р.)";
 	listComponents->Items->Add(str);
+
+}
+private: System::Void listComponents_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
+{
+	System::String^ str;
+	listAvailable->Items->Clear();
+	int _selected = listComponents->SelectedIndex;
+	if (_selected == -1) return;
+	else if (_selected == 0)
+	{
+		int y = _cardss.size();
+		for (int i = 0; i < y; i++)
+		{
+			str = gcnew String((_cardss)[i].GetName().c_str());
+			str = str + " (" + (_cardss)[i].GetCost().ToString() + "р.)";
+			listAvailable->Items->Add(str);
+		}
+	}
+	else if (_selected == 1)
+	{
+		int y = _motherss.size();
+		for (int i = 0; i < y; i++)
+		{
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="sender"></param>
+			/// <param name="e"></param>
+			/// <returns></returns>
+			str = gcnew String(_motherss[i].GetName().c_str());
+			str = str + " (" + _motherss[i].GetCost().ToString() + "р.)";
+			listAvailable->Items->Add(str);
+		}
+	}
+	else if (_selected == 2)
+	{
+		int y = _processorss.size();
+		for (int i = 0; i < y; i++)
+		{
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="sender"></param>
+			/// <param name="e"></param>
+			/// <returns></returns>
+			str = gcnew String(_processorss[i].GetName().c_str());
+			str = str + " (" + _processorss[i].GetCost().ToString() + "р.)";
+			listAvailable->Items->Add(str);
+		}
+	}
+	else if (_selected == 3)
+	{
+		int y = _ramss.size();
+		for (int i = 0; i < y; i++)
+		{
+			str = gcnew String(_ramss[i].GetName().c_str());
+			str = str + " (" + _ramss[i].GetCost().ToString() + "р.)";
+			listAvailable->Items->Add(str);
+		}
+	}
+	else if (_selected == 4)
+	{
+		int y = _satss.size();
+		for (int i = 0; i < y; i++)
+		{
+			str = gcnew String(_satss[i].GetName().c_str());
+			str = str + " (" + _satss[i].GetCost().ToString() + "р.)";
+			listAvailable->Items->Add(str);
+		}
+	}
+	else if (_selected == 5)
+	{
+		int y = _powerss.size();
+		for (int i = 0; i < y; i++)
+		{
+			str = gcnew String(_powerss[i].GetName().c_str());
+			str = str + " (" + _powerss[i].GetCost().ToString() + "р.)";
+			listAvailable->Items->Add(str);
+		}
+	}
+	comsel = _selected;
+
+}
+private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
+	int componentselect = listAvailable->SelectedIndex;
+	if (componentselect == -1) return;
+	else
+	{
+		if (comsel == 0)
+		{
+			_sborka.SetConfig(_cardss[componentselect], _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
+		}
+		else if (comsel == 1)
+		{
+			_sborka.SetConfig(_sborka.GetCard(), _motherss[componentselect], _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
+		}
+		else if (comsel == 2)
+		{
+			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _processorss[componentselect], _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
+		}
+		else if (comsel == 3)
+		{
+			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _ramss[componentselect], _sborka.GetSata(), _sborka.GetPower());
+		}
+		else if (comsel == 4)
+		{
+			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _satss[componentselect], _sborka.GetPower());
+		}
+		else if (comsel == 5)
+		{
+			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _powerss[componentselect]);
+		}
+	}
 }
 };
 }

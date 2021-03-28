@@ -16,6 +16,7 @@ std::vector<RAM> _rams;
 std::vector<SATA> _sats;
 std::vector<PowerBlock> _powers;
 std::vector<Sborka> _sborki;
+std::vector<Sborka> _savedsborki;
 
 int _selected = -1;
 int _maxcost = 0, _mincost = 0;
@@ -34,6 +35,8 @@ namespace Configurator {
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
+	private: Project2::EditForm^ ef1;
+
 	public:
 		MyForm(void)
 		{
@@ -330,6 +333,7 @@ namespace Configurator {
 			this->listSaved->Name = L"listSaved";
 			this->listSaved->Size = System::Drawing::Size(164, 202);
 			this->listSaved->TabIndex = 21;
+			this->listSaved->DoubleClick += gcnew System::EventHandler(this, &MyForm::listSaved_DoubleClick);
 			// 
 			// labelSaved
 			// 
@@ -449,14 +453,40 @@ namespace Configurator {
 	/// <summary>
 	/// Load
 	/// </summary>
+	
+	private: void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb)
+	{
+		_savedsborki.push_back(mysb);
+		listSaved->Items->Clear();
+
+		int y = _savedsborki.size();
+		for (int _i = 0; _i < y; _i++)
+			listSaved->Items->Add(String::Format("Сборка {0}", _i + 1));
+
+		this->Enabled = true;
+	}
+
+	private: void mySubscriber1b(System::Object^ sender, System::EventArgs^ e)
+	{
+		this->Enabled = true;
+	}
+
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	{
+		this->ef1 = gcnew Project2::EditForm();
+		ef1->myEvent1 += gcnew Project2::EditForm::EventDelegate1
+		(this, &Configurator::MyForm::mySubscriber1a);
+
+		ef1->myEvent2 += gcnew Project2::EditForm::EventDelegate2
+		(this, &Configurator::MyForm::mySubscriber1b);
+
 		_cards = LoadGraphicsData();
 		_mothers = LoadMothersData();
 		_processors = LoadProcData();
 		_rams = LoadRAMData();
 		_sats = LoadSATAData();
 		_powers = LoadPowerData();
+		ef1->SetDatas(_cards, _mothers, _processors, _rams, _sats, _powers);
 	}
 	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
@@ -554,20 +584,79 @@ private: System::Void numericFrom_KeyUp(System::Object^ sender, System::Windows:
 
 private: System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
 
-	Project2::EditForm^ Setup = gcnew Project2::EditForm(_sborki[_selected]);
-	Setup->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MyForm::Closessss);
+	ef1->SetSborka(_sborki[_selected]);
+	ef1->Show();
 	this->Enabled = false;
-	Setup->Show();
+	//Setup->Show();
 
 }
 
-private: System::Void Closessss(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
-{
-	this->Enabled = true;
-//	this->Memo->Items->Add("VOOOOOOOOOT");
-	sender = nullptr;
-	delete sender;
-}
+private: System::Void listSaved_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
+	Memo->Items->Clear();
+	listBoxSysParts->Items->Clear();
+	_selected = listSaved->SelectedIndex;
 
+	buttonSetup->Enabled = true;
+
+	// Выбор критерия
+
+	if (_selected == -1) return;
+	System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
+	str = str + " (" + _sborki[_selected].GetCard().GetCost().ToString() + "р.)";
+	listBoxSysParts->Items->Add(str);
+
+	str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
+	str = str + " (" + _sborki[_selected].GetMother().GetCost().ToString() + "р.)";
+	listBoxSysParts->Items->Add(str);
+
+	str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
+	str = str + " (" + _sborki[_selected].GetProts().GetCost().ToString() + "р.)";
+	listBoxSysParts->Items->Add(str);
+
+	str = gcnew String(_sborki[_selected].GetRam().GetName().c_str());
+	str = str + " (" + _sborki[_selected].GetRam().GetCost().ToString() + "р.)";
+	listBoxSysParts->Items->Add(str);
+
+	str = gcnew String(_sborki[_selected].GetSata().GetName().c_str());
+	str = str + " (" + _sborki[_selected].GetSata().GetCost().ToString() + "р.)";
+	listBoxSysParts->Items->Add(str);
+
+	str = gcnew String(_sborki[_selected].GetPower().GetName().c_str());
+	str = str + " (" + _sborki[_selected].GetPower().GetCost().ToString() + "р.)";
+	listBoxSysParts->Items->Add(str);
+
+
+
+	int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
+	String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
+	String^ price = fullprice.ToString();
+
+	Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
+
+	if (_selected == 0) {
+		Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
+	}
+
+	String^ ozu;
+
+	/*if (_sborki[_selected].GetRam().GetPoints() <= 20) {
+		ozu = "4 Гб";
+	}
+	else if (30 <= _sborki[_selected].GetRam().GetPoints() <= 50) {
+		ozu = "8 Гб";
+	}
+	else if (60 <= _sborki[_selected].GetRam().GetPoints() <= 80) {
+		ozu = "16 Гб";
+	}
+	else if (90 <= _sborki[_selected].GetRam().GetPoints() <= 100) {
+		ozu = "32 Гб";
+	}*/
+
+	if (fullprice <= _maxcost) {
+		Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
+		Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
+	}
+
+}
 };
 }

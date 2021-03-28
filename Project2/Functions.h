@@ -213,11 +213,11 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 	srand(time(NULL));
 
-	float OverallPoints = 50;
-	float GrahpicPoints = 40;
-	float ProccessorPoints = 40;
-	float RamPoints = 8;
-	float SataPoints = 512;
+	int OverallPoints = 50;
+	int GrahpicPoints = 40;
+	int ProccessorPoints = 40;
+	int RamPoints = 8;
+	int SataPoints = 512;
 	int SataType = 1;
 
 	//Очки мощности от типа
