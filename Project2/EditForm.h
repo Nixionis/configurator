@@ -396,6 +396,7 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 		{
 			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _powerss[componentselect]);
 		}
+		SetSborka(_sborka);
 	}
 }
 };

@@ -601,37 +601,37 @@ private: System::Void listSaved_DoubleClick(System::Object^ sender, System::Even
 	// Выбор критерия
 
 	if (_selected == -1) return;
-	System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
-	str = str + " (" + _sborki[_selected].GetCard().GetCost().ToString() + "р.)";
+	System::String^ str = gcnew String(_savedsborki[_selected].GetCard().GetName().c_str());
+	str = str + " (" + _savedsborki[_selected].GetCard().GetCost().ToString() + "р.)";
 	listBoxSysParts->Items->Add(str);
 
-	str = gcnew String(_sborki[_selected].GetMother().GetName().c_str());
-	str = str + " (" + _sborki[_selected].GetMother().GetCost().ToString() + "р.)";
+	str = gcnew String(_savedsborki[_selected].GetMother().GetName().c_str());
+	str = str + " (" + _savedsborki[_selected].GetMother().GetCost().ToString() + "р.)";
 	listBoxSysParts->Items->Add(str);
 
-	str = gcnew String(_sborki[_selected].GetProts().GetName().c_str());
-	str = str + " (" + _sborki[_selected].GetProts().GetCost().ToString() + "р.)";
+	str = gcnew String(_savedsborki[_selected].GetProts().GetName().c_str());
+	str = str + " (" + _savedsborki[_selected].GetProts().GetCost().ToString() + "р.)";
 	listBoxSysParts->Items->Add(str);
 
-	str = gcnew String(_sborki[_selected].GetRam().GetName().c_str());
-	str = str + " (" + _sborki[_selected].GetRam().GetCost().ToString() + "р.)";
+	str = gcnew String(_savedsborki[_selected].GetRam().GetName().c_str());
+	str = str + " (" + _savedsborki[_selected].GetRam().GetCost().ToString() + "р.)";
 	listBoxSysParts->Items->Add(str);
 
-	str = gcnew String(_sborki[_selected].GetSata().GetName().c_str());
-	str = str + " (" + _sborki[_selected].GetSata().GetCost().ToString() + "р.)";
+	str = gcnew String(_savedsborki[_selected].GetSata().GetName().c_str());
+	str = str + " (" + _savedsborki[_selected].GetSata().GetCost().ToString() + "р.)";
 	listBoxSysParts->Items->Add(str);
 
-	str = gcnew String(_sborki[_selected].GetPower().GetName().c_str());
-	str = str + " (" + _sborki[_selected].GetPower().GetCost().ToString() + "р.)";
+	str = gcnew String(_savedsborki[_selected].GetPower().GetName().c_str());
+	str = str + " (" + _savedsborki[_selected].GetPower().GetCost().ToString() + "р.)";
 	listBoxSysParts->Items->Add(str);
 
 
 
-	int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
-	String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
+	int fullprice = _savedsborki[_selected].GetCost() + _savedsborki[_selected].GetRam().GetCost();
+	String^ ramprice = (fullprice - _savedsborki[_selected].GetCost()).ToString() + "р.";
 	String^ price = fullprice.ToString();
 
-	Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
+	Memo->Items->Add("Цена сборки: " + _savedsborki[_selected].GetCost().ToString() + " р.");
 
 	if (_selected == 0) {
 		Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
