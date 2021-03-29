@@ -73,6 +73,7 @@ namespace Configurator {
 	System::Windows::Forms::Button^ buttonSetup;
 	System::Windows::Forms::ListBox^ listSaved;
 	System::Windows::Forms::Label^ labelSaved;
+	private: System::Windows::Forms::Button^ buttonSave;
 
 	/// <summary>
 	/// Required designer variable.
@@ -104,6 +105,7 @@ namespace Configurator {
 			this->buttonSetup = (gcnew System::Windows::Forms::Button());
 			this->listSaved = (gcnew System::Windows::Forms::ListBox());
 			this->labelSaved = (gcnew System::Windows::Forms::Label());
+			this->buttonSave = (gcnew System::Windows::Forms::Button());
 			this->Radioblock->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->BeginInit();
@@ -202,7 +204,7 @@ namespace Configurator {
 			this->listBoxConfig->Location = System::Drawing::Point(249, 45);
 			this->listBoxConfig->Margin = System::Windows::Forms::Padding(2);
 			this->listBoxConfig->Name = L"listBoxConfig";
-			this->listBoxConfig->Size = System::Drawing::Size(164, 202);
+			this->listBoxConfig->Size = System::Drawing::Size(164, 166);
 			this->listBoxConfig->TabIndex = 10;
 			this->listBoxConfig->DoubleClick += gcnew System::EventHandler(this, &MyForm::listBoxConfig_DoubleClick);
 			// 
@@ -341,11 +343,24 @@ namespace Configurator {
 			this->labelSaved->TabIndex = 22;
 			this->labelSaved->Text = L"Сохраненные сборки";
 			// 
+			// buttonSave
+			// 
+			this->buttonSave->Enabled = false;
+			this->buttonSave->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->buttonSave->Location = System::Drawing::Point(249, 216);
+			this->buttonSave->Name = L"buttonSave";
+			this->buttonSave->Size = System::Drawing::Size(164, 32);
+			this->buttonSave->TabIndex = 23;
+			this->buttonSave->Text = L"Сохранить";
+			this->buttonSave->UseVisualStyleBackColor = true;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(855, 430);
+			this->Controls->Add(this->buttonSave);
 			this->Controls->Add(this->labelSaved);
 			this->Controls->Add(this->listSaved);
 			this->Controls->Add(this->buttonSetup);
@@ -501,6 +516,8 @@ namespace Configurator {
 		listBoxSysParts->Items->Clear();
 		_selected = listBoxConfig->SelectedIndex;
 
+		listSaved->SelectedIndex = -1;
+
 		buttonSetup->Enabled = true;
 		if (_selected == -1) return;
 
@@ -596,6 +613,8 @@ namespace Configurator {
 
 		buttonSetup->Enabled = true;
 		if (_selected == -1) return;
+
+		listBoxConfig->SelectedIndex = -1;
 
 		//Вывод комплектации
 		System::String^ str = gcnew String(_savedsborki[_selected].GetCard().GetName().c_str());
