@@ -337,9 +337,9 @@ namespace Configurator {
 				static_cast<System::Byte>(204)));
 			this->labelSaved->Location = System::Drawing::Point(676, 16);
 			this->labelSaved->Name = L"labelSaved";
-			this->labelSaved->Size = System::Drawing::Size(96, 20);
+			this->labelSaved->Size = System::Drawing::Size(166, 20);
 			this->labelSaved->TabIndex = 22;
-			this->labelSaved->Text = L"Мои сборки";
+			this->labelSaved->Text = L"Сохраненные сборки";
 			// 
 			// MyForm
 			// 
@@ -583,6 +583,7 @@ namespace Configurator {
 	//Нажата кнопка замены
 	System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
 		ef1->SetSborka(_sborki[_selected]);
+		ef1->ClearLists();
 		ef1->Show();
 		this->Enabled = false;
 	}

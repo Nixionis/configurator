@@ -226,7 +226,7 @@ public: void SetDatas(std::vector<GraphicsCard> cards,
 public: void SetSborka(Sborka sbor)
 {
 	_sborka = sbor;
-	listAvailable->Items->Clear();
+//	listAvailable->Items->Clear();
 	listComponents->Items->Clear();
 
 	System::String^ str = gcnew String(_sborka.GetCard().GetName().c_str());
@@ -254,6 +254,12 @@ public: void SetSborka(Sborka sbor)
 	listComponents->Items->Add(str);
 
 }
+
+	  void ClearLists()
+	  {
+		  listComponents->Items->Clear();
+		  listAvailable->Items->Clear();
+	  }
 private: System::Void listComponents_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 {
 	System::String^ str;
