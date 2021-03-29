@@ -30,6 +30,7 @@ namespace Project2 {
 	{			
 
 		int comsel = -1;
+		int k = 0;
 	public:
 
 		EditForm(Void)//(Sborka sb)//, Configurator::MyForm^ MainForm)
@@ -196,7 +197,7 @@ namespace Project2 {
 		}
 #pragma endregion
 
-public: delegate void EventDelegate1(System::Object^ sender, System::EventArgs^ e, Sborka mysb);
+public: delegate void EventDelegate1(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type);
 public: event EventDelegate1^ myEvent1;
 
 	  public: delegate void EventDelegate2(System::Object^ sender, System::EventArgs^ e);
@@ -209,7 +210,7 @@ public: event EventDelegate2^ myEvent2;
 	}
 private: System::Void buttonClose_Click(System::Object^ sender, System::EventArgs^ e) {
 	//_MainForm->listsaved->
-	myEvent1(this, e, _sborka);
+	myEvent1(this, e, _sborka, k);
 	this->Hide();
 }
 public: void SetDatas(std::vector<GraphicsCard> cards,
@@ -223,9 +224,10 @@ public: void SetDatas(std::vector<GraphicsCard> cards,
 	_satss = sats;
 	_powerss = powers;
 }
-public: void SetSborka(Sborka sbor)
+public: void SetSborka(Sborka sbor, int type)
 {
 	_sborka = sbor;
+	k = type;
 //	listAvailable->Items->Clear();
 	listComponents->Items->Clear();
 
@@ -357,7 +359,7 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 	else if (comsel == 4) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _satss[componentselect], _sborka.GetPower());
 	else if (comsel == 5) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _powerss[componentselect]);
 			
-	SetSborka(_sborka);
+	SetSborka(_sborka, k);
 	
 	buttonClose->Enabled = true;
 	

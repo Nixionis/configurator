@@ -1,10 +1,10 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (Project2.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Project2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   MyForm.cpp
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(214,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(444,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(493,21): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(563,15): warning C4804: <=: небезопасное использование типа "bool" в операции
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(566,15): warning C4804: <=: небезопасное использование типа "bool" в операции
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(569,15): warning C4804: <=: небезопасное использование типа "bool" в операции
-  EditForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
-  Project2.vcxproj -> C:\Users\Вадим\Documents\GitHub\configurator\Debug\Configurator.exe
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(214,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(444,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(500,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(571,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(574,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(577,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+  EditForm.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Debug\Configurator.exe

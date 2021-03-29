@@ -18,7 +18,7 @@ std::vector<PowerBlock> _powers;
 std::vector<Sborka> _sborki;
 std::vector<Sborka> _savedsborki;
 
-int _selected = -1;
+int _selected = -1, _saveselected = -1;
 int _maxcost = 0, _mincost = 0;
 
 namespace Configurator {
@@ -354,6 +354,7 @@ namespace Configurator {
 			this->buttonSave->TabIndex = 23;
 			this->buttonSave->Text = L"Сохранить";
 			this->buttonSave->UseVisualStyleBackColor = true;
+			this->buttonSave->Click += gcnew System::EventHandler(this, &MyForm::buttonSave_Click);
 			// 
 			// MyForm
 			// 
@@ -412,10 +413,12 @@ namespace Configurator {
 	}
 
 	//Свзяка событий с формой про замену
-	void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb)
+	void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type)
 	{
 		//Получили сохраненную сборку
-		_savedsborki.push_back(mysb);
+		if (type == 0) _savedsborki.push_back(mysb);
+		else _savedsborki[type-1] = mysb;
+
 		listSaved->Items->Clear();
 		//Добавить в лист сохраненок
 		int y = _savedsborki.size();
@@ -423,6 +426,9 @@ namespace Configurator {
 			listSaved->Items->Add(String::Format("Сборка {0}", _i + 1));
 
 		this->Enabled = true;
+		listBoxSysParts->Items->Clear();
+
+		if(type != 0) buttonSave->Enabled = false;
 	}
 
 	void mySubscriber1b(System::Object^ sender, System::EventArgs^ e)
@@ -517,9 +523,10 @@ namespace Configurator {
 		_selected = listBoxConfig->SelectedIndex;
 
 		listSaved->SelectedIndex = -1;
-
-		buttonSetup->Enabled = true;
+		
 		if (_selected == -1) return;
+		buttonSetup->Enabled = true;
+		buttonSave->Enabled = true;
 
 		//Вывод компонентов сборки
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
@@ -599,8 +606,17 @@ namespace Configurator {
 	}
 	//Нажата кнопка замены
 	System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
-		ef1->SetSborka(_sborki[_selected]);
+		
 		ef1->ClearLists();
+		if (listSaved->SelectedIndex == -1)
+		{
+			ef1->SetSborka(_sborki[_selected], 0);
+		}
+		else if (listBoxConfig->SelectedIndex == -1)
+		{
+			ef1->SetSborka(_savedsborki[_saveselected], _saveselected+1);
+		}
+		//ef1->ClearLists();
 		ef1->Show();
 		this->Enabled = false;
 	}
@@ -609,51 +625,67 @@ namespace Configurator {
 		//Очищаем тексты
 		Memo->Items->Clear();
 		listBoxSysParts->Items->Clear();
-		_selected = listSaved->SelectedIndex;
+		_saveselected = listSaved->SelectedIndex;
 
 		buttonSetup->Enabled = true;
-		if (_selected == -1) return;
-
+		if (_saveselected == -1) return;
+		buttonSave->Enabled = false;
 		listBoxConfig->SelectedIndex = -1;
 
 		//Вывод комплектации
-		System::String^ str = gcnew String(_savedsborki[_selected].GetCard().GetName().c_str());
-		str = str + " (" + _savedsborki[_selected].GetCard().GetCost().ToString() + "р.)";
+		System::String^ str = gcnew String(_savedsborki[_saveselected].GetCard().GetName().c_str());
+		str = str + " (" + _savedsborki[_saveselected].GetCard().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		str = gcnew String(_savedsborki[_selected].GetMother().GetName().c_str());
-		str = str + " (" + _savedsborki[_selected].GetMother().GetCost().ToString() + "р.)";
+		str = gcnew String(_savedsborki[_saveselected].GetMother().GetName().c_str());
+		str = str + " (" + _savedsborki[_saveselected].GetMother().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		str = gcnew String(_savedsborki[_selected].GetProts().GetName().c_str());
-		str = str + " (" + _savedsborki[_selected].GetProts().GetCost().ToString() + "р.)";
+		str = gcnew String(_savedsborki[_saveselected].GetProts().GetName().c_str());
+		str = str + " (" + _savedsborki[_saveselected].GetProts().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		str = gcnew String(_savedsborki[_selected].GetRam().GetName().c_str());
-		str = str + " (" + _savedsborki[_selected].GetRam().GetCost().ToString() + "р.)";
+		str = gcnew String(_savedsborki[_saveselected].GetRam().GetName().c_str());
+		str = str + " (" + _savedsborki[_saveselected].GetRam().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		str = gcnew String(_savedsborki[_selected].GetSata().GetName().c_str());
-		str = str + " (" + _savedsborki[_selected].GetSata().GetCost().ToString() + "р.)";
+		str = gcnew String(_savedsborki[_saveselected].GetSata().GetName().c_str());
+		str = str + " (" + _savedsborki[_saveselected].GetSata().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		str = gcnew String(_savedsborki[_selected].GetPower().GetName().c_str());
-		str = str + " (" + _savedsborki[_selected].GetPower().GetCost().ToString() + "р.)";
+		str = gcnew String(_savedsborki[_saveselected].GetPower().GetName().c_str());
+		str = str + " (" + _savedsborki[_saveselected].GetPower().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		int fullprice = _savedsborki[_selected].GetCost() + _savedsborki[_selected].GetRam().GetCost();
-		String^ ramprice = (fullprice - _savedsborki[_selected].GetCost()).ToString() + "р.";
+		int fullprice = _savedsborki[_saveselected].GetCost() + _savedsborki[_saveselected].GetRam().GetCost();
+		String^ ramprice = (fullprice - _savedsborki[_saveselected].GetCost()).ToString() + "р.";
 		String^ price = fullprice.ToString();
 
-		Memo->Items->Add("Цена сборки: " + _savedsborki[_selected].GetCost().ToString() + " р.");
+		Memo->Items->Add("Цена сборки: " + _savedsborki[_saveselected].GetCost().ToString() + " р.");
 
-		if (abs(_savedsborki[_selected].GetCard().GetPoints() - _savedsborki[_selected].GetProts().GetPoints()) > 30)
+		if (abs(_savedsborki[_saveselected].GetCard().GetPoints() - _savedsborki[_saveselected].GetProts().GetPoints()) > 30)
 		{
 			Memo->Items->Add("Не оптимальная сборка - нарушен баланс видеокарты и процессора.");
 
-			if (_savedsborki[_selected].GetCard().GetPoints() > _savedsborki[_selected].GetProts().GetPoints()) Memo->Items->Add("Слишком мощная видеокарта.");
+			if (_savedsborki[_saveselected].GetCard().GetPoints() > _savedsborki[_saveselected].GetProts().GetPoints()) Memo->Items->Add("Слишком мощная видеокарта.");
 			else  Memo->Items->Add("Слишком мощный процессор.");
 		}
 	}
+private: System::Void buttonSave_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (listBoxConfig->SelectedIndex == -1) return;
+
+	//Получили сохраненную сборку
+	_savedsborki.push_back(_sborki[listBoxConfig->SelectedIndex]);
+
+	listSaved->Items->Clear();
+	//Добавить в лист сохраненок
+	int y = _savedsborki.size();
+	for (int _i = 0; _i < y; _i++)
+		listSaved->Items->Add(String::Format("Сборка {0}", _i + 1));
+
+	//this->Enabled = true;
+	//listBoxSysParts->Items->Clear();
+
+}
 };
 }
