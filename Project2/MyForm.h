@@ -35,15 +35,12 @@ namespace Configurator {
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
-	private: Project2::EditForm^ ef1;
+	
 
 	public:
 		MyForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
@@ -52,12 +49,12 @@ namespace Configurator {
 		/// </summary>
 		~MyForm()
 		{
-			if (components)
-			{
-				delete components;
-			}
+			if (components)	delete components;
 		}
+
 	private: 
+	Project2::EditForm^ ef1;//Форма с заменой комплектующих в сборке
+
 	System::Windows::Forms::RadioButton^ radioOffice;
 	System::Windows::Forms::RadioButton^ radioHome;
 	System::Windows::Forms::RadioButton^ radioGame;
@@ -73,16 +70,14 @@ namespace Configurator {
 	System::Windows::Forms::Label^ labelConfig;
 	System::Windows::Forms::Label^ labelComponents;
 	System::Windows::Forms::ListBox^ Memo;
+	System::Windows::Forms::Button^ buttonSetup;
+	System::Windows::Forms::ListBox^ listSaved;
+	System::Windows::Forms::Label^ labelSaved;
 
-	private: System::Windows::Forms::Button^ buttonSetup;
-	private: System::Windows::Forms::ListBox^ listSaved;
-	private: System::Windows::Forms::Label^ labelSaved;
-
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+	/// <summary>
+	/// Required designer variable.
+	/// </summary>
+	System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -380,25 +375,85 @@ namespace Configurator {
 
 		}
 #pragma endregion
-	/// <summary>
-	/// Radio Buttons
-	/// </summary>
-	
+
+	private: 
+	System::Void radioHome_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		AddSborks(1);
+	}
+
+	System::Void radioOffice_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		AddSborks(2);
+	}
+
+	System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		AddSborks(3);
+	}
+	System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		AddSborks(4);
+	}
+
+	//Свзяка событий с формой про замену
+	void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb)
+	{
+		//Получили сохраненную сборку
+		_savedsborki.push_back(mysb);
+		listSaved->Items->Clear();
+		//Добавить в лист сохраненок
+		int y = _savedsborki.size();
+		for (int _i = 0; _i < y; _i++)
+			listSaved->Items->Add(String::Format("Сборка {0}", _i + 1));
+
+		this->Enabled = true;
+	}
+
+	void mySubscriber1b(System::Object^ sender, System::EventArgs^ e)
+	{
+		//Просто закрыли форму
+		this->Enabled = true;
+	}
+
+	System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e)
+	{
+		//Связка события с сохранением сборки
+		this->ef1 = gcnew Project2::EditForm();
+		ef1->myEvent1 += gcnew Project2::EditForm::EventDelegate1
+		(this, &Configurator::MyForm::mySubscriber1a);
+		//Свзяка событий с отменой
+		ef1->myEvent2 += gcnew Project2::EditForm::EventDelegate2
+		(this, &Configurator::MyForm::mySubscriber1b);
+
+		//Загрузка в базу дынных
+		_cards = LoadGraphicsData();
+		_mothers = LoadMothersData();
+		_processors = LoadProcData();
+		_rams = LoadRAMData();
+		_sats = LoadSATAData();
+		_powers = LoadPowerData();
+		ef1->SetDatas(_cards, _mothers, _processors, _rams, _sats, _powers);
+	}
 
 	// Генерация сборки
 	void AddSborks(int configtype)
 	{
 		buttonSetup->Enabled = false;
+
 		// Выставление минимального и максимального бюджета
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
+
 		// Чистка лист боксов
 		listBoxSysParts->Items->Clear();
 		listBoxConfig->Items->Clear();
 		Memo->Items->Clear();
+
 		//Очистка вектора сборок и старт генерации сборок по типу, цене.
 		_sborki.clear();
 		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams, _sats, _powers);
+
 		//Если нету, то выводим сообщение об отсутсвии сборок
 		if (_sborki.empty())
 		{
@@ -408,15 +463,17 @@ namespace Configurator {
 			return;
 		}
 
+		//Сортировка сборок по цене
 		int y = _sborki.size();
-
+		
 		Sborka z;
 		for (int i = 1; i < y; i++)
 			for (int j = i - 1; j >= 0 && _sborki[j] < _sborki[j + 1]; j--)
 			{
 				z = _sborki[j]; _sborki[j] = _sborki[j + 1]; _sborki[j + 1] = z;
 			}
-
+		
+		//Удаление одинаковых сборок
 		z = _sborki[0];
 		for (int i = 1; i < _sborki.size(); i++)
 			if (z == _sborki[i])
@@ -426,79 +483,27 @@ namespace Configurator {
 			}
 			else z = _sborki[i];
 
+		//Вывод сборок в листо бокс
 		y = _sborki.size();
 		for (int _i = 0; _i < y; _i++) 
 			listBoxConfig->Items->Add(String::Format("Сборка {0}", _i + 1));
 			
-
+		//Включение лист бокса
 		listBoxConfig->Enabled = true;
 	}
-
-	private: System::Void radioOffice_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
-	{
-		AddSborks(2);
-	}
-	private: System::Void radioHome_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		AddSborks(1);
-	}
-	private: System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		AddSborks(3);
-	}
-	private: System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		AddSborks(4);
-	}
-	/// <summary>
-	/// Load
-	/// </summary>
 	
-	private: void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb)
+	//Выбрали сборку в левом лист боксе
+	System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 	{
-		_savedsborki.push_back(mysb);
-		listSaved->Items->Clear();
-
-		int y = _savedsborki.size();
-		for (int _i = 0; _i < y; _i++)
-			listSaved->Items->Add(String::Format("Сборка {0}", _i + 1));
-
-		this->Enabled = true;
-	}
-
-	private: void mySubscriber1b(System::Object^ sender, System::EventArgs^ e)
-	{
-		this->Enabled = true;
-	}
-
-	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
-	{
-		this->ef1 = gcnew Project2::EditForm();
-		ef1->myEvent1 += gcnew Project2::EditForm::EventDelegate1
-		(this, &Configurator::MyForm::mySubscriber1a);
-
-		ef1->myEvent2 += gcnew Project2::EditForm::EventDelegate2
-		(this, &Configurator::MyForm::mySubscriber1b);
-
-		_cards = LoadGraphicsData();
-		_mothers = LoadMothersData();
-		_processors = LoadProcData();
-		_rams = LoadRAMData();
-		_sats = LoadSATAData();
-		_powers = LoadPowerData();
-		ef1->SetDatas(_cards, _mothers, _processors, _rams, _sats, _powers);
-	}
-	private: System::Void listBoxConfig_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
-	{
+		//Очистка текста
 		Memo->Items->Clear();
 		listBoxSysParts->Items->Clear();
 		_selected = listBoxConfig->SelectedIndex;
 
 		buttonSetup->Enabled = true;
-
-		// Выбор критерия
-
 		if (_selected == -1) return;
+
+		//Вывод компонентов сборки
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
 		str = str + " (" + _sborki[_selected].GetCard().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
@@ -523,140 +528,111 @@ namespace Configurator {
 		str = str + " (" + _sborki[_selected].GetPower().GetCost().ToString() + "р.)";
 		listBoxSysParts->Items->Add(str);
 
-		
-
+		//Комментарии к сборке
 		int fullprice = _sborki[_selected].GetCost() + _sborki[_selected].GetRam().GetCost();
 		String^ ramprice = (fullprice - _sborki[_selected].GetCost()).ToString() + "р.";
 		String^ price = fullprice.ToString();
 
 		Memo->Items->Add("Цена сборки: " + _sborki[_selected].GetCost().ToString() + " р.");
 
-		if (_selected == 0) {
-			Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
-		}
+		if (_selected == 0) Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
+		else if (_selected == _sborki.size()-1) Memo->Items->Add("Данная сборка является самой слабой в данной ценовой категории");
 
 		String^ ozu;
 
-		/*if (_sborki[_selected].GetRam().GetPoints() <= 20) {
+		if (_sborki[_selected].GetRam().GetGB() <= 4) {
 			ozu = "4 Гб";
 		}
-		else if (30 <= _sborki[_selected].GetRam().GetPoints() <= 50) {
+		else if (30 <= _sborki[_selected].GetRam().GetGB() <= 8) {
 			ozu = "8 Гб";
 		}
-		else if (60 <= _sborki[_selected].GetRam().GetPoints() <= 80) {
+		else if (60 <= _sborki[_selected].GetRam().GetGB() <= 16) {
 			ozu = "16 Гб";
 		}
-		else if (90 <= _sborki[_selected].GetRam().GetPoints() <= 100) {
+		else if (90 <= _sborki[_selected].GetRam().GetGB() <= 32) {
 			ozu = "32 Гб";
-		}*/
+		}
 
 		if (fullprice <= _maxcost) {
 			Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
 			Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
 		}
-
 	}
 
-private: System::Void numericTo_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (radioHome->Checked == true) AddSborks(1);
-	if (radioOffice->Checked == true) AddSborks(2);
-	if (radioGame->Checked == true) AddSborks(3);
-	if (radioPro->Checked == true) AddSborks(4);
-}
-private: System::Void numericFrom_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (radioHome->Checked == true) AddSborks(1);
-	if (radioOffice->Checked == true) AddSborks(2);
-	if (radioGame->Checked == true) AddSborks(3);
-	if (radioPro->Checked == true) AddSborks(4);
-}
-private: System::Void numericTo_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-	if (radioHome->Checked == true) AddSborks(1);
-	if (radioOffice->Checked == true) AddSborks(2);
-	if (radioGame->Checked == true) AddSborks(3);
-	if (radioPro->Checked == true) AddSborks(4);
-}
-private: System::Void numericFrom_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-	if (radioHome->Checked == true) AddSborks(1);
-	if (radioOffice->Checked == true) AddSborks(2);
-	if (radioGame->Checked == true) AddSborks(3);
-	if (radioPro->Checked == true) AddSborks(4);
-}
-
-private: System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
-
-	ef1->SetSborka(_sborki[_selected]);
-	ef1->Show();
-	this->Enabled = false;
-	//Setup->Show();
-
-}
-
-private: System::Void listSaved_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
-	Memo->Items->Clear();
-	listBoxSysParts->Items->Clear();
-	_selected = listSaved->SelectedIndex;
-
-	buttonSetup->Enabled = true;
-
-	// Выбор критерия
-
-	if (_selected == -1) return;
-	System::String^ str = gcnew String(_savedsborki[_selected].GetCard().GetName().c_str());
-	str = str + " (" + _savedsborki[_selected].GetCard().GetCost().ToString() + "р.)";
-	listBoxSysParts->Items->Add(str);
-
-	str = gcnew String(_savedsborki[_selected].GetMother().GetName().c_str());
-	str = str + " (" + _savedsborki[_selected].GetMother().GetCost().ToString() + "р.)";
-	listBoxSysParts->Items->Add(str);
-
-	str = gcnew String(_savedsborki[_selected].GetProts().GetName().c_str());
-	str = str + " (" + _savedsborki[_selected].GetProts().GetCost().ToString() + "р.)";
-	listBoxSysParts->Items->Add(str);
-
-	str = gcnew String(_savedsborki[_selected].GetRam().GetName().c_str());
-	str = str + " (" + _savedsborki[_selected].GetRam().GetCost().ToString() + "р.)";
-	listBoxSysParts->Items->Add(str);
-
-	str = gcnew String(_savedsborki[_selected].GetSata().GetName().c_str());
-	str = str + " (" + _savedsborki[_selected].GetSata().GetCost().ToString() + "р.)";
-	listBoxSysParts->Items->Add(str);
-
-	str = gcnew String(_savedsborki[_selected].GetPower().GetName().c_str());
-	str = str + " (" + _savedsborki[_selected].GetPower().GetCost().ToString() + "р.)";
-	listBoxSysParts->Items->Add(str);
-
-
-
-	int fullprice = _savedsborki[_selected].GetCost() + _savedsborki[_selected].GetRam().GetCost();
-	String^ ramprice = (fullprice - _savedsborki[_selected].GetCost()).ToString() + "р.";
-	String^ price = fullprice.ToString();
-
-	Memo->Items->Add("Цена сборки: " + _savedsborki[_selected].GetCost().ToString() + " р.");
-
-	if (_selected == 0) {
-		Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
+	void StartAddSborks()
+	{
+		if (radioHome->Checked == true) AddSborks(1);
+		if (radioOffice->Checked == true) AddSborks(2);
+		if (radioGame->Checked == true) AddSborks(3);
+		if (radioPro->Checked == true) AddSborks(4);
 	}
-
-	String^ ozu;
-
-	/*if (_sborki[_selected].GetRam().GetPoints() <= 20) {
-		ozu = "4 Гб";
+	//Сменили бюджет
+	System::Void numericTo_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+		StartAddSborks();
 	}
-	else if (30 <= _sborki[_selected].GetRam().GetPoints() <= 50) {
-		ozu = "8 Гб";
+	System::Void numericFrom_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+		StartAddSborks();
 	}
-	else if (60 <= _sborki[_selected].GetRam().GetPoints() <= 80) {
-		ozu = "16 Гб";
+	 System::Void numericTo_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		StartAddSborks();
 	}
-	else if (90 <= _sborki[_selected].GetRam().GetPoints() <= 100) {
-		ozu = "32 Гб";
-	}*/
+	System::Void numericFrom_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		StartAddSborks();
+	}
+	//Нажата кнопка замены
+	System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
+		ef1->SetSborka(_sborki[_selected]);
+		ef1->Show();
+		this->Enabled = false;
+	}
+	//Выбрали сохраненные сборки
+	System::Void listSaved_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
+		//Очищаем тексты
+		Memo->Items->Clear();
+		listBoxSysParts->Items->Clear();
+		_selected = listSaved->SelectedIndex;
 
-	if (fullprice <= _maxcost) {
-		Memo->Items->Add("На оставшиеся деньги можете приобрести ещё " + ozu + " ОЗУ за " + ramprice);
-		Memo->Items->Add("Итоговая цена сборки составит " + price + " р.");
-	}
+		buttonSetup->Enabled = true;
+		if (_selected == -1) return;
 
-}
+		//Вывод комплектации
+		System::String^ str = gcnew String(_savedsborki[_selected].GetCard().GetName().c_str());
+		str = str + " (" + _savedsborki[_selected].GetCard().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		str = gcnew String(_savedsborki[_selected].GetMother().GetName().c_str());
+		str = str + " (" + _savedsborki[_selected].GetMother().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		str = gcnew String(_savedsborki[_selected].GetProts().GetName().c_str());
+		str = str + " (" + _savedsborki[_selected].GetProts().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		str = gcnew String(_savedsborki[_selected].GetRam().GetName().c_str());
+		str = str + " (" + _savedsborki[_selected].GetRam().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		str = gcnew String(_savedsborki[_selected].GetSata().GetName().c_str());
+		str = str + " (" + _savedsborki[_selected].GetSata().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		str = gcnew String(_savedsborki[_selected].GetPower().GetName().c_str());
+		str = str + " (" + _savedsborki[_selected].GetPower().GetCost().ToString() + "р.)";
+		listBoxSysParts->Items->Add(str);
+
+		int fullprice = _savedsborki[_selected].GetCost() + _savedsborki[_selected].GetRam().GetCost();
+		String^ ramprice = (fullprice - _savedsborki[_selected].GetCost()).ToString() + "р.";
+		String^ price = fullprice.ToString();
+
+		Memo->Items->Add("Цена сборки: " + _savedsborki[_selected].GetCost().ToString() + " р.");
+
+		if (abs(_savedsborki[_selected].GetCard().GetPoints() - _savedsborki[_selected].GetProts().GetPoints()) > 30)
+		{
+			Memo->Items->Add("Не оптимальная сборка - плохой баланс видеокарты и процессора.");
+
+			if (_savedsborki[_selected].GetCard().GetPoints() > _savedsborki[_selected].GetProts().GetPoints()) Memo->Items->Add("Слишком мощная видеокарта.");
+			else  Memo->Items->Add("Слишком мощный процессор.");
+		}
+	}
 };
 }

@@ -373,88 +373,66 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 	System::String^ str;
 
 	int componentselect = listAvailable->SelectedIndex;
+
 	if (componentselect == -1) return;
-	else
+
+	if (comsel == 0) _sborka.SetConfig(_cardss[componentselect], _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
+	else if (comsel == 1) _sborka.SetConfig(_sborka.GetCard(), _motherss[componentselect], _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
+	else if (comsel == 2) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _processorss[componentselect], _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
+	else if (comsel == 3) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _ramss[componentselect], _sborka.GetSata(), _sborka.GetPower());
+	else if (comsel == 4) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _satss[componentselect], _sborka.GetPower());
+	else if (comsel == 5) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _powerss[componentselect]);
+			
+	SetSborka(_sborka);
+	
+	buttonClose->Enabled = true;
+	
+	if (_sborka.GetMother().GetSocket() != _sborka.GetProts().GetSocket())
 	{
-		if (comsel == 0)
-		{
-			_sborka.SetConfig(_cardss[componentselect], _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
-		}
-		else if (comsel == 1)
-		{
-			_sborka.SetConfig(_sborka.GetCard(), _motherss[componentselect], _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
-			if (_motherss[componentselect].GetSocket() != _sborka.GetProts().GetSocket())
-			{
-				listNote->Items->Add("Невозможная сборка - разница в сокетах!");
+		listNote->Items->Add("Невозможная сборка - разница в сокетах!");
 
-				str = gcnew String(_motherss[componentselect].GetName().c_str());
-				str = str + " использует " + _motherss[componentselect].GetSocket().ToString() + " сокет.";
-				listNote->Items->Add(str);
+		str = gcnew String(_sborka.GetMother().GetName().c_str());
+		str = str + " использует " + _sborka.GetMother().GetSocket().ToString() + " сокет.";
+		listNote->Items->Add(str);
 
-				str = gcnew String(_sborka.GetProts().GetName().c_str()) + " использует " + _sborka.GetProts().GetSocket().ToString() + " сокет.";;
-				listNote->Items->Add(str);
+		str = gcnew String(_sborka.GetProts().GetName().c_str()) + " использует " + _sborka.GetProts().GetSocket().ToString() + " сокет.";;
+		listNote->Items->Add(str);
 
-				buttonClose->Enabled = false;
-			}
-			else buttonClose->Enabled = true;
-		}
-		else if (comsel == 2)
-		{
-			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _processorss[componentselect], _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
-			if (_processorss[componentselect].GetSocket() != _sborka.GetMother().GetSocket())
-			{
-				listNote->Items->Add("Невозможная сборка - разница в сокетах!");
+		buttonClose->Enabled = false;
+	}
 
-				str = gcnew String(_processorss[componentselect].GetName().c_str());
-				str = str + " использует " + _processorss[componentselect].GetSocket().ToString() + " сокет.";
-				listNote->Items->Add(str);
+	if (abs(_sborka.GetCard().GetPoints() - _sborka.GetProts().GetPoints()) > 30)
+	{
+		listNote->Items->Add("Не оптимальная сборка - плохой баланс видеокарты и процессора.");
 
-				str = gcnew String(_sborka.GetMother().GetName().c_str()) + " использует " + _sborka.GetMother().GetSocket().ToString() + " сокет.";;
-				listNote->Items->Add(str);
+		if (_sborka.GetCard().GetPoints() > _sborka.GetProts().GetPoints()) listNote->Items->Add("Слишком мощная видеокарта.");
+		else  listNote->Items->Add("Слишком мощный процессор.");
+	}
 
-				buttonClose->Enabled = false;
-			}
-			else buttonClose->Enabled = true;
-		}
-		else if (comsel == 3)
-		{
-			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _ramss[componentselect], _sborka.GetSata(), _sborka.GetPower());
-		}
-		else if (comsel == 4)
-		{
-			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _satss[componentselect], _sborka.GetPower());
-		}
-		else if (comsel == 5)
-		{
-			_sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _powerss[componentselect]);
-			if ((_sborka.GetCard().GetTdp() + _sborka.GetProts().GetTdp() + 175) > _powerss[componentselect].GetWatt())
-			{
-				int tdp = 0;
-				listNote->Items->Add("Невозможная сборка - слабый блок питания");
+	if ((_sborka.GetCard().GetTdp() + _sborka.GetProts().GetTdp() + 175) > _sborka.GetPower().GetWatt())
+	{
+		int tdp = 0;
+		listNote->Items->Add("Невозможная сборка - слабый блок питания");
 
-				str = gcnew String(_powerss[componentselect].GetName().c_str());
-				str = str + " формирует напряжение в " + _powerss[componentselect].GetWatt().ToString() + " ватт.";
-				listNote->Items->Add(str);
+		str = gcnew String(_sborka.GetPower().GetName().c_str());
+		str = str + " формирует напряжение в " + _sborka.GetPower().GetWatt().ToString() + " ватт.";
+		listNote->Items->Add(str);
 
-				str = gcnew String(_sborka.GetCard().GetName().c_str()) + " потребляет " + _sborka.GetCard().GetTdp().ToString() + " ватт.";;
-				listNote->Items->Add(str);
-				tdp += _sborka.GetCard().GetTdp();
+		str = gcnew String(_sborka.GetCard().GetName().c_str()) + " потребляет " + _sborka.GetCard().GetTdp().ToString() + " ватт.";;
+		listNote->Items->Add(str);
+		tdp += _sborka.GetCard().GetTdp();
 
-				str = gcnew String(_sborka.GetProts().GetName().c_str()) + " потребляет " + _sborka.GetProts().GetTdp().ToString() + " ватт.";;
-				listNote->Items->Add(str);
-				tdp += _sborka.GetProts().GetTdp();
+		str = gcnew String(_sborka.GetProts().GetName().c_str()) + " потребляет " + _sborka.GetProts().GetTdp().ToString() + " ватт.";;
+		listNote->Items->Add(str);
+		tdp += _sborka.GetProts().GetTdp();
 
-				listNote->Items->Add("Нужды остальной системы - 175 ватт.");
-				tdp += 175;
+		listNote->Items->Add("Нужды остальной системы - 175 ватт.");
+		tdp += 175;
 
-				str = "Всего система использует " + tdp + " ватт.";
-				listNote->Items->Add(str);
+		str = "Всего система использует " + tdp + " ватт.";
+		listNote->Items->Add(str);
 
-				buttonClose->Enabled = false;
-			}
-			else buttonClose->Enabled = true;
-		}
-		SetSborka(_sborka);
+		buttonClose->Enabled = false;
 	}
 }
 };
