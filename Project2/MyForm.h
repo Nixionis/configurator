@@ -475,6 +475,7 @@ namespace Configurator {
 			listBoxConfig->Items->Add("Нет доступных");
 			listBoxConfig->Items->Add("сборок");
 			listBoxConfig->Enabled = false;
+			Memo->Items->Add("Измените ценовой диапазон.");
 			return;
 		}
 
@@ -647,7 +648,7 @@ namespace Configurator {
 
 		if (abs(_savedsborki[_selected].GetCard().GetPoints() - _savedsborki[_selected].GetProts().GetPoints()) > 30)
 		{
-			Memo->Items->Add("Не оптимальная сборка - плохой баланс видеокарты и процессора.");
+			Memo->Items->Add("Не оптимальная сборка - нарушен баланс видеокарты и процессора.");
 
 			if (_savedsborki[_selected].GetCard().GetPoints() > _savedsborki[_selected].GetProts().GetPoints()) Memo->Items->Add("Слишком мощная видеокарта.");
 			else  Memo->Items->Add("Слишком мощный процессор.");

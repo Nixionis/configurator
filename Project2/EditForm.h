@@ -189,7 +189,7 @@ namespace Project2 {
 			this->Name = L"EditForm";
 			this->RightToLeft = System::Windows::Forms::RightToLeft::No;
 			this->Text = L"Изменение конфигурации";
-			this->Load += gcnew System::EventHandler(this, &EditForm::EditForm_Load);
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &EditForm::EditForm_FormClosing);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -207,38 +207,6 @@ public: event EventDelegate2^ myEvent2;
 		myEvent2(this, e);
 		this->Hide();	
 	}
-private: System::Void EditForm_Load(System::Object^ sender, System::EventArgs^ e) {
-
-	//listBoxSysParts->Items->Clear();
-	//int _selected = listBoxConfig->SelectedIndex;
-
-	// Выбор критерия
-
-	//if (_selected == -1) return;
-	/*System::String^ str = gcnew String(_sborka.GetCard().GetName().c_str());
-	str = str + " (" + _sborka.GetCard().GetCost().ToString() + "р.)";
-	listComponents->Items->Add(str);
-
-	str = gcnew String(_sborka.GetMother().GetName().c_str());
-	str = str + " (" + _sborka.GetMother().GetCost().ToString() + "р.)";
-	listComponents->Items->Add(str);
-
-	str = gcnew String(_sborka.GetProts().GetName().c_str());
-	str = str + " (" + _sborka.GetProts().GetCost().ToString() + "р.)";
-	listComponents->Items->Add(str);
-
-	str = gcnew String(_sborka.GetRam().GetName().c_str());
-	str = str + " (" + _sborka.GetRam().GetCost().ToString() + "р.)";
-	listComponents->Items->Add(str);
-
-	str = gcnew String(_sborka.GetSata().GetName().c_str());
-	str = str + " (" + _sborka.GetSata().GetCost().ToString() + "р.)";
-	listComponents->Items->Add(str);
-
-	str = gcnew String(_sborka.GetPower().GetName().c_str());
-	str = str + " (" + _sborka.GetPower().GetCost().ToString() + "р.)";
-	listComponents->Items->Add(str);*/
-}
 private: System::Void buttonClose_Click(System::Object^ sender, System::EventArgs^ e) {
 	//_MainForm->listsaved->
 	myEvent1(this, e, _sborka);
@@ -258,7 +226,7 @@ public: void SetDatas(std::vector<GraphicsCard> cards,
 public: void SetSborka(Sborka sbor)
 {
 	_sborka = sbor;
-	
+	listAvailable->Items->Clear();
 	listComponents->Items->Clear();
 
 	System::String^ str = gcnew String(_sborka.GetCard().GetName().c_str());
@@ -403,7 +371,7 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 
 	if (abs(_sborka.GetCard().GetPoints() - _sborka.GetProts().GetPoints()) > 30)
 	{
-		listNote->Items->Add("Не оптимальная сборка - плохой баланс видеокарты и процессора.");
+		listNote->Items->Add("Не оптимальная сборка - нарушен баланс видеокарты и процессора.");
 
 		if (_sborka.GetCard().GetPoints() > _sborka.GetProts().GetPoints()) listNote->Items->Add("Слишком мощная видеокарта.");
 		else  listNote->Items->Add("Слишком мощный процессор.");
@@ -434,6 +402,13 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 
 		buttonClose->Enabled = false;
 	}
+	str = "Стоимость сборки составит " + _sborka.GetCost() + " руб.";
+	listNote->Items->Add(str);
+}
+private: System::Void EditForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+	e->Cancel = true;
+	myEvent2(this, e);
+	this->Hide();
 }
 };
 }
