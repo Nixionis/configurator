@@ -1,7 +1,10 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Project2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   MyForm.cpp
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(214,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(444,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(209,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(297,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(334,9): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(384,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(444,25): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(500,21): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(571,15): warning C4804: '<=': unsafe use of type 'bool' in operation
 C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(574,15): warning C4804: '<=': unsafe use of type 'bool' in operation
