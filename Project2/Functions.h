@@ -3,12 +3,7 @@
 #include <ctime>
 #include <vector>
 #include <fstream>
-#include "GraphicsCard.h"
-#include "Motherboard.h"
-#include "Processor.h"
-#include "RAM.h"
-#include "SATA.h"
-#include "PowerBlock.h"
+
 #include "Sborka.h"
 
 std::vector<GraphicsCard> LoadGraphicsData()
@@ -205,48 +200,39 @@ std::vector<PowerBlock> LoadPowerData()
 	return Powers;
 }
 
-std::vector<Sborka> CreateConfigas(int configtype,int mincost, int maxcost, std::vector<GraphicsCard> cards, 
-std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RAM> rams, std::vector<SATA> sats, std::vector<PowerBlock> powers)
+std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std::vector<GraphicsCard> cards,
+	std::vector<Motherboard>& mothers, std::vector<Processor> process, std::vector<RAM>& rams, std::vector<SATA>& sats, std::vector<PowerBlock>& powers)
 {
 	//Генерация сборок
 	//Сид рандома
 
 	srand(time(NULL));
 
-	int OverallPoints = 50;
-	int GrahpicPoints = 40;
-	int ProccessorPoints = 40;
-	int RamPoints = 8;
-	int SataPoints = 512;
-	int SataType = 1;
-
+	int k = 0;
 	//Очки мощности от типа
+	int gp = 40;
+	int pp = 40;
+	int rp = 8;
+	int sp = 512;
+	int st = 1;
+
 	if (configtype == 2)
 	{
-		OverallPoints = 70;
-		GrahpicPoints = 40;
-		ProccessorPoints = 60;
-		RamPoints = 8;
-		SataPoints = 512;
-		SataType = 1;
+		gp = 40;  pp = 60;
+		rp = 8;
+		sp = 512; st = 1;
 	}
 	else if (configtype == 3)
 	{
-		OverallPoints = 90;
-		GrahpicPoints = 80;
-		ProccessorPoints = 70;
-		RamPoints = 16;
-		SataPoints = 256;
-		SataType = 2;
+		gp = 80; pp = 70;
+		rp = 16;
+		sp = 256; st = 2;
 	}
 	else  if (configtype == 4)
 	{
-		OverallPoints = 100;
-		GrahpicPoints = 100;
-		ProccessorPoints = 100;
-		RamPoints = 32;
-		SataPoints = 1024;
-		SataType = 2;
+		gp = 1000; pp = 1000;
+		rp = 64;
+		sp = 1024; st = 2;
 	}
 
 	//Минимальные границы до куда подбирать сборки
@@ -259,24 +245,32 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 	if (configtype == 2)
 	{
-		gpb = 10;
-		ppb = 20;
+		gpb = 10; ppb = 20;
 	}
 	else if (configtype == 3)
 	{
-		gpb = 30;
-		ppb = 30;
+		gpb = 30; ppb = 30;
 		rpb = 8;
 		spb = 512;
 	}
 	else if (configtype == 4)
 	{
-		gpb = 40;
-		ppb = 50;
+		gpb = 40; ppb = 50;
 		rpb = 8;
-		spb = 512;
-		stb = 2;
+		spb = 512; stb = 1;
 	}
+
+	std::vector<GraphicsCard> CardRange;
+	std::vector<Processor> ProcRange;
+	//ProcRange = process;
+
+	for (int i = cards.size() - 1; i >= 0; i--)
+		if (cards[i].GetPoints() > gp) cards.erase(cards.begin() + i);
+		else if (cards[i].GetPoints() < gpb) cards.erase(cards.begin() + i);
+
+	for (int i = process.size() - 1; i >= 0; i--)
+		if (process[i].GetPoints() > pp) process.erase(process.begin() + i);
+		else if (process[i].GetPoints() < ppb) process.erase(process.begin() + i);
 
 	//Для хранения временных выборов
 	GraphicsCard card;
@@ -286,72 +280,46 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 	SATA sata;
 	PowerBlock power;
 
-	int tdp = 0;
-	//Вектора сборок
+	//Собранные сборки
 	std::vector<Sborka> Sborki;
 
-	//Текущие данные для циклов     общие
-	int op = OverallPoints;
-	int gp = GrahpicPoints;
-	int pp = ProccessorPoints;
-	int rp = RamPoints;
-	int sp = SataPoints;
-	int st = SataType;
-	// текущие
-	int opt = op;
-	int gpt = gp;
-	int ppt = pp;
+	//Текущие данные для циклов сборки
 	int rpt = rp;
 	int spt = sp;
 	int stt = st;
+	int tdp = 0;
 
-	//Генерация 5 (i) сборок
-	for (int i = 0; i < 10; i++)
+	int GraphicNumber = cards.size() - 1;
+
+	card = cards[GraphicNumber];
+
+	if (ProcRange.empty())
+		for (int j = 0; j < process.size(); j++) if (abs(process[j].GetPoints() - card.GetPoints()) <= 20) ProcRange.push_back(process[j]); //Процессоры, подходящие к текущей видеокарте
+
+		//Генерация (i) сборок
+
+	while (true)
 	{
 		tdp = 0;
-		//Дихотомический поиск графической карты
-		int b = 0;
-		int e = cards.size();
-
-		int size = e;
-
-		while (b < e)
-		{
-			int c = (b + e) / 2;
-			//Поиск сопоставимой по мощности
-			if (cards[c].GetPoints() < (int)gpt) b = c + 1;
-			else e = c;
-		}
-		card = cards[b];
+		//Запись видеокарты
+		card = cards[GraphicNumber];
 		tdp += card.GetTdp();
 
-		//Поиск процессора по мощности
-
-		b = 0;
-		e = process.size();
-
-		while (b < e)
-		{
-			int c = (b + e) / 2;
-
-			if (process[c].GetPoints() < (int)ppt) b = c + 1;
-			else e = c;
-		}
-		int ip = b;
-		proces = process[b];
+		//Запись процессора
+		proces = ProcRange[ProcRange.size() - 1];
 		tdp += proces.GetTdp() + 175;
 
 		//Поиск материнской карты по сокету процессора
 
-		b = 0;
-		e = mothers.size();
+		int b = 0;
+		int e = mothers.size();
 
-		for (; mothers[b].GetSocket() != process[ip].GetSocket(); b++);
+		for (; mothers[b].GetSocket() != proces.GetSocket(); b++);
 
 		mother = mothers[b];
 
-		//Поиск оперативной памяти по мощности
-		
+		//Поиск оперативной памяти по мощности процессора
+
 		b = 0;
 		e = rams.size();
 
@@ -359,26 +327,23 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 		{
 			int c = (b + e) / 2;
 
-			if (rams[c].GetGB() < (int)rpt) b = c + 1;
+			if (rams[c].GetGB() <= (int)rpt) b = c + 1;
 			else e = c;
 		}
 
+		if (b > (rams.size() - 1)) b = rams.size() - 1;
 		ram = rams[b];
-		
+
 		//Поиск жесткого диска по мощности
 
 		b = 0;
 		e = sats.size();
 		for (int j = 0; j < e; j++)
-		{
-			int ss = sats[j].GetGB();
-			int sss = sats[j].GetType();
-			if (ss == spt && sss == stt)
+			if (sats[j].GetGB() == spt && sats[j].GetType() == stt)
 			{
 				b = j;
 				break;
 			}
-		}
 
 		sata = sats[b];
 
@@ -397,129 +362,95 @@ std::vector<Motherboard> mothers, std::vector<Processor> process, std::vector<RA
 
 		power = powers[b];
 
-		//Сбор всех найденных компонентов в сборку
-
 		Sborka sb;
 		sb.SetConfig(card, mother, proces, ram, sata, power);
 
-		//Сравнение цены сборки с рамками бюджета
-
-		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost )
+		//Сохраняем сборку, если она подоходит по цене и собираем следующую сборку 
+		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost)
 		{
-			//Подошло по цене
+			Sborki.push_back(sb);
 
-			//Компоненты подходят по минимальным требованиям
-			if (gpt >= gpb && ppt >= ppb && rpt >= rpb) Sborki.push_back(sb);
-			else if (gp <= gpb && pp <= ppb && rpt >= rpb) return Sborki;
-
-			//Сбоираем следующую сборку пониже
-			if (op > 0) op -= 10;
-			if (gp > gpb) gp -= 10;
-			if (pp > ppb) pp -= 10;
-			//
-			if (rp > rpb)
+			if (ProcRange.size() > 1) ProcRange.erase(ProcRange.begin() + ProcRange.size() - 1);
+			else
 			{
-				if ((configtype == 1 || configtype == 2) && op < 40) rp /= 2;
-				else if (configtype == 3 && op < 70 && rp > rpb) rp /= 2;
-				else if (configtype == 4 && op < 80 && rp > rpb) rp /= 2;
-			}
-			//
-			if (st == 2 && sp == 256) st -= 1;
-			else if (st == 1 && sp > 256) sp /= 2;
-			else if (st == 2 && sp > 256) sp /= 2;
-			//
-			//делаем значения текущими
-			opt = op;
-		    gpt = gp;
-			ppt = pp;
-			rpt = rp;
-			spt = sp;
-			stt = st;
-		}
-		else //Занижаем временные критерии случайного компонента для попытки сбора более дешевой сборки
-		{
+				cards.erase(cards.begin() + cards.size() - 1);
+				GraphicNumber = cards.size() - 1;
 
-			if (gpt > gpb && ppt > ppb && rpt > rpb )
-			{
-				srand(time(NULL));
-				//Удешевляем какой-нибудь компонент
-				int r = rand() % 4;
-
-				while (true)
+				if (cards.empty()) return Sborki;
+				else
 				{
-					if (r == 0 && gpt > gpb)
-					{
-						gpt -= 10;
-						break;
-					}
-					else r += 1;
-					//
-					if (r == 1 && ppt > ppb)
-					{
-
-						ppt -= 10;
-						break;
-					}
-					else r += 1;
-					//
-					if (r == 2 && rpt > rpb)
-					{
-						rpt /= 2;
-						break;
-					}
-					else r += 1;
-					//
-					if (r == 3)
-					{
-						if (stt == stb && spt == spb)
-						{
-							r = 0;
-						}
-						else if (stt == stb && spt > spb)
-						{
-							spt /= 2;
-							break;
-						}
-						else if (stt > stb && spt == 256)
-						{
-							stt--;
-							break;
-						}
-						else r = 0;
-					}
-					else r = 0;
+					card = cards[GraphicNumber];
+					ProcRange.clear();
+					for (int j = 0; j < process.size(); j++) if (abs(process[j].GetPoints() - card.GetPoints()) <= 20) ProcRange.push_back(process[j]);
 				}
-				i--;
+			}
+
+			stt = st;
+			spt = sp;
+			rpt = rp;
+		}
+		else //Не подошло по цене, уменьшаем не сильно значимые комплекутющие
+		{
+			if (stt != stb || spt != spb) //Жесткий диск
+			{
+				if (stt == stb && spt > spb)
+				{
+					spt /= 2;
+					continue;
+				}
+				else if (stt > stb && spt == spb)
+				{
+					stt--;
+					spt = 1024;
+					continue;
+				}
+				else if (stt > stb && spt > spb)
+				{
+					spt /= 2;
+					continue;
+				}
+				else if (stt > stb && spt == 256 && spt != spb)
+				{
+					stt--;
+					spt = 1024;
+					continue;
+				}
+			}
+			else if (rpt > rpb)//Опреативная память
+			{
+				rpt /= 2;
+				continue;
 			}
 			else
 			{
-				//Сбоираем следующую сборку пониже
-				if (op > 0) op -= 10;
-				if (gp > 0) gp -= 10;
-				if (pp > 0) pp -= 10;
-				//
-				if (rp > 4)
+				if (ProcRange.size() > 1) //Уменьшаем мощность процессора
 				{
-					if ((configtype == 1 || configtype == 2) && op < 40) rp /= 2;
-					else if (configtype == 3 && op < 70 && rp > rpb) rp /= 2;
-					else if (configtype == 4 && op < 80 && rp > rpb) rp /= 2;
+					ProcRange.erase(ProcRange.begin() + ProcRange.size() - 1);
+					stt = st;
+					spt = sp;
+					rpt = rp;
+					continue;
 				}
-				//
-				if (st == 2 && sp == 256) st -= 1;
-				else if (st == 1 && sp > 256) sp /= 2;
-				else if (st == 2 && sp > 256) sp /= 2;
-				//
-				//делаем значения текущими
-				opt = op;
-				gpt = gp;
-				ppt = pp;
-				rpt = rp;
-				spt = sp;
-				stt = st;
-			}
+				else //Уменьшаме мощность видеокарты
+				{
+					cards.erase(cards.begin() + cards.size() - 1);
+					GraphicNumber = cards.size() - 1;
 
+					if (cards.empty()) return Sborki;
+					else
+					{
+						card = cards[GraphicNumber];
+						ProcRange.clear();
+						for (int j = 0; j < process.size(); j++) if (abs(process[j].GetPoints() - card.GetPoints()) <= 20) ProcRange.push_back(process[j]);
+					}
+
+					stt = st;
+					spt = sp;
+					rpt = rp;
+
+					continue;
+				}
+			}
 		}
 	}
-
-	return Sborki;
 }
