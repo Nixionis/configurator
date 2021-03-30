@@ -197,76 +197,75 @@ std::vector<PowerBlock> LoadPowerData()
 std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std::vector<GraphicsCard> cards,
 	std::vector<Motherboard>& mothers, std::vector<Processor> process, std::vector<RAM>& rams, std::vector<SATA>& sats, std::vector<PowerBlock>& powers)
 {
-	//Генерация сборок
-	//Сид рандома
-
 	srand(time(NULL));
 
-	int k = 0;
-	//Очки мощности от типа
-	int gp = 40;
-	int pp = 40;
-	int rp = 8;
-	int sp = 512;
-	int st = 1;
+	//Генерация сборок
+
+	//максимальные очки производительности каждого комплектующего от критерия
+	int MaxGraphicPoints = 40;
+	int MaxProcPoints = 40;
+	int MaxRAMPoints = 8;  //Критерии для домашней сборки
+	int MaxSATAPoints = 512;
+	int MaxSATAType = 1;
+
+	if (configtype == 2) //Критерии для офисного компьютера
+	{
+		MaxGraphicPoints = 40;  MaxProcPoints = 60;
+		MaxRAMPoints = 8;
+		MaxSATAPoints = 512; MaxSATAType = 1;
+	}
+	else if (configtype == 3) //Критерии для игрового компьютера
+	{
+		MaxGraphicPoints = 80; MaxProcPoints = 70;
+		MaxRAMPoints = 16;
+		MaxSATAPoints = 256; MaxSATAType = 2;
+	}
+	else  if (configtype == 4) //Критерии для профессионального компьютера
+	{
+		MaxGraphicPoints = 1000; MaxProcPoints = 1000;
+		MaxRAMPoints = 64;
+		MaxSATAPoints = 1024; MaxSATAType = 2;
+	}
+
+	//Минимальные границы очков производительности, дальше которых не будут подибраться сборки
+
+	int MinGraphicPoints = 0;
+	int MinProcPoints = 0;
+	int MinRAMPoints = 4;
+	int MinSATAPoints = 256;
+	int MinSATAType = 1;
 
 	if (configtype == 2)
 	{
-		gp = 40;  pp = 60;
-		rp = 8;
-		sp = 512; st = 1;
+		MinGraphicPoints = 10; MinProcPoints = 20;
 	}
 	else if (configtype == 3)
 	{
-		gp = 80; pp = 70;
-		rp = 16;
-		sp = 256; st = 2;
-	}
-	else  if (configtype == 4)
-	{
-		gp = 1000; pp = 1000;
-		rp = 64;
-		sp = 1024; st = 2;
-	}
-
-	//Минимальные границы до куда подбирать сборки
-
-	int gpb = 0;
-	int ppb = 0;
-	int rpb = 4;
-	int spb = 256;
-	int stb = 1;
-
-	if (configtype == 2)
-	{
-		gpb = 10; ppb = 20;
-	}
-	else if (configtype == 3)
-	{
-		gpb = 30; ppb = 30;
-		rpb = 8;
-		spb = 512;
+		MinGraphicPoints = 30; MinProcPoints = 30;
+		MinRAMPoints = 8;
+		MinSATAPoints = 512;
 	}
 	else if (configtype == 4)
 	{
-		gpb = 40; ppb = 50;
-		rpb = 8;
-		spb = 512; stb = 1;
+		MinGraphicPoints = 40; MinProcPoints = 50;
+		MinRAMPoints = 8;
+		MinSATAPoints = 512; MinSATAType = 1;
 	}
 
-	std::vector<GraphicsCard> CardRange;
+	//Процессоры, подходящие к видеокарте
 	std::vector<Processor> ProcRange;
-	//ProcRange = process;
 
+	//Поиск видеокарт, подходящих по критериям
 	for (int i = cards.size() - 1; i >= 0; i--)
-		if (cards[i].GetPoints() > gp) cards.erase(cards.begin() + i);
-		else if (cards[i].GetPoints() < gpb) cards.erase(cards.begin() + i);
+		if (cards[i].GetPoints() > MaxGraphicPoints) cards.erase(cards.begin() + i);
+		else if (cards[i].GetPoints() < MinGraphicPoints) cards.erase(cards.begin() + i);
 
+	//Поиск процессоров, подходящих по критериям
 	for (int i = process.size() - 1; i >= 0; i--)
-		if (process[i].GetPoints() > pp) process.erase(process.begin() + i);
-		else if (process[i].GetPoints() < ppb) process.erase(process.begin() + i);
+		if (process[i].GetPoints() > MaxProcPoints) process.erase(process.begin() + i);
+		else if (process[i].GetPoints() < MinProcPoints) process.erase(process.begin() + i);
 
-	//Для хранения временных выборов
+	//Для временного хранения выборов комплектации
 	GraphicsCard card;
 	Processor proces;
 	Motherboard mother;
@@ -278,33 +277,32 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 	std::vector<Sborka> Sborki;
 
 	//Текущие данные для циклов сборки
-	int rpt = rp;
-	int spt = sp;
-	int stt = st;
+	int CurrentRAMPoints = MaxRAMPoints;
+	int CurrentSATAPoints = MaxSATAPoints;
+	int CurrentSATAType = MaxSATAType;
 	int tdp = 0;
 
+	//Первая по мощности видеокарта
 	int GraphicNumber = cards.size() - 1;
-
 	card = cards[GraphicNumber];
 
+	// Поиск процессоров, подходящих к текущей видеокарте
 	if (ProcRange.empty())
-		for (int j = 0; j < process.size(); j++) if (abs(process[j].GetPoints() - card.GetPoints()) <= 20) ProcRange.push_back(process[j]); //Процессоры, подходящие к текущей видеокарте
+		for (int j = 0; j < process.size(); j++) if (abs(process[j].GetPoints() - card.GetPoints()) <= 20) ProcRange.push_back(process[j]); 
 
-		//Генерация (i) сборок
-
+	//Генерация сборок
 	while (true)
 	{
 		tdp = 0;
-		//Запись видеокарты
+		//Запись видеокарты и её энергопотребления
 		card = cards[GraphicNumber];
 		tdp += card.GetTdp();
 
-		//Запись процессора
+		//Запись процессора и его энергопотребления
 		proces = ProcRange[ProcRange.size() - 1];
 		tdp += proces.GetTdp() + 175;
 
 		//Поиск материнской карты по сокету процессора
-
 		int b = 0;
 		int e = mothers.size();
 
@@ -313,7 +311,6 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 		mother = mothers[b];
 
 		//Поиск оперативной памяти
-
 		b = 0;
 		e = rams.size();
 
@@ -321,7 +318,7 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 		{
 			int c = (b + e) / 2;
 
-			if (rams[c].GetGB() < (int)rpt) b = c + 1;
+			if (rams[c].GetGB() < (int)CurrentRAMPoints) b = c + 1;
 			else e = c;
 		}
 
@@ -329,11 +326,10 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 		ram = rams[b];
 
 		//Поиск жесткого диска по мощности
-
 		b = 0;
 		e = sats.size();
 		for (int j = 0; j < e; j++)
-			if (sats[j].GetGB() == spt && sats[j].GetType() == stt)
+			if (sats[j].GetGB() == CurrentSATAPoints && sats[j].GetType() == CurrentSATAType)
 			{
 				b = j;
 				break;
@@ -341,8 +337,7 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 
 		sata = sats[b];
 
-		//Поиск блока питания по мощности
-
+		//Поиск блока питания по энергопотреблению
 		b = 0;
 		e = powers.size();
 
@@ -359,17 +354,21 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 		Sborka sb;
 		sb.SetConfig(card, mother, proces, ram, sata, power);
 
-		//Сохраняем сборку, если она подоходит по цене и собираем следующую сборку 
+		
 		if (sb.GetCost() >= mincost && sb.GetCost() <= maxcost)
 		{
+		//Сохраняем сборку, если она подходит по цене и собираем следующую сборку 
 			Sborki.push_back(sb);
 
-			if (ProcRange.size() > 1) ProcRange.erase(ProcRange.begin() + ProcRange.size() - 1);
+			//Переходим к следующему процессору, который подходит к выбранной видеокарте, если таковых нет, то меняем видеокарту
+			if (ProcRange.size() > 1) ProcRange.erase(ProcRange.begin() + ProcRange.size() - 1); //Следующий процессор
 			else
 			{
+				//Следующая видеокарта
 				cards.erase(cards.begin() + cards.size() - 1);
 				GraphicNumber = cards.size() - 1;
-
+				
+				//Если кончились видеокарты, подходящие по критериям
 				if (cards.empty()) return Sborki;
 				else
 				{
@@ -379,57 +378,59 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 				}
 			}
 
-			stt = st;
-			spt = sp;
-			rpt = rp;
+			//Сброс критериев вторичных компонентов
+			CurrentSATAType = MaxSATAType;
+			CurrentSATAPoints = MaxSATAPoints;
+			CurrentRAMPoints = MaxRAMPoints;
 		}
 		else //Не подошло по цене, уменьшаем не сильно значимые комплекутющие
 		{
-			if (stt != stb || spt != spb) //Жесткий диск
+			if (CurrentSATAType != MinSATAType || CurrentSATAPoints != MinSATAPoints) //Жесткий диск
 			{
-				if (stt == stb && spt > spb)
+				if (CurrentSATAType == MinSATAType && CurrentSATAPoints > MinSATAPoints)
 				{
-					spt /= 2;
+					CurrentSATAPoints /= 2;
 					continue;
 				}
-				else if (stt > stb && spt == spb)
+				else if (CurrentSATAType > MinSATAType && CurrentSATAPoints == MinSATAPoints)
 				{
-					stt--;
-					spt = 1024;
+					CurrentSATAType--;
+					CurrentSATAPoints = 1024;
 					continue;
 				}
-				else if (stt > stb && spt > spb)
+				else if (CurrentSATAType > MinSATAType && CurrentSATAPoints > MinSATAPoints)
 				{
-					spt /= 2;
+					CurrentSATAPoints /= 2;
 					continue;
 				}
-				else if (stt > stb && spt == 256 && spt != spb)
+				else if (CurrentSATAType > MinSATAType && CurrentSATAPoints == 256 && CurrentSATAPoints != MinSATAPoints)
 				{
-					stt--;
-					spt = 1024;
+					CurrentSATAType--;
+					CurrentSATAPoints = 1024;
 					continue;
 				}
 			}
-			else if (rpt > rpb)//Опреативная память
+			else if (CurrentRAMPoints > MinRAMPoints)//Опреативная память
 			{
-				rpt /= 2;
+				CurrentRAMPoints /= 2;
 				continue;
 			}
 			else
 			{
-				if (ProcRange.size() > 1) //Уменьшаем мощность процессора
+				if (ProcRange.size() > 1) //Переходим к следующему процессору, который подходит к выбранной видеокарте, если таковых нет, то меняем видеокарту
 				{
 					ProcRange.erase(ProcRange.begin() + ProcRange.size() - 1);
-					stt = st;
-					spt = sp;
-					rpt = rp;
+					//Сброс критериев вторичных компонентов
+					CurrentSATAType = MaxSATAType;
+					CurrentSATAPoints = MaxSATAPoints;
+					CurrentRAMPoints = MaxRAMPoints;
 					continue;
 				}
 				else //Уменьшаме мощность видеокарты
 				{
 					cards.erase(cards.begin() + cards.size() - 1);
 					GraphicNumber = cards.size() - 1;
-
+					//Если кончились видеокарты, подходящие по критериям
 					if (cards.empty()) return Sborki;
 					else
 					{
@@ -437,10 +438,10 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 						ProcRange.clear();
 						for (int j = 0; j < process.size(); j++) if (abs(process[j].GetPoints() - card.GetPoints()) <= 20) ProcRange.push_back(process[j]);
 					}
-
-					stt = st;
-					spt = sp;
-					rpt = rp;
+					//Сброс критериев вторичных компонентов
+					CurrentSATAType = MaxSATAType;
+					CurrentSATAPoints = MaxSATAPoints;
+					CurrentRAMPoints = MaxRAMPoints;
 
 					continue;
 				}

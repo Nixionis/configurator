@@ -36,18 +36,9 @@ namespace Project2 {
 		   int k = 0;
 	public:
 
-		EditForm(Void)//(Sborka sb)//, Configurator::MyForm^ MainForm)
+		EditForm(Void)
 		{
 			InitializeComponent();
-
-			//_MainForm = MainForm;
-			//_sborka = sb;
-			//_MainForm->SetMemoTest("fjlvkfdjlfkdj");
-			//_MainForm->Memo->Items->Add("Данная сборка является самой мощной в данной ценовой категории");
-
-			//
-			//TODO: добавьте код конструктора
-			//
 		}
 
 	protected:
@@ -69,9 +60,6 @@ namespace Project2 {
 	private: System::Windows::Forms::Button^ buttonClose;
 	private: System::Windows::Forms::ListBox^ listNote;
 	private: System::Windows::Forms::Button^ button1;
-
-
-
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -226,26 +214,30 @@ namespace Project2 {
 		}
 #pragma endregion
 
+		//Создание делегатов для привязывания событий между формами
 public: delegate void EventDelegate1(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type, System::String^ name);
 public: event EventDelegate1^ myEvent1;
-
-	  public: delegate void EventDelegate2(System::Object^ sender, System::EventArgs^ e);
+public: delegate void EventDelegate2(System::Object^ sender, System::EventArgs^ e);
 public: event EventDelegate2^ myEvent2;
 
-	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		//_sborka.clear();
-		myEvent2(this, e);
-		this->Hide();	
-	}
-private: System::Void buttonClose_Click(System::Object^ sender, System::EventArgs^ e) {
-	//_MainForm->listsaved->
+//Нажата кнопка отмены
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	//Разблокируем главную форму и прячем форму с заменой комплектующих
+	myEvent2(this, e);
+	this->Hide();	
+}
 
+//Нажата кнопка сохранения сборки
+private: System::Void buttonClose_Click(System::Object^ sender, System::EventArgs^ e) {
+	//Разблокируем главную форму и прячем форму с заменой комплектующих
 	myEvent1(this, e, _sborka, k, textName->Text);
 	this->Hide();
 }
-public: void SetDatas(std::vector<GraphicsCard> cards,
-	std::vector<Motherboard> mboards, std::vector<Processor> procs,
-	std::vector<RAM> rams, std::vector<SATA> sats, std::vector<PowerBlock> powers)
+
+//Копирование данных о компонентах для работы с заменой комплектующих
+public: void SetDatas(std::vector<GraphicsCard> &cards,
+	std::vector<Motherboard> &mboards, std::vector<Processor> &procs,
+	std::vector<RAM> &rams, std::vector<SATA> &sats, std::vector<PowerBlock> &powers)
 {
 	_cardss = cards;
 	_motherss = mboards;
@@ -255,15 +247,16 @@ public: void SetDatas(std::vector<GraphicsCard> cards,
 	_powerss = powers;
 }
 
+//Меняем сборку с новым компонентом
 public: void SetSborka(Sborka sbor, int type, int selind)
 {
 	_sborka = sbor;
 	k = type;
 
+	
+	//Выводим все компоненты сборки в лист бокс
 	textName->Text = (gcnew String(sbor.GetName().c_str()));
 
-
-//	listAvailable->Items->Clear();
 	listComponents->Items->Clear();
 
 	System::String^ str = gcnew String(_sborka.GetCard().GetName().c_str());
@@ -289,21 +282,24 @@ public: void SetSborka(Sborka sbor, int type, int selind)
 	str = gcnew String(_sborka.GetPower().GetName().c_str());
 	str = str + " (" + _sborka.GetPower().GetCost().ToString() + "р.)";
 	listComponents->Items->Add(str);
-
 }
 
-	  void ClearLists()
-	  {
-		  listComponents->Items->Clear();
-		  listAvailable->Items->Clear();
-	  }
+void ClearLists()
+{
+	listComponents->Items->Clear();
+	listAvailable->Items->Clear();
+}
+
+//Начата выборка компонента
 private: System::Void listComponents_DoubleClick(System::Object^ sender, System::EventArgs^ e) 
 {
+	//Подготавливаем логи для вывода информации о замене
 	System::String^ str;
 	listAvailable->Items->Clear();
 	int _selected = listComponents->SelectedIndex;
 	if (_selected == -1) return;
-	else if (_selected == 0)
+
+	else if (_selected == 0) //Если выбрали видеокарту
 	{
 		int y = _cardss.size();
 		for (int i = 0; i < y; i++)
@@ -313,39 +309,27 @@ private: System::Void listComponents_DoubleClick(System::Object^ sender, System:
 			listAvailable->Items->Add(str);
 		}
 	}
-	else if (_selected == 1)
+	else if (_selected == 1) //Если выбрали материнскую плату
 	{
 		int y = _motherss.size();
 		for (int i = 0; i < y; i++)
 		{
-			/// <summary>
-			/// 
-			/// </summary>
-			/// <param name="sender"></param>
-			/// <param name="e"></param>
-			/// <returns></returns>
 			str = gcnew String(_motherss[i].GetName().c_str());
 			str = str + " (" + _motherss[i].GetCost().ToString() + "р.)";
 			listAvailable->Items->Add(str);
 		}
 	}
-	else if (_selected == 2)
+	else if (_selected == 2) //Если выбрали процессор
 	{
 		int y = _processorss.size();
 		for (int i = 0; i < y; i++)
 		{
-			/// <summary>
-			/// 
-			/// </summary>
-			/// <param name="sender"></param>
-			/// <param name="e"></param>
-			/// <returns></returns>
 			str = gcnew String(_processorss[i].GetName().c_str());
 			str = str + " (" + _processorss[i].GetCost().ToString() + "р.)";
 			listAvailable->Items->Add(str);
 		}
 	}
-	else if (_selected == 3)
+	else if (_selected == 3) //Если выбрали оперативную память
 	{
 		int y = _ramss.size();
 		for (int i = 0; i < y; i++)
@@ -355,7 +339,7 @@ private: System::Void listComponents_DoubleClick(System::Object^ sender, System:
 			listAvailable->Items->Add(str);
 		}
 	}
-	else if (_selected == 4)
+	else if (_selected == 4) //Если выбрали жесткий диск
 	{
 		int y = _satss.size();
 		for (int i = 0; i < y; i++)
@@ -365,7 +349,7 @@ private: System::Void listComponents_DoubleClick(System::Object^ sender, System:
 			listAvailable->Items->Add(str);
 		}
 	}
-	else if (_selected == 5)
+	else if (_selected == 5) //Если выбрали блок питания
 	{
 		int y = _powerss.size();
 		for (int i = 0; i < y; i++)
@@ -376,8 +360,9 @@ private: System::Void listComponents_DoubleClick(System::Object^ sender, System:
 		}
 	}
 	comsel = _selected;
-
 }
+
+//Начата замена компонента
 private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
 
 	listNote->Items->Clear();
@@ -386,7 +371,8 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 	int componentselect = listAvailable->SelectedIndex;
 
 	if (componentselect == -1) return;
-
+	
+	//Заменили выбранный компонент в сборке
 	if (comsel == 0) _sborka.SetConfig(_cardss[componentselect], _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
 	else if (comsel == 1) _sborka.SetConfig(_sborka.GetCard(), _motherss[componentselect], _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
 	else if (comsel == 2) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _processorss[componentselect], _sborka.GetRam(), _sborka.GetSata(), _sborka.GetPower());
@@ -398,6 +384,8 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 	
 	buttonClose->Enabled = true;
 	
+	//Смотрим, совместим ли выбранный компонент в нашей сборке
+	//Проверка сокета процессора и материнской платы
 	if (_sborka.GetMother().GetSocket() != _sborka.GetProts().GetSocket())
 	{
 		listNote->Items->Add("Невозможная сборка - разница в сокетах!");
@@ -411,7 +399,7 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 
 		buttonClose->Enabled = false;
 	}
-
+	//Проверка баланса мощности процессора и видеокарты
 	if (abs(_sborka.GetCard().GetPoints() - _sborka.GetProts().GetPoints()) > 30)
 	{
 		listNote->Items->Add("Не оптимальная сборка - нарушен баланс видеокарты и процессора.");
@@ -419,7 +407,7 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 		if (_sborka.GetCard().GetPoints() > _sborka.GetProts().GetPoints()) listNote->Items->Add("Слишком мощная видеокарта.");
 		else  listNote->Items->Add("Слишком мощный процессор.");
 	}
-
+	//Проверка энергопторебления сборки
 	if ((_sborka.GetCard().GetTdp() + _sborka.GetProts().GetTdp() + 175) > _sborka.GetPower().GetWatt())
 	{
 		int tdp = 0;
@@ -445,15 +433,19 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 
 		buttonClose->Enabled = false;
 	}
+	//Стоимость сборки
 	str = "Стоимость сборки составит " + _sborka.GetCost() + " руб.";
 	listNote->Items->Add(str);
 }
+
+//Закртыие формы
 private: System::Void EditForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
 	e->Cancel = true;
 	myEvent2(this, e);
 	this->Hide();
 }
 
+//Ввод названия сборки
 private: System::Void textName_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
 	int i;
 	//setlocale(LC_ALL, "rus");

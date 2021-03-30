@@ -1,14 +1,14 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Project2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   MyForm.cpp
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(203,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(200,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(291,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(328,9): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(378,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(438,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\EditForm.h(458,6): warning C4101: 'i': unreferenced local variable
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(325,9): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(377,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(439,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\EditForm.h(450,6): warning C4101: 'i': unreferenced local variable
 C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(527,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(602,15): warning C4804: '<=': unsafe use of type 'bool' in operation
-C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(605,15): warning C4804: '<=': unsafe use of type 'bool' in operation
-C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(608,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(601,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(604,15): warning C4804: '<=': unsafe use of type 'bool' in operation
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(607,15): warning C4804: '<=': unsafe use of type 'bool' in operation
   EditForm.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Debug\Configurator.exe

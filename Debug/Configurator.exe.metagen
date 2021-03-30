@@ -26,7 +26,7 @@ Class Project2.EditForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     remove_myEvent1(EventDelegate1): PrivateScope, Public, HideBySig, SpecialName
     add_myEvent2(EventDelegate2): PrivateScope, Public, HideBySig, SpecialName
     remove_myEvent2(EventDelegate2): PrivateScope, Public, HideBySig, SpecialName
-    SetDatas(vector<GraphicsCard\,std::allocator<GraphicsCard> >*, vector<Motherboard\,std::allocator<Motherboard> >*, vector<Processor\,std::allocator<Processor> >*, vector<RAM\,std::allocator<RAM> >*, vector<SATA\,std::allocator<SATA> >*, vector<PowerBlock\,std::allocator<PowerBlock> >*): PrivateScope, Public, HideBySig
+    SetDatas(vector<GraphicsCard\,std::allocator<GraphicsCard> >* IsImplicitlyDereferenced, vector<Motherboard\,std::allocator<Motherboard> >* IsImplicitlyDereferenced, vector<Processor\,std::allocator<Processor> >* IsImplicitlyDereferenced, vector<RAM\,std::allocator<RAM> >* IsImplicitlyDereferenced, vector<SATA\,std::allocator<SATA> >* IsImplicitlyDereferenced, vector<PowerBlock\,std::allocator<PowerBlock> >* IsImplicitlyDereferenced): PrivateScope, Public, HideBySig
     SetSborka(Sborka*, Int32, Int32): PrivateScope, Public, HideBySig
     ClearLists(): PrivateScope, Public, HideBySig
 Class Project2.EditForm+EventDelegate1: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit

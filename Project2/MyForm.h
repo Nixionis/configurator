@@ -532,14 +532,13 @@ namespace Configurator {
 			}
 			else z = _sborki[i];
 
-		//Вывод сборок в листо бокс
+		//Вывод сборок в лист
 		y = _sborki.size();
 		for (int _i = 0; _i < y; _i++) {
 			_sborki[_i].SetName(String::Format("Сборка {0}", _i + 1));
 			listBoxConfig->Items->Add(gcnew String(_sborki[_i].GetName().c_str()));
 		}
-			
-		//Включение лист бокса
+		
 		listBoxConfig->Enabled = true;
 	}
 	
@@ -635,22 +634,23 @@ namespace Configurator {
 	System::Void numericFrom_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 		StartAddSborks();
 	}
-	//Нажата кнопка замены
+
+	//Нажата кнопка замены и сохранения комплектующих в сборке
 	System::Void buttonSetup_Click(System::Object^ sender, System::EventArgs^ e) {
-		
+		//Проверяем из какого лист бокса была выбрана сборка
 		ef1->ClearLists();
 		if (listSaved->SelectedIndex == -1)
 		{
-			ef1->SetSborka(_sborki[_selected], 0, listBoxConfig->SelectedIndex);
+			ef1->SetSborka(_sborki[_selected], 0, listBoxConfig->SelectedIndex); //Из сгенерированных сборок
 		}
 		else if (listBoxConfig->SelectedIndex == -1)
 		{
-			ef1->SetSborka(_savedsborki[_saveselected], _saveselected+1, listSaved->SelectedIndex);
+			ef1->SetSborka(_savedsborki[_saveselected], _saveselected+1, listSaved->SelectedIndex); //Из уже сохраненных сборок
 		}
-		//ef1->ClearLists();
 		ef1->Show();
 		this->Enabled = false;
 	}
+
 	//Выбрали сохраненные сборки
 	System::Void listSaved_DoubleClick(System::Object^ sender, System::EventArgs^ e) {
 		//Очищаем тексты
@@ -705,24 +705,23 @@ namespace Configurator {
 			else  Memo->Items->Add("Слишком мощный процессор.");
 		}
 	}
-private: System::Void buttonSave_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	//Сохранение сборки
+	System::Void buttonSave_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (listBoxConfig->SelectedIndex == -1) return;
 
 	//Получили сохраненную сборку
 	_savedsborki.push_back(_sborki[listBoxConfig->SelectedIndex]);
 
 	listSaved->Items->Clear();
-	//Добавить в лист сохраненок
+
+	//Добавить в лист сохраненных сборок
 	int y = _savedsborki.size();
 	System::String^ str;
 	for (int _i = 0; _i < y; _i++) {
 		str = gcnew String(_savedsborki[_i].GetName().c_str());
 		listSaved->Items->Add(str);
 	}
-
-	//this->Enabled = true;
-	//listBoxSysParts->Items->Clear();
-
 }
 
 private: System::Void listSaved_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
