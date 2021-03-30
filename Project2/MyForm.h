@@ -440,6 +440,7 @@ namespace Configurator {
 
 		for (int i = 0; i < y; i++) 
 			listSaved->Items->Add(gcnew String(_savedsborki[i].GetName().c_str()));
+		labelSborkaName->Text = "";
 
 		listSaved->SetSelected(0, 0);
 		listBoxConfig->SetSelected(0, 0);
