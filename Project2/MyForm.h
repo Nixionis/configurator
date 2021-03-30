@@ -440,6 +440,7 @@ namespace Configurator {
 
 		for (int i = 0; i < y; i++) 
 			listSaved->Items->Add(gcnew String(_savedsborki[i].GetName().c_str()));
+		labelSborkaName->Text = "";
 
 		listSaved->SetSelected(0, 0);
 		listBoxConfig->SetSelected(0, 0);
@@ -595,16 +596,16 @@ namespace Configurator {
 
 		String^ ozu;
 
-		if (_sborki[_selected].GetRam().GetGB() <= 4) {
+		if (_sborki[_selected].GetRam().GetGB() == 4) {
 			ozu = "4 รแ";
 		}
-		else if (30 <= _sborki[_selected].GetRam().GetGB() <= 8) {
+		else if (_sborki[_selected].GetRam().GetGB() == 8) {
 			ozu = "8 รแ";
 		}
-		else if (60 <= _sborki[_selected].GetRam().GetGB() <= 16) {
+		else if (_sborki[_selected].GetRam().GetGB() == 16) {
 			ozu = "16 รแ";
 		}
-		else if (90 <= _sborki[_selected].GetRam().GetGB() <= 32) {
+		else if (_sborki[_selected].GetRam().GetGB() == 32) {
 			ozu = "32 รแ";
 		}
 
