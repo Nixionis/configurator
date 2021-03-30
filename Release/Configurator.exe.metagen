@@ -17,7 +17,32 @@ Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5619
 	hash=None, flags=None
 Class Project2.EditForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
-    Void .ctor(Sborka*): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Events:
+    EventDelegate2 myEvent2: SpecialName
+    EventDelegate1 myEvent1: SpecialName
+  Methods:
+    add_myEvent1(EventDelegate1): PrivateScope, Public, HideBySig, SpecialName
+    remove_myEvent1(EventDelegate1): PrivateScope, Public, HideBySig, SpecialName
+    add_myEvent2(EventDelegate2): PrivateScope, Public, HideBySig, SpecialName
+    remove_myEvent2(EventDelegate2): PrivateScope, Public, HideBySig, SpecialName
+    SetDatas(vector<GraphicsCard\,std::allocator<GraphicsCard> >* IsImplicitlyDereferenced, vector<Motherboard\,std::allocator<Motherboard> >* IsImplicitlyDereferenced, vector<Processor\,std::allocator<Processor> >* IsImplicitlyDereferenced, vector<RAM\,std::allocator<RAM> >* IsImplicitlyDereferenced, vector<SATA\,std::allocator<SATA> >* IsImplicitlyDereferenced, vector<PowerBlock\,std::allocator<PowerBlock> >* IsImplicitlyDereferenced): PrivateScope, Public, HideBySig
+    SetSborka(Sborka*, Int32, Int32): PrivateScope, Public, HideBySig
+    ClearLists(): PrivateScope, Public, HideBySig
+Class Project2.EditForm+EventDelegate1: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(Object, EventArgs, Sborka*, Int32, String): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(Object, EventArgs, Sborka*, Int32, String, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+Class Project2.EditForm+EventDelegate2: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(Object, EventArgs): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(Object, EventArgs, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
 Class Configurator.MyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

@@ -487,6 +487,7 @@ namespace Configurator {
 	void AddSborks(int configtype)
 	{
 		// Считывание выбранного критерия и максимального и минимального бюджета
+		// configtype - номер выбранного критерия (домашний и т.д)
 		// Копирование минимального и максимального бюджета
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
@@ -501,7 +502,7 @@ namespace Configurator {
 		_sborki.clear();
 
 		// Генерация сборок по заданным критериям
-		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams, _sats, _powers);
+		_sborki = CreateConfigs(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams, _sats, _powers);
 
 		//Если нету ни одной сборки, то выводим сообщение об отсутсвии сборок
 		if (_sborki.empty())

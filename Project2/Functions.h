@@ -194,8 +194,9 @@ std::vector<PowerBlock> LoadPowerData()
 	return Powers;
 }
 
-std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std::vector<GraphicsCard> cards,
-	std::vector<Motherboard>& mothers, std::vector<Processor> process, std::vector<RAM>& rams, std::vector<SATA>& sats, std::vector<PowerBlock>& powers)
+std::vector<Sborka> CreateConfigs(int configtype, int mincost, int maxcost, std::vector<GraphicsCard> cards,
+	std::vector<Motherboard>& mothers, std::vector<Processor> process, std::vector<RAM>& rams, 
+	std::vector<SATA>& sats, std::vector<PowerBlock>& powers)
 {
 	srand(time(NULL));
 

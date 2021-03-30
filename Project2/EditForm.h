@@ -253,7 +253,6 @@ public: void SetSborka(Sborka sbor, int type, int selind)
 	_sborka = sbor;
 	k = type;
 
-	
 	//Выводим все компоненты сборки в лист бокс
 	textName->Text = (gcnew String(sbor.GetName().c_str()));
 
