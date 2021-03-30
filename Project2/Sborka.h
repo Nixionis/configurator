@@ -1,5 +1,6 @@
 #pragma once
 
+#include <msclr\marshal_cppstd.h>
 #include "GraphicsCard.h"
 #include "Motherboard.h"
 #include "Processor.h"
@@ -15,12 +16,17 @@ class Sborka
 	RAM _ram;
 	SATA _sata;
 	PowerBlock _power;
+	std::string sborkaname;
 
 	int _cost = 0;
 
 public:
 
 	void SetConfig(GraphicsCard card, Motherboard mother, Processor prots, RAM ram, SATA sata, PowerBlock power);
+
+	std::string GetName();
+	void SetName(std::string name);
+	void SetName(System::String^ name);
 
 	GraphicsCard GetCard();
 

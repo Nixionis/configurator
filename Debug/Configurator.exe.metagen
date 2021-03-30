@@ -1,7 +1,7 @@
   Project2.EditForm.resources - Embedded, ContainedInManifestFile, 
   Project2.MyForm.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
-Assembly Configurator, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
+Assembly Configurator, Version=0.0.*, Culture=Инвариантный язык (Инвариантная страна): 
 	hash=SHA1, flags=PublicKey
 Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
@@ -27,14 +27,14 @@ Class Project2.EditForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     add_myEvent2(EventDelegate2): PrivateScope, Public, HideBySig, SpecialName
     remove_myEvent2(EventDelegate2): PrivateScope, Public, HideBySig, SpecialName
     SetDatas(vector<GraphicsCard\,std::allocator<GraphicsCard> >*, vector<Motherboard\,std::allocator<Motherboard> >*, vector<Processor\,std::allocator<Processor> >*, vector<RAM\,std::allocator<RAM> >*, vector<SATA\,std::allocator<SATA> >*, vector<PowerBlock\,std::allocator<PowerBlock> >*): PrivateScope, Public, HideBySig
-    SetSborka(Sborka*, Int32): PrivateScope, Public, HideBySig
+    SetSborka(Sborka*, Int32, Int32): PrivateScope, Public, HideBySig
     ClearLists(): PrivateScope, Public, HideBySig
 Class Project2.EditForm+EventDelegate1: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
   :System.MulticastDelegate
     Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
   Methods:
-    Invoke(Object, EventArgs, Sborka*, Int32): PrivateScope, Public, Final, Virtual, VtableLayoutMask
-    BeginInvoke(Object, EventArgs, Sborka*, Int32, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    Invoke(Object, EventArgs, Sborka*, Int32, String): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(Object, EventArgs, Sborka*, Int32, String, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
     EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
 Class Project2.EditForm+EventDelegate2: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
   :System.MulticastDelegate

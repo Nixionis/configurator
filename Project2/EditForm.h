@@ -30,7 +30,10 @@ namespace Project2 {
 	{			
 
 		int comsel = -1;
-		int k = 0;
+	private: System::Windows::Forms::TextBox^ textName;
+
+	private: System::Windows::Forms::Label^ labelName;
+		   int k = 0;
 	public:
 
 		EditForm(Void)//(Sborka sb)//, Configurator::MyForm^ MainForm)
@@ -89,6 +92,8 @@ namespace Project2 {
 			this->buttonClose = (gcnew System::Windows::Forms::Button());
 			this->listNote = (gcnew System::Windows::Forms::ListBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->textName = (gcnew System::Windows::Forms::TextBox());
+			this->labelName = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// listComponents
@@ -97,9 +102,9 @@ namespace Project2 {
 				static_cast<System::Byte>(204)));
 			this->listComponents->FormattingEnabled = true;
 			this->listComponents->ItemHeight = 20;
-			this->listComponents->Location = System::Drawing::Point(43, 67);
+			this->listComponents->Location = System::Drawing::Point(43, 87);
 			this->listComponents->Name = L"listComponents";
-			this->listComponents->Size = System::Drawing::Size(256, 244);
+			this->listComponents->Size = System::Drawing::Size(256, 224);
 			this->listComponents->TabIndex = 0;
 			this->listComponents->DoubleClick += gcnew System::EventHandler(this, &EditForm::listComponents_DoubleClick);
 			// 
@@ -109,9 +114,9 @@ namespace Project2 {
 				static_cast<System::Byte>(204)));
 			this->listAvailable->FormattingEnabled = true;
 			this->listAvailable->ItemHeight = 20;
-			this->listAvailable->Location = System::Drawing::Point(320, 67);
+			this->listAvailable->Location = System::Drawing::Point(320, 87);
 			this->listAvailable->Name = L"listAvailable";
-			this->listAvailable->Size = System::Drawing::Size(256, 244);
+			this->listAvailable->Size = System::Drawing::Size(256, 224);
 			this->listAvailable->TabIndex = 1;
 			this->listAvailable->DoubleClick += gcnew System::EventHandler(this, &EditForm::listAvailable_DoubleClick);
 			// 
@@ -120,7 +125,7 @@ namespace Project2 {
 			this->labelComponents->AutoSize = true;
 			this->labelComponents->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->labelComponents->Location = System::Drawing::Point(39, 34);
+			this->labelComponents->Location = System::Drawing::Point(91, 64);
 			this->labelComponents->Name = L"labelComponents";
 			this->labelComponents->Size = System::Drawing::Size(160, 20);
 			this->labelComponents->TabIndex = 2;
@@ -131,7 +136,7 @@ namespace Project2 {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label1->Location = System::Drawing::Point(324, 34);
+			this->label1->Location = System::Drawing::Point(350, 64);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(189, 20);
 			this->label1->TabIndex = 3;
@@ -172,11 +177,35 @@ namespace Project2 {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &EditForm::button1_Click);
 			// 
+			// textName
+			// 
+			this->textName->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->textName->Location = System::Drawing::Point(220, 35);
+			this->textName->MaxLength = 15;
+			this->textName->Name = L"textName";
+			this->textName->Size = System::Drawing::Size(165, 26);
+			this->textName->TabIndex = 7;
+			this->textName->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &EditForm::textName_KeyPress);
+			// 
+			// labelName
+			// 
+			this->labelName->AutoSize = true;
+			this->labelName->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelName->Location = System::Drawing::Point(255, 9);
+			this->labelName->Name = L"labelName";
+			this->labelName->Size = System::Drawing::Size(96, 20);
+			this->labelName->TabIndex = 8;
+			this->labelName->Text = L"Имя сборки";
+			// 
 			// EditForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(618, 454);
+			this->Controls->Add(this->labelName);
+			this->Controls->Add(this->textName);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->listNote);
 			this->Controls->Add(this->buttonClose);
@@ -197,7 +226,7 @@ namespace Project2 {
 		}
 #pragma endregion
 
-public: delegate void EventDelegate1(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type);
+public: delegate void EventDelegate1(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type, System::String^ name);
 public: event EventDelegate1^ myEvent1;
 
 	  public: delegate void EventDelegate2(System::Object^ sender, System::EventArgs^ e);
@@ -210,7 +239,8 @@ public: event EventDelegate2^ myEvent2;
 	}
 private: System::Void buttonClose_Click(System::Object^ sender, System::EventArgs^ e) {
 	//_MainForm->listsaved->
-	myEvent1(this, e, _sborka, k);
+
+	myEvent1(this, e, _sborka, k, textName->Text);
 	this->Hide();
 }
 public: void SetDatas(std::vector<GraphicsCard> cards,
@@ -224,10 +254,15 @@ public: void SetDatas(std::vector<GraphicsCard> cards,
 	_satss = sats;
 	_powerss = powers;
 }
-public: void SetSborka(Sborka sbor, int type)
+
+public: void SetSborka(Sborka sbor, int type, int selind)
 {
 	_sborka = sbor;
 	k = type;
+
+	textName->Text = (gcnew String(sbor.GetName().c_str()));
+
+
 //	listAvailable->Items->Clear();
 	listComponents->Items->Clear();
 
@@ -359,7 +394,7 @@ private: System::Void listAvailable_DoubleClick(System::Object^ sender, System::
 	else if (comsel == 4) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _satss[componentselect], _sborka.GetPower());
 	else if (comsel == 5) _sborka.SetConfig(_sborka.GetCard(), _sborka.GetMother(), _sborka.GetProts(), _sborka.GetRam(), _sborka.GetSata(), _powerss[componentselect]);
 			
-	SetSborka(_sborka, k);
+	SetSborka(_sborka, k,0);
 	
 	buttonClose->Enabled = true;
 	
@@ -417,6 +452,19 @@ private: System::Void EditForm_FormClosing(System::Object^ sender, System::Windo
 	e->Cancel = true;
 	myEvent2(this, e);
 	this->Hide();
+}
+
+private: System::Void textName_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
+	int i;
+	//setlocale(LC_ALL, "rus");
+
+	if (!((e->KeyChar >= 65 && e->KeyChar <= 90) || (e->KeyChar >= 48 && e->KeyChar <= 57) || // цифры
+		(e->KeyChar >= 97 && e->KeyChar <= 122) ||
+		(e->KeyChar == 8) || (e->KeyChar == 1)) && // Russian + English
+		!((e->KeyChar >= 1072 && e->KeyChar <= 1103) || (e->KeyChar == 1105) ||
+			(e->KeyChar >= 1040 && e->KeyChar <= 1071) || (e->KeyChar == 1025) || (e->KeyChar == 32)
+			))
+		e->Handled = true;
 }
 };
 }

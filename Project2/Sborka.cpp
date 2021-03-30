@@ -18,6 +18,18 @@ void Sborka::SetConfig(GraphicsCard card, Motherboard mother, Processor prots, R
 	_cost += power.GetCost();
 }
 
+std::string Sborka::GetName() {
+
+	return sborkaname;
+}
+
+void Sborka::SetName(std::string name) {
+	sborkaname = name;
+}
+void Sborka::SetName(System::String^ name) {
+	sborkaname = msclr::interop::marshal_as<std::string>(name);
+}
+
 GraphicsCard Sborka::GetCard()
 {
 	return _card;

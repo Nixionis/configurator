@@ -74,6 +74,7 @@ namespace Configurator {
 	System::Windows::Forms::ListBox^ listSaved;
 	System::Windows::Forms::Label^ labelSaved;
 	private: System::Windows::Forms::Button^ buttonSave;
+	private: System::Windows::Forms::Label^ labelSborkaName;
 
 	/// <summary>
 	/// Required designer variable.
@@ -106,6 +107,7 @@ namespace Configurator {
 			this->listSaved = (gcnew System::Windows::Forms::ListBox());
 			this->labelSaved = (gcnew System::Windows::Forms::Label());
 			this->buttonSave = (gcnew System::Windows::Forms::Button());
+			this->labelSborkaName = (gcnew System::Windows::Forms::Label());
 			this->Radioblock->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->BeginInit();
@@ -206,6 +208,7 @@ namespace Configurator {
 			this->listBoxConfig->Name = L"listBoxConfig";
 			this->listBoxConfig->Size = System::Drawing::Size(164, 166);
 			this->listBoxConfig->TabIndex = 10;
+			this->listBoxConfig->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::listBoxConfig_MouseClick);
 			this->listBoxConfig->DoubleClick += gcnew System::EventHandler(this, &MyForm::listBoxConfig_DoubleClick);
 			// 
 			// Radioblock
@@ -315,7 +318,7 @@ namespace Configurator {
 			this->buttonSetup->Name = L"buttonSetup";
 			this->buttonSetup->Size = System::Drawing::Size(254, 32);
 			this->buttonSetup->TabIndex = 20;
-			this->buttonSetup->Text = L"Заменить комплектующие";
+			this->buttonSetup->Text = L"Изменить сборку";
 			this->buttonSetup->UseVisualStyleBackColor = true;
 			this->buttonSetup->Click += gcnew System::EventHandler(this, &MyForm::buttonSetup_Click);
 			// 
@@ -330,6 +333,7 @@ namespace Configurator {
 			this->listSaved->Name = L"listSaved";
 			this->listSaved->Size = System::Drawing::Size(164, 202);
 			this->listSaved->TabIndex = 21;
+			this->listSaved->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::listSaved_MouseClick);
 			this->listSaved->DoubleClick += gcnew System::EventHandler(this, &MyForm::listSaved_DoubleClick);
 			// 
 			// labelSaved
@@ -356,11 +360,22 @@ namespace Configurator {
 			this->buttonSave->UseVisualStyleBackColor = true;
 			this->buttonSave->Click += gcnew System::EventHandler(this, &MyForm::buttonSave_Click);
 			// 
+			// labelSborkaName
+			// 
+			this->labelSborkaName->AutoSize = true;
+			this->labelSborkaName->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->labelSborkaName->Location = System::Drawing::Point(526, 16);
+			this->labelSborkaName->Name = L"labelSborkaName";
+			this->labelSborkaName->Size = System::Drawing::Size(0, 20);
+			this->labelSborkaName->TabIndex = 24;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(855, 430);
+			this->Controls->Add(this->labelSborkaName);
 			this->Controls->Add(this->buttonSave);
 			this->Controls->Add(this->labelSaved);
 			this->Controls->Add(this->listSaved);
@@ -413,22 +428,30 @@ namespace Configurator {
 	}
 
 	//Свзяка событий с формой про замену
-	void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type)
+	void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type, System::String^ name)
 	{
+
+		mysb.SetName(msclr::interop::marshal_as<std::string>(name)); // Имя сборки
+
 		//Получили сохраненную сборку
 		if (type == 0) _savedsborki.push_back(mysb);
 		else _savedsborki[type-1] = mysb;
-
 		listSaved->Items->Clear();
 		//Добавить в лист сохраненок
 		int y = _savedsborki.size();
-		for (int _i = 0; _i < y; _i++)
-			listSaved->Items->Add(String::Format("Сборка {0}", _i + 1));
+
+		for (int i = 0; i < y; i++) 
+			listSaved->Items->Add(gcnew String(_savedsborki[i].GetName().c_str()));
+
+		listSaved->SetSelected(0, 0);
+		listBoxConfig->SetSelected(0, 0);
 
 		this->Enabled = true;
 		listBoxSysParts->Items->Clear();
 
 		if(type != 0) buttonSave->Enabled = false;
+		buttonSetup->Enabled = false;
+		Memo->Items->Clear();
 	}
 
 	void mySubscriber1b(System::Object^ sender, System::EventArgs^ e)
@@ -507,8 +530,10 @@ namespace Configurator {
 
 		//Вывод сборок в листо бокс
 		y = _sborki.size();
-		for (int _i = 0; _i < y; _i++) 
-			listBoxConfig->Items->Add(String::Format("Сборка {0}", _i + 1));
+		for (int _i = 0; _i < y; _i++) {
+			_sborki[_i].SetName(String::Format("Сборка {0}", _i + 1));
+			listBoxConfig->Items->Add(gcnew String(_sborki[_i].GetName().c_str()));
+		}
 			
 		//Включение лист бокса
 		listBoxConfig->Enabled = true;
@@ -523,6 +548,8 @@ namespace Configurator {
 		_selected = listBoxConfig->SelectedIndex;
 
 		listSaved->SelectedIndex = -1;
+
+		labelSborkaName->Text = gcnew String(_sborki[_selected].GetName().c_str());
 		
 		if (_selected == -1) return;
 		buttonSetup->Enabled = true;
@@ -610,11 +637,11 @@ namespace Configurator {
 		ef1->ClearLists();
 		if (listSaved->SelectedIndex == -1)
 		{
-			ef1->SetSborka(_sborki[_selected], 0);
+			ef1->SetSborka(_sborki[_selected], 0, listBoxConfig->SelectedIndex);
 		}
 		else if (listBoxConfig->SelectedIndex == -1)
 		{
-			ef1->SetSborka(_savedsborki[_saveselected], _saveselected+1);
+			ef1->SetSborka(_savedsborki[_saveselected], _saveselected+1, listSaved->SelectedIndex);
 		}
 		//ef1->ClearLists();
 		ef1->Show();
@@ -626,6 +653,8 @@ namespace Configurator {
 		Memo->Items->Clear();
 		listBoxSysParts->Items->Clear();
 		_saveselected = listSaved->SelectedIndex;
+
+		labelSborkaName->Text = gcnew String(_savedsborki[_saveselected].GetName().c_str());
 
 		buttonSetup->Enabled = true;
 		if (_saveselected == -1) return;
@@ -680,12 +709,30 @@ private: System::Void buttonSave_Click(System::Object^ sender, System::EventArgs
 	listSaved->Items->Clear();
 	//Добавить в лист сохраненок
 	int y = _savedsborki.size();
-	for (int _i = 0; _i < y; _i++)
-		listSaved->Items->Add(String::Format("Сборка {0}", _i + 1));
+	System::String^ str;
+	for (int _i = 0; _i < y; _i++) {
+		str = gcnew String(_savedsborki[_i].GetName().c_str());
+		listSaved->Items->Add(str);
+	}
 
 	//this->Enabled = true;
 	//listBoxSysParts->Items->Clear();
 
+}
+
+private: System::Void listSaved_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	listBoxConfig->SelectedIndex = -1;
+	_saveselected = listSaved->SelectedIndex;
+	buttonSetup->Enabled = true;
+	if (_saveselected == -1) return;
+	buttonSave->Enabled = false;
+}
+private: System::Void listBoxConfig_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+	listSaved->SelectedIndex = -1;
+	_selected = listBoxConfig->SelectedIndex;
+	if (_selected == -1) return;
+	buttonSetup->Enabled = true;
+	buttonSave->Enabled = true;
 }
 };
 }
