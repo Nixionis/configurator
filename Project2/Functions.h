@@ -11,20 +11,19 @@ std::vector<GraphicsCard> LoadGraphicsData()
 	//Загрузка в базу данных графических карт
 	std::vector<GraphicsCard> cards;
 	GraphicsCard card;
-
+	 
+	//Открытие файла
 	std::fstream GraphicFile("Graphics.txt");
 
-	//TODO: Open ERROR
-
+	//Данные, считанные с одной строки
 	int amount;
-
 	std::string name;
 	int power;
 	int cost;
 	int tdp;
 
 	GraphicFile >> amount;
-
+	//Считывание всего списка видеокарт
 	for (int i = 0; i < amount; i++)
 	{
 		GraphicFile >> name;
@@ -44,12 +43,11 @@ std::vector<Motherboard> LoadMothersData()
 	std::vector<Motherboard> mothers;
 	Motherboard mother;
 
+	//Открытие файла
 	std::fstream MBoardFile("Mboards.txt");
 
-	//TODO: Open ERROR
-
+	//Данные, считанные с одной строки
 	int amount;
-
 	std::string name;
 	int powermin;
 	int powermax;
@@ -58,7 +56,7 @@ std::vector<Motherboard> LoadMothersData()
 	int socket;
 
 	MBoardFile >> amount;
-
+	//Считывание всего списка материнских плат
 	for (int i = 0; i < amount; i++)
 	{
 		MBoardFile >> name;
@@ -80,12 +78,11 @@ std::vector<Processor> LoadProcData()
 	std::vector<Processor> procs;
 	Processor proc;
 
+	//Открытие файла
 	std::fstream ProccsFile("Proccs.txt");
 
-	//TODO: Open ERROR
-
+	//Данные, считанные с одной строки
 	int amount;
-
 	std::string name;
 	int power;
 	int cost;
@@ -93,7 +90,7 @@ std::vector<Processor> LoadProcData()
 	int tdp;
 
 	ProccsFile >> amount;
-
+	//Считывание всего списка процессоров
 	for (int i = 0; i < amount; i++)
 	{
 		ProccsFile >> name;
@@ -114,18 +111,17 @@ std::vector<RAM> LoadRAMData()
 	std::vector<RAM> RAMS;
 	RAM ram;
 
+	//Открытие файла
 	std::fstream RAMFile("RAM.txt");
 
-	//TODO: Open ERROR
-
+	//Данные, считанные с одной строки
 	int amount;
-
 	std::string name;
 	int GBs;
 	int cost;
 
 	RAMFile >> amount;
-
+	//Считывание всего списка оперативной памяти
 	for (int i = 0; i < amount; i++)
 	{
 		RAMFile >> name;
@@ -144,19 +140,18 @@ std::vector<SATA> LoadSATAData()
 	std::vector<SATA> SATS;
 	SATA sata;
 
+	//Открытие файла
 	std::fstream SATAFile("SATA.txt");
 
-	//TODO: Open ERROR
-
+	//Данные, считанные с одной строки
 	int amount;
-
 	std::string name;
 	int GBs;
 	int type;
 	int cost;
 
 	SATAFile >> amount;
-
+	//Считывание всего списка жестких дисков
 	for (int i = 0; i < amount; i++)
 	{
 		SATAFile >> name;
@@ -176,18 +171,17 @@ std::vector<PowerBlock> LoadPowerData()
 	std::vector<PowerBlock> Powers;
 	PowerBlock power;
 
+	//Открытие файла
 	std::fstream PowerFile("PowerBlocks.txt");
 
-	//TODO: Open ERROR
-
+	//Данные, считанные с одной строки
 	int amount;
-
 	std::string name;
 	int Watt;
 	int cost;
 
 	PowerFile >> amount;
-
+	//Считывание всего списка блоков питания
 	for (int i = 0; i < amount; i++)
 	{
 		PowerFile >> name;
@@ -318,7 +312,7 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 
 		mother = mothers[b];
 
-		//Поиск оперативной памяти по мощности процессора
+		//Поиск оперативной памяти
 
 		b = 0;
 		e = rams.size();
@@ -327,7 +321,7 @@ std::vector<Sborka> CreateConfigas(int configtype, int mincost, int maxcost, std
 		{
 			int c = (b + e) / 2;
 
-			if (rams[c].GetGB() <= (int)rpt) b = c + 1;
+			if (rams[c].GetGB() < (int)rpt) b = c + 1;
 			else e = c;
 		}
 

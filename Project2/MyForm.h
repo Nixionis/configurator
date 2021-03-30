@@ -412,12 +412,10 @@ namespace Configurator {
 	{
 		AddSborks(1);
 	}
-
 	System::Void radioOffice_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
 		AddSborks(2);
 	}
-
 	System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
 		AddSborks(3);
@@ -460,8 +458,10 @@ namespace Configurator {
 		this->Enabled = true;
 	}
 
+	// Загрузка формы
 	System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e)
 	{
+		//Привязывание событий для формы с изменением сборки
 		//Связка события с сохранением сборки
 		this->ef1 = gcnew Project2::EditForm();
 		ef1->myEvent1 += gcnew Project2::EditForm::EventDelegate1
@@ -470,35 +470,39 @@ namespace Configurator {
 		ef1->myEvent2 += gcnew Project2::EditForm::EventDelegate2
 		(this, &Configurator::MyForm::mySubscriber1b);
 
-		//Загрузка в базу дынных
-		_cards = LoadGraphicsData();
-		_mothers = LoadMothersData();
-		_processors = LoadProcData();
-		_rams = LoadRAMData();
-		_sats = LoadSATAData();
-		_powers = LoadPowerData();
+		//Загрузка комплектующих из файлов в базу данных программы
+		_cards = LoadGraphicsData();   // Видеокарты
+		_mothers = LoadMothersData();  // Материнские платы
+		_processors = LoadProcData();  // Процессоры
+		_rams = LoadRAMData();         // Оперативная память
+		_sats = LoadSATAData();        // Жесткие диски
+		_powers = LoadPowerData();     // Блоки питания
+		
+		// Перенос данных в форму изменений сборки
 		ef1->SetDatas(_cards, _mothers, _processors, _rams, _sats, _powers);
 	}
 
-	// Генерация сборки
+	
 	void AddSborks(int configtype)
 	{
-		buttonSetup->Enabled = false;
-
-		// Выставление минимального и максимального бюджета
+		// Считывание выбранного критерия и максимального и минимального бюджета
+		// Копирование минимального и максимального бюджета
 		_mincost = (int)numericFrom->Value;
 		_maxcost = (int)numericTo->Value;
 
-		// Чистка лист боксов
+		// Очищение текста в логах программы
 		listBoxSysParts->Items->Clear();
 		listBoxConfig->Items->Clear();
 		Memo->Items->Clear();
+		buttonSetup->Enabled = false;
 
-		//Очистка вектора сборок и старт генерации сборок по типу, цене.
+		//Очищение данных о сборках
 		_sborki.clear();
+
+		// Генерация сборок по заданным критериям
 		_sborki = CreateConfigas(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams, _sats, _powers);
 
-		//Если нету, то выводим сообщение об отсутсвии сборок
+		//Если нету ни одной сборки, то выводим сообщение об отсутсвии сборок
 		if (_sborki.empty())
 		{
 			listBoxConfig->Items->Add("Нет доступных");
@@ -508,7 +512,7 @@ namespace Configurator {
 			return;
 		}
 
-		//Сортировка сборок по цене
+		//Сортировка сборок по снижению цены
 		int y = _sborki.size();
 		
 		Sborka z;
