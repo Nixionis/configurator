@@ -549,11 +549,11 @@ namespace Configurator {
 
 		listSaved->SelectedIndex = -1;
 
-		labelSborkaName->Text = gcnew String(_sborki[_selected].GetName().c_str());
-		
 		if (_selected == -1) return;
+
 		buttonSetup->Enabled = true;
 		buttonSave->Enabled = true;
+		labelSborkaName->Text = gcnew String(_sborki[_selected].GetName().c_str());
 
 		//Вывод компонентов сборки
 		System::String^ str = gcnew String(_sborki[_selected].GetCard().GetName().c_str());
@@ -654,12 +654,13 @@ namespace Configurator {
 		listBoxSysParts->Items->Clear();
 		_saveselected = listSaved->SelectedIndex;
 
-		labelSborkaName->Text = gcnew String(_savedsborki[_saveselected].GetName().c_str());
-
 		buttonSetup->Enabled = true;
+
 		if (_saveselected == -1) return;
 		buttonSave->Enabled = false;
 		listBoxConfig->SelectedIndex = -1;
+
+		labelSborkaName->Text = gcnew String(_savedsborki[_saveselected].GetName().c_str());
 
 		//Вывод комплектации
 		System::String^ str = gcnew String(_savedsborki[_saveselected].GetCard().GetName().c_str());
