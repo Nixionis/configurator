@@ -60,8 +60,8 @@ Class Project2.SurveyForm+EventDelegate3: AutoLayout, AnsiClass, Class, NestedPu
   :System.MulticastDelegate
     Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
   Methods:
-    Invoke(Object, EventArgs, Sborka*, Int32, String): PrivateScope, Public, Final, Virtual, VtableLayoutMask
-    BeginInvoke(Object, EventArgs, Sborka*, Int32, String, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    Invoke(Object, EventArgs, Sborka*, Int32): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(Object, EventArgs, Sborka*, Int32, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
     EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
 Class Project2.SurveyForm+EventDelegate4: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
   :System.MulticastDelegate

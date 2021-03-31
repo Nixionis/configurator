@@ -1,14 +1,18 @@
 ﻿  MyForm.cpp
 C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(201,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(292,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(326,9): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(378,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(440,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(294,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(328,9): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(380,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(442,25): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Nix\Documents\GitHub\configurator\Project2\EditForm.h(449,6): warning C4101: 'i': unreferenced local variable
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(388,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(570,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(411,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(441,18): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(541,10): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(572,21): warning C4018: '<': signed/unsigned mismatch
   SurveyForm.cpp
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(388,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(411,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(441,18): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(541,10): warning C4018: '>': signed/unsigned mismatch
   Generating Code...
   EditForm.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Release\Configurator.exe
