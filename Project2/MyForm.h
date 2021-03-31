@@ -74,6 +74,7 @@ namespace Configurator {
 	System::Windows::Forms::Label^ labelSaved;
 	private: System::Windows::Forms::Button^ buttonSave;
 	private: System::Windows::Forms::Label^ labelSborkaName;
+	private: System::Windows::Forms::Button^ buttonSettings;
 
 	/// <summary>
 	/// Required designer variable.
@@ -107,6 +108,7 @@ namespace Configurator {
 			this->labelSaved = (gcnew System::Windows::Forms::Label());
 			this->buttonSave = (gcnew System::Windows::Forms::Button());
 			this->labelSborkaName = (gcnew System::Windows::Forms::Label());
+			this->buttonSettings = (gcnew System::Windows::Forms::Button());
 			this->Radioblock->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericFrom))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericTo))->BeginInit();
@@ -369,11 +371,25 @@ namespace Configurator {
 			this->labelSborkaName->Size = System::Drawing::Size(0, 20);
 			this->labelSborkaName->TabIndex = 24;
 			// 
+			// buttonSettings
+			// 
+			this->buttonSettings->Enabled = false;
+			this->buttonSettings->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->buttonSettings->Location = System::Drawing::Point(13, 216);
+			this->buttonSettings->Name = L"buttonSettings";
+			this->buttonSettings->Size = System::Drawing::Size(227, 32);
+			this->buttonSettings->TabIndex = 25;
+			this->buttonSettings->Text = L"Настройки";
+			this->buttonSettings->UseVisualStyleBackColor = true;
+			this->buttonSettings->Click += gcnew System::EventHandler(this, &MyForm::buttonSettings_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(855, 430);
+			this->Controls->Add(this->buttonSettings);
 			this->Controls->Add(this->labelSborkaName);
 			this->Controls->Add(this->buttonSave);
 			this->Controls->Add(this->labelSaved);
@@ -409,19 +425,22 @@ namespace Configurator {
 	private: 
 	System::Void radioHome_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
+		buttonSettings->Enabled = false;
 		AddSborks(1, false);
 	}
 	System::Void radioOffice_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
+		buttonSettings->Enabled = false;
 		AddSborks(2, false);
 	}
 	System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
+		buttonSettings->Enabled = false;
 		AddSborks(3, false);
 	}
 	System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		if (radioPro->Checked) sf1->Show();
+		buttonSettings->Enabled = true;
 
 		//AddSborks(4);
 	}
@@ -763,6 +782,10 @@ private: System::Void listBoxConfig_MouseClick(System::Object^ sender, System::W
 	listSaved->SelectedIndex = -1;
 	buttonSetup->Enabled = true;
 	buttonSave->Enabled = true;
+}
+private: System::Void buttonSettings_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	if (radioPro->Checked) sf1->Show();
 }
 };
 }

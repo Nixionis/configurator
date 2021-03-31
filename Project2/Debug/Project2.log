@@ -1,19 +1,19 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Project2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (Project2.vcxproj).  Это может привести к ошибкам очистки и перестроения.
   MyForm.cpp
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(201,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(294,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(328,9): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(380,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(442,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\EditForm.h(449,6): warning C4101: 'i': unreferenced local variable
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(394,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(424,18): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(524,10): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(553,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(201,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(294,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(328,9): warning C4018: >: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(380,24): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(442,25): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\EditForm.h(449,6): warning C4101: i: неиспользованная локальная переменная
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\SurveyForm.h(411,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\SurveyForm.h(441,18): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\SurveyForm.h(541,10): warning C4018: >: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(572,21): warning C4018: <: несоответствие типов со знаком и без знака
   SurveyForm.cpp
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(394,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(424,18): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\SurveyForm.h(524,10): warning C4018: '>': signed/unsigned mismatch
-  Generating Code...
-  EditForm.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
-  Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Debug\Configurator.exe
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\SurveyForm.h(411,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\SurveyForm.h(441,18): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\SurveyForm.h(541,10): warning C4018: >: несоответствие типов со знаком и без знака
+  Создание кода...
+  EditForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  Project2.vcxproj -> C:\Users\Вадим\Documents\GitHub\configurator\Debug\Configurator.exe

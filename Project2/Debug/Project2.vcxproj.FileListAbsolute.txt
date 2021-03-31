@@ -10,3 +10,4 @@ C:\Users\Вадим\Documents\GitHub\configurator\Project2\Debug\Project2.vcxpro
 C:\Users\Nix\Documents\GitHub\configurator\Project2\Debug\Project2.EditForm.resources
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Debug\Project2.EditForm.resources
 C:\Users\Nix\Documents\GitHub\configurator\Project2\Debug\Project2.SurveyForm.resources
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Debug\Project2.SurveyForm.resources

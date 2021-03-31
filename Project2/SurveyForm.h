@@ -27,6 +27,7 @@ namespace Project2 {
 	static Sborka _sborkaf;
 
 	static std::vector<Programm> _progs;
+	static std::vector<Programm> selectedProgs;
 
 	/// <summary>
 	/// Сводка для SurveyForm
@@ -41,7 +42,8 @@ namespace Project2 {
 	private: System::Windows::Forms::Button^ button3;
 
 		int** MinPoints;
-		bool** SystemsWind;
+	private: System::Windows::Forms::Label^ label2;
+		   bool** SystemsWind;
 
 		
 	public:
@@ -114,6 +116,7 @@ namespace Project2 {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -184,7 +187,7 @@ namespace Project2 {
 			this->listMemo->ItemHeight = 18;
 			this->listMemo->Location = System::Drawing::Point(23, 258);
 			this->listMemo->Name = L"listMemo";
-			this->listMemo->Size = System::Drawing::Size(621, 148);
+			this->listMemo->Size = System::Drawing::Size(621, 130);
 			this->listMemo->TabIndex = 1;
 			// 
 			// listDisc
@@ -198,6 +201,7 @@ namespace Project2 {
 			this->listDisc->SelectionMode = System::Windows::Forms::SelectionMode::MultiExtended;
 			this->listDisc->Size = System::Drawing::Size(166, 184);
 			this->listDisc->TabIndex = 2;
+			this->listDisc->SelectedIndexChanged += gcnew System::EventHandler(this, &SurveyForm::listDisc_SelectedIndexChanged);
 			// 
 			// listPrograms
 			// 
@@ -210,6 +214,7 @@ namespace Project2 {
 			this->listPrograms->SelectionMode = System::Windows::Forms::SelectionMode::MultiExtended;
 			this->listPrograms->Size = System::Drawing::Size(166, 184);
 			this->listPrograms->TabIndex = 3;
+			this->listPrograms->SelectedIndexChanged += gcnew System::EventHandler(this, &SurveyForm::listPrograms_SelectedIndexChanged);
 			// 
 			// listSysReq
 			// 
@@ -260,11 +265,11 @@ namespace Project2 {
 			this->button1->Enabled = false;
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button1->Location = System::Drawing::Point(668, 319);
+			this->button1->Location = System::Drawing::Point(668, 304);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(204, 39);
+			this->button1->Size = System::Drawing::Size(204, 37);
 			this->button1->TabIndex = 8;
-			this->button1->Text = L"Принять";
+			this->button1->Text = L"Принять настройки";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &SurveyForm::button1_Click);
 			// 
@@ -272,9 +277,9 @@ namespace Project2 {
 			// 
 			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button2->Location = System::Drawing::Point(668, 364);
+			this->button2->Location = System::Drawing::Point(667, 351);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(204, 42);
+			this->button2->Size = System::Drawing::Size(204, 37);
 			this->button2->TabIndex = 9;
 			this->button2->Text = L"Отмена";
 			this->button2->UseVisualStyleBackColor = true;
@@ -285,17 +290,29 @@ namespace Project2 {
 			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F));
 			this->button3->Location = System::Drawing::Point(668, 258);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(204, 55);
+			this->button3->Size = System::Drawing::Size(204, 37);
 			this->button3->TabIndex = 10;
-			this->button3->Text = L"Найти";
+			this->button3->Text = L"Показать требования";
 			this->button3->UseVisualStyleBackColor = true;
 			this->button3->Click += gcnew System::EventHandler(this, &SurveyForm::button3_Click);
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label2->Location = System::Drawing::Point(269, 234);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(331, 18);
+			this->label2->TabIndex = 11;
+			this->label2->Text = L"Зажмите Ctrl для множественного выделения";
 			// 
 			// SurveyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(889, 421);
+			this->ClientSize = System::Drawing::Size(889, 400);
+			this->Controls->Add(this->label2);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
@@ -464,7 +481,7 @@ private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e
 			else if (listDisc->Items[listDisc->SelectedIndices[i]]->ToString() == "Возможность бэкапов")
 				stb = 1;
 	
-	std::vector<Programm> selectedProgs;
+	
 	y = listPrograms->SelectedIndices->Count;
 
 	for (int i = 0; i < y; i++) FindProg(listPrograms->Items[listPrograms->SelectedIndices[i]]->ToString(), selectedProgs);
@@ -602,6 +619,12 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	myEvent4(this, e);
 	this->Hide();
+}
+private: System::Void listPrograms_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+	button1->Enabled = false;
+}
+private: System::Void listDisc_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+	button1->Enabled = false;
 }
 };
 }
