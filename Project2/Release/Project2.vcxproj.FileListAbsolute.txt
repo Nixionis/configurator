@@ -6,3 +6,4 @@ C:\Users\Вадим\Documents\GitHub\configurator\Project2\Release\Project2.MyFo
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Release\Project2.vcxproj.GenerateResource.cache
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Release\Project2.EditForm.resources
 C:\Users\Nix\Documents\GitHub\configurator\Project2\Release\Project2.EditForm.resources
+C:\Users\Nix\Documents\GitHub\configurator\Project2\Release\Project2.SurveyForm.resources

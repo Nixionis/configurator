@@ -131,6 +131,7 @@
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="PowerBlock.cpp" />
     <ClCompile Include="Processor.cpp" />
+    <ClCompile Include="Programm.cpp" />
     <ClCompile Include="RAM.cpp" />
     <ClCompile Include="SATA.cpp" />
     <ClCompile Include="Sborka.cpp" />
@@ -148,6 +149,7 @@
     </ClInclude>
     <ClInclude Include="PowerBlock.h" />
     <ClInclude Include="Processor.h" />
+    <ClInclude Include="Programm.h" />
     <ClInclude Include="RAM.h" />
     <ClInclude Include="SATA.h" />
     <ClInclude Include="Sborka.h" />

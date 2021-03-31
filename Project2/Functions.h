@@ -196,7 +196,7 @@ std::vector<PowerBlock> LoadPowerData()
 
 std::vector<Sborka> CreateConfigs(int configtype, int mincost, int maxcost, std::vector<GraphicsCard> cards,
 	std::vector<Motherboard>& mothers, std::vector<Processor> process, std::vector<RAM>& rams, 
-	std::vector<SATA>& sats, std::vector<PowerBlock>& powers)
+	std::vector<SATA>& sats, std::vector<PowerBlock>& powers, bool minbind, Sborka &minsb)
 {
 	srand(time(NULL));
 
@@ -248,9 +248,11 @@ std::vector<Sborka> CreateConfigs(int configtype, int mincost, int maxcost, std:
 	}
 	else if (configtype == 4)
 	{
-		MinGraphicPoints = 40; MinProcPoints = 50;
-		MinRAMPoints = 8;
-		MinSATAPoints = 512; MinSATAType = 1;
+		(!minbind) ? MinGraphicPoints = 40 : MinGraphicPoints = minsb.GetCard().GetPoints();
+		(!minbind) ? MinProcPoints = 50 : MinProcPoints = minsb.GetProts().GetPoints();
+		(!minbind) ? MinRAMPoints = 8 : MinRAMPoints = minsb.GetRam().GetGB();
+		(!minbind) ? MinSATAPoints = 256 : MinSATAPoints = minsb.GetSata().GetGB();
+		(!minbind) ? MinSATAType = 1 : MinSATAType = minsb.GetSata().GetType();
 	}
 
 	//Процессоры, подходящие к видеокарте

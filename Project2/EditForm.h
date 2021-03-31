@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "MyForm.h"
+//#include "MyForm.h"
 #include "Sborka.h"
 
 //Configurator::MyForm^ _MainForm;
@@ -15,13 +15,13 @@ namespace Project2 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	std::vector<GraphicsCard> _cardss;
-	std::vector<Motherboard> _motherss;
-	std::vector<Processor> _processorss;
-	std::vector<RAM> _ramss;
-	std::vector<SATA> _satss;
-	std::vector<PowerBlock> _powerss;
-	Sborka _sborka;
+	static std::vector<GraphicsCard> _cardss;
+	static std::vector<Motherboard> _motherss;
+	static std::vector<Processor> _processorss;
+	static std::vector<RAM> _ramss;
+	static std::vector<SATA> _satss;
+	static std::vector<PowerBlock> _powerss;
+	static Sborka _sborka;
 
 	/// <summary>
 	/// Сводка для EditForm

@@ -2,21 +2,9 @@
 
 #include <vector>
 #include "Functions.h"
-#include "GraphicsCard.h"
-#include "Processor.h"
-#include "RAM.h"
-#include "PowerBlock.h"
 #include "Sborka.h"
 #include "EditForm.h"
-
-std::vector<GraphicsCard> _cards;
-std::vector<Motherboard> _mothers;
-std::vector<Processor> _processors;
-std::vector<RAM> _rams;
-std::vector<SATA> _sats;
-std::vector<PowerBlock> _powers;
-std::vector<Sborka> _sborki;
-std::vector<Sborka> _savedsborki;
+#include "SurveyForm.h"
 
 int _selected = -1, _saveselected = -1;
 int _maxcost = 0, _mincost = 0;
@@ -30,12 +18,22 @@ namespace Configurator {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+	static std::vector<GraphicsCard> _cards;
+	static std::vector<Motherboard> _mothers;
+	static std::vector<Processor> _processors;
+	static std::vector<RAM> _rams;
+	static std::vector<SATA> _sats;
+	static std::vector<PowerBlock> _powers;
+	static std::vector<Sborka> _sborki;
+	static std::vector<Sborka> _savedsborki;
+
+	static Sborka MinSborka;
 	/// <summary>
 	/// Summary for MyForm
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
-	
+		
 
 	public:
 		MyForm(void)
@@ -53,7 +51,8 @@ namespace Configurator {
 		}
 
 	private: 
-	Project2::EditForm^ ef1;//Форма с заменой комплектующих в сборке
+	Project2::EditForm^ ef1;
+	Project2::SurveyForm^ sf1;
 
 	System::Windows::Forms::RadioButton^ radioOffice;
 	System::Windows::Forms::RadioButton^ radioHome;
@@ -410,25 +409,25 @@ namespace Configurator {
 	private: 
 	System::Void radioHome_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(1);
+		AddSborks(1, false);
 	}
 	System::Void radioOffice_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(2);
+		AddSborks(2, false);
 	}
 	System::Void radioGame_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		AddSborks(3);
+		AddSborks(3, false);
 	}
 	System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
-		if (radioPro->Checked) return;
+		if (radioPro->Checked) sf1->Show();
 
-		AddSborks(4);
+		//AddSborks(4);
 	}
 
 	//Свзяка событий с формой про замену
-	void mySubscriber1a(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type, System::String^ name)
+	void EditForm_Save(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type, System::String^ name)
 	{
 
 		mysb.SetName(msclr::interop::marshal_as<std::string>(name)); // Имя сборки
@@ -455,7 +454,20 @@ namespace Configurator {
 		Memo->Items->Clear();
 	}
 
-	void mySubscriber1b(System::Object^ sender, System::EventArgs^ e)
+	void EditForm_Cancel(System::Object^ sender, System::EventArgs^ e)
+	{
+		//Просто закрыли форму
+		this->Enabled = true;
+	}
+
+	void SurveyForm_Save(System::Object^ sender, System::EventArgs^ e, Sborka mysb, int type)
+	{
+		//Получили сохраненную сборку
+		MinSborka = mysb;
+		AddSborks(4, true);
+	}
+
+	void SurveyForm_Cancel(System::Object^ sender, System::EventArgs^ e)
 	{
 		//Просто закрыли форму
 		this->Enabled = true;
@@ -468,10 +480,18 @@ namespace Configurator {
 		//Связка события с сохранением сборки
 		this->ef1 = gcnew Project2::EditForm();
 		ef1->myEvent1 += gcnew Project2::EditForm::EventDelegate1
-		(this, &Configurator::MyForm::mySubscriber1a);
+		(this, &Configurator::MyForm::EditForm_Save);
 		//Свзяка событий с отменой
 		ef1->myEvent2 += gcnew Project2::EditForm::EventDelegate2
-		(this, &Configurator::MyForm::mySubscriber1b);
+		(this, &Configurator::MyForm::EditForm_Cancel);
+
+		//Связка события с сохранением сборки
+		this->sf1 = gcnew Project2::SurveyForm();
+		sf1->myEvent3 += gcnew Project2::SurveyForm::EventDelegate3
+		(this, &Configurator::MyForm::SurveyForm_Save);
+		//Свзяка событий с отменой
+		sf1->myEvent4 += gcnew Project2::SurveyForm::EventDelegate4
+		(this, &Configurator::MyForm::SurveyForm_Cancel);
 
 		//Загрузка комплектующих из файлов в базу данных программы
 		_cards = LoadGraphicsData();   // Видеокарты
@@ -481,12 +501,14 @@ namespace Configurator {
 		_sats = LoadSATAData();        // Жесткие диски
 		_powers = LoadPowerData();     // Блоки питания
 		
+		MinSborka.SetConfig(_cards[0], _mothers[0], _processors[0], _rams[0], _sats[0], _powers[0]);
 		// Перенос данных в форму изменений сборки
 		ef1->SetDatas(_cards, _mothers, _processors, _rams, _sats, _powers);
+		sf1->SetDatas(_cards, _mothers, _processors, _rams, _sats, _powers);
 	}
 
 	
-	void AddSborks(int configtype)
+	void AddSborks(int configtype, bool MinBind)
 	{
 		// Считывание выбранного критерия и максимального и минимального бюджета
 		// configtype - номер выбранного критерия (домашний и т.д)
@@ -504,7 +526,7 @@ namespace Configurator {
 		_sborki.clear();
 
 		// Генерация сборок по заданным критериям
-		_sborki = CreateConfigs(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams, _sats, _powers);
+		_sborki = CreateConfigs(configtype, _mincost, _maxcost, _cards, _mothers, _processors, _rams, _sats, _powers, MinBind, MinSborka);
 
 		//Если нету ни одной сборки, то выводим сообщение об отсутсвии сборок
 		if (_sborki.empty())
@@ -620,10 +642,10 @@ namespace Configurator {
 
 	void StartAddSborks()
 	{
-		if (radioHome->Checked == true) AddSborks(1);
-		if (radioOffice->Checked == true) AddSborks(2);
-		if (radioGame->Checked == true) AddSborks(3);
-		if (radioPro->Checked == true) AddSborks(4);
+		if (radioHome->Checked == true) AddSborks(1, false);
+		if (radioOffice->Checked == true) AddSborks(2, false);
+		if (radioGame->Checked == true) AddSborks(3, false);
+		if (radioPro->Checked == true) AddSborks(4, true);
 	}
 	//Сменили бюджет
 	System::Void numericTo_ValueChanged(System::Object^ sender, System::EventArgs^ e) {

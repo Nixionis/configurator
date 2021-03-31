@@ -1,5 +1,6 @@
   Project2.EditForm.resources - Embedded, ContainedInManifestFile, 
   Project2.MyForm.resources - Embedded, ContainedInManifestFile, 
+  Project2.SurveyForm.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly Configurator, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
 	hash=SHA1, flags=PublicKey
@@ -37,6 +38,32 @@ Class Project2.EditForm+EventDelegate1: AutoLayout, AnsiClass, Class, NestedPubl
     BeginInvoke(Object, EventArgs, Sborka*, Int32, String, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
     EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
 Class Project2.EditForm+EventDelegate2: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(Object, EventArgs): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(Object, EventArgs, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+Class Project2.SurveyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Events:
+    EventDelegate4 myEvent4: SpecialName
+    EventDelegate3 myEvent3: SpecialName
+  Methods:
+    add_myEvent3(EventDelegate3): PrivateScope, Public, HideBySig, SpecialName
+    remove_myEvent3(EventDelegate3): PrivateScope, Public, HideBySig, SpecialName
+    add_myEvent4(EventDelegate4): PrivateScope, Public, HideBySig, SpecialName
+    remove_myEvent4(EventDelegate4): PrivateScope, Public, HideBySig, SpecialName
+    SetDatas(vector<GraphicsCard\,std::allocator<GraphicsCard> >* IsImplicitlyDereferenced, vector<Motherboard\,std::allocator<Motherboard> >* IsImplicitlyDereferenced, vector<Processor\,std::allocator<Processor> >* IsImplicitlyDereferenced, vector<RAM\,std::allocator<RAM> >* IsImplicitlyDereferenced, vector<SATA\,std::allocator<SATA> >* IsImplicitlyDereferenced, vector<PowerBlock\,std::allocator<PowerBlock> >* IsImplicitlyDereferenced): PrivateScope, Public, HideBySig
+Class Project2.SurveyForm+EventDelegate3: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(Object, EventArgs, Sborka*, Int32, String): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(Object, EventArgs, Sborka*, Int32, String, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+Class Project2.SurveyForm+EventDelegate4: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
   :System.MulticastDelegate
     Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
   Methods:
