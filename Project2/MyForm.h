@@ -422,6 +422,8 @@ namespace Configurator {
 	}
 	System::Void radioPro_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
+		if (radioPro->Checked) return;
+
 		AddSborks(4);
 	}
 

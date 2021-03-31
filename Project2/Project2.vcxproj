@@ -134,6 +134,7 @@
     <ClCompile Include="RAM.cpp" />
     <ClCompile Include="SATA.cpp" />
     <ClCompile Include="Sborka.cpp" />
+    <ClCompile Include="SurveyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditForm.h">
@@ -150,6 +151,9 @@
     <ClInclude Include="RAM.h" />
     <ClInclude Include="SATA.h" />
     <ClInclude Include="Sborka.h" />
+    <ClInclude Include="SurveyForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EditForm.resx">
@@ -157,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SurveyForm.resx">
+      <DependentUpon>SurveyForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
