@@ -552,9 +552,9 @@ namespace Configurator {
 		listBoxSysParts->Items->Clear();
 		_selected = listBoxConfig->SelectedIndex;
 
-		listSaved->SelectedIndex = -1;
 
 		if (_selected == -1) return;
+		listSaved->SelectedIndex = -1;
 
 		buttonSetup->Enabled = true;
 		buttonSave->Enabled = true;
@@ -727,16 +727,16 @@ namespace Configurator {
 }
 
 private: System::Void listSaved_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-	listBoxConfig->SelectedIndex = -1;
 	_saveselected = listSaved->SelectedIndex;
 	buttonSetup->Enabled = true;
 	if (_saveselected == -1) return;
+	listBoxConfig->SelectedIndex = -1;
 	buttonSave->Enabled = false;
 }
 private: System::Void listBoxConfig_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-	listSaved->SelectedIndex = -1;
 	_selected = listBoxConfig->SelectedIndex;
 	if (_selected == -1) return;
+	listSaved->SelectedIndex = -1;
 	buttonSetup->Enabled = true;
 	buttonSave->Enabled = true;
 }

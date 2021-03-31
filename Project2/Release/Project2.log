@@ -1,13 +1,10 @@
-﻿  EditForm.cpp
-  MyForm.cpp
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(201,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(292,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(326,9): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(378,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\Functions.h(440,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Nix\Documents\GitHub\configurator\Project2\EditForm.h(449,6): warning C4101: 'i': unreferenced local variable
-C:\Users\Nix\Documents\GitHub\configurator\Project2\MyForm.h(529,21): warning C4018: '<': signed/unsigned mismatch
-  Sborka.cpp
-  Generating Code...
-  EditForm.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
-  Project2.vcxproj -> C:\Users\Nix\Documents\GitHub\configurator\Release\Configurator.exe
+﻿  MyForm.cpp
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(201,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(292,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(326,9): warning C4018: >: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(378,24): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(440,25): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\EditForm.h(449,6): warning C4101: i: неиспользованная локальная переменная
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(529,21): warning C4018: <: несоответствие типов со знаком и без знака
+  EditForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  Project2.vcxproj -> C:\Users\Вадим\Documents\GitHub\configurator\Release\Configurator.exe
