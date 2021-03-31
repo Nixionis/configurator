@@ -5,6 +5,6 @@ C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(326,9): w
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(378,24): warning C4018: <: несоответствие типов со знаком и без знака
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\Functions.h(440,25): warning C4018: <: несоответствие типов со знаком и без знака
 C:\Users\Вадим\Documents\GitHub\configurator\Project2\EditForm.h(449,6): warning C4101: i: неиспользованная локальная переменная
-C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(529,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Вадим\Documents\GitHub\configurator\Project2\MyForm.h(531,21): warning C4018: <: несоответствие типов со знаком и без знака
   EditForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
   Project2.vcxproj -> C:\Users\Вадим\Documents\GitHub\configurator\Release\Configurator.exe
